@@ -4,8 +4,12 @@ import java.awt.Graphics;
 
 public class GameManager{
 
-    public GameManager() {
+    private GameWindow gameWindow;
+    private GamePanel gamePanel;
 
+    public GameManager() {
+        gamePanel = new GamePanel(this);
+        gameWindow = new GameWindow(gamePanel);
     }
 
     public void render(Graphics g) {
