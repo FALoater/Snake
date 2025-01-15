@@ -4,6 +4,8 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import javax.swing.JPanel;
 
+import static util.Constants.WindowVariables.*;
+
 public class GamePanel extends JPanel {
 
 	private GameManager gameManager;
@@ -15,7 +17,7 @@ public class GamePanel extends JPanel {
 	}
 
 	private void setPanelSize() {
-		Dimension size = new Dimension(1200, 800);
+		Dimension size = new Dimension(WINDOW_HEIGHT, WINDOW_WIDTH);
 		setPreferredSize(size);
 	}
 
