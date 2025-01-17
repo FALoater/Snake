@@ -17,6 +17,7 @@ public class Snake{
     }
     
     public Snake(int xPos, int yPos) {
-
+        this.xPos = xPos;
+        this.yPos = yPos;
     }
 }

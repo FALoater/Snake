@@ -4,12 +4,11 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import javax.swing.JPanel;
 
-import static util.Constants.WindowVariables.*;
+import static main.Utilities.Constants.WindowConstants.*;
 
 public class GamePanel extends JPanel {
 
 	private GameManager gameManager;
-	
 
 	public GamePanel(GameManager gameManager) {
 		this.gameManager = gameManager; // gamePanel needs access to the objects inside the gameManager
@@ -23,6 +22,6 @@ public class GamePanel extends JPanel {
 
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
-		gameManager.render(g);
+		gameManager.draw(g);
 	}
 }
