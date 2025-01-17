@@ -17,14 +17,22 @@ public class KeyInput implements KeyListener {
     public void keyPressed(KeyEvent e) {
         int pressedKey = e.getKeyCode();
 
-        if(pressedKey == KeyEvent.VK_W) {
-            game.getPlayerSnake().setDirection(Orientation.UP);
-        } else if(pressedKey == KeyEvent.VK_A) {
-            game.getPlayerSnake().setDirection(Orientation.LEFT);
-        } else if(pressedKey == KeyEvent.VK_S) {
-            game.getPlayerSnake().setDirection(Orientation.DOWN);
-        } else if(pressedKey == KeyEvent.VK_D) {
-            game.getPlayerSnake().setDirection(Orientation.RIGHT);
+        switch(pressedKey) {
+            case KeyEvent.VK_W:
+            case KeyEvent.VK_UP:
+                game.getPlayerSnake().setDirection(Orientation.UP);
+                break;
+            case KeyEvent.VK_A:
+            case KeyEvent.VK_LEFT:
+                game.getPlayerSnake().setDirection(Orientation.LEFT);
+                break;
+            case KeyEvent.VK_S:
+            case KeyEvent.VK_DOWN:
+                game.getPlayerSnake().setDirection(Orientation.DOWN);
+                break;
+            case KeyEvent.VK_D:
+            case KeyEvent.VK_RIGHT:
+                game.getPlayerSnake().setDirection(Orientation.RIGHT);
         }
     }
 

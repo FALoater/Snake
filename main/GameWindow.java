@@ -10,7 +10,7 @@ public class GameWindow {
 		jframe = new JFrame();
 
 		jframe.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		jframe.setTitle("Platformer");
+		jframe.setTitle("Snake");
 		jframe.add(gamePanel);
 		jframe.setResizable(false);
 		jframe.pack();

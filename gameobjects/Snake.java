@@ -31,6 +31,7 @@ public class Snake{
     }
     
     public void update() {
+        System.out.println(String.valueOf(xPos) + " " + String.valueOf(yPos));
         // move the snake position in its direction
         switch(direction) {
             case Orientation.UP:
@@ -50,14 +51,15 @@ public class Snake{
         // loop snake back around if it goes through the sides of the game
         if(yPos + SNAKE_HEIGHT > WINDOW_HEIGHT) {
             yPos = 0;
-        } else if (yPos - SNAKE_HEIGHT < 0) {
-            yPos = WINDOW_HEIGHT;
+        } else if (yPos < 0) {
+            yPos = WINDOW_HEIGHT - SNAKE_WIDTH;
+            // place one early as position of square is bottom left
         }
 
         if(xPos + SNAKE_WIDTH > WINDOW_WIDTH) {
             xPos = 0;
-        } else if (xPos - SNAKE_WIDTH < 0) {
-            xPos = WINDOW_WIDTH;
+        } else if (xPos < 0) {
+            xPos = WINDOW_WIDTH - SNAKE_WIDTH;
         }
     }
 
