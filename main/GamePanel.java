@@ -12,11 +12,13 @@ public class GamePanel extends JPanel {
 
 	public GamePanel(GameManager gameManager) {
 		this.gameManager = gameManager; // gamePanel needs access to the objects inside the gameManager
-		setPanelSize();
+		setPanelSize(); // set the size of the gamePanel;
+		addKeyListener(new KeyInput(gameManager)); // add key listener to the game panel, and pass this class in to access other classes
+		setFocusable(true); // enables key inputs to be received
 	}
 
 	private void setPanelSize() {
-		Dimension size = new Dimension(WINDOW_HEIGHT, WINDOW_WIDTH);
+		Dimension size = new Dimension(WINDOW_WIDTH, WINDOW_HEIGHT);
 		setPreferredSize(size);
 	}
 

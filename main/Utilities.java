@@ -14,15 +14,15 @@ public class Utilities {
 
         public static class WindowConstants {
             public static final int TILE_SIZE = 60;
-            public static final int WINDOW_HEIGHT = 22 * TILE_SIZE;
-            public static final int WINDOW_WIDTH = 18 * TILE_SIZE;
+            public static final int WINDOW_WIDTH = 22 * TILE_SIZE;
+            public static final int WINDOW_HEIGHT = 18 * TILE_SIZE;
             public static final int FPS = 60;
             public static final int UPS = 2;
         }
 
         public static class SnakeConstants {
-            public static final int SNAKE_HEIGHT = 60;
             public static final int SNAKE_WIDTH = 60;
+            public static final int SNAKE_HEIGHT = 60;
         }
     }
 

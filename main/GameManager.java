@@ -13,7 +13,7 @@ public class GameManager implements Runnable{
     private Thread gameThread;
 
 	// game objects
-    private Snake snake;
+    private Snake playerSnake;
 
     public GameManager() {
         initGameClasses();
@@ -21,7 +21,7 @@ public class GameManager implements Runnable{
     }
 	
     private void initGameClasses() {
-		snake = new Snake(TILE_SIZE * 10, TILE_SIZE * 15);		
+		playerSnake = new Snake(TILE_SIZE * 10, TILE_SIZE * 15, this);		
 
 		gamePanel = new GamePanel(this);
         new GameWindow(gamePanel);
@@ -75,10 +75,14 @@ public class GameManager implements Runnable{
 	}
 
     public void draw(Graphics g) {
-        snake.draw(g);
+        playerSnake.draw(g);
     }
 
     public void update() {
-        snake.update();
+        playerSnake.update();
     }
+
+	public Snake getPlayerSnake() {
+		return playerSnake;
+	}
 }
