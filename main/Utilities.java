@@ -13,8 +13,11 @@ public class Utilities {
     // gives numbers more meaningful identifiers
 
         public static class WindowConstants {
-            public static final int WINDOW_HEIGHT = 1200;
-            public static final int WINDOW_WIDTH = 800;
+            public static final int TILE_SIZE = 60;
+            public static final int WINDOW_HEIGHT = 22 * TILE_SIZE;
+            public static final int WINDOW_WIDTH = 18 * TILE_SIZE;
+            public static final int FPS = 60;
+            public static final int UPS = 2;
         }
 
         public static class SnakeConstants {
@@ -25,7 +28,7 @@ public class Utilities {
 
     public static class Methods {
 
-    // general purpose methods
+    // general purpose methods relevant for every class
 
         public static BufferedImage LoadImage(String filePath) {
             // method for loading image resources

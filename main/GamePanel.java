@@ -22,6 +22,6 @@ public class GamePanel extends JPanel {
 
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
-		gameManager.draw(g);
+		gameManager.draw(g); // draw the game objects on the JPanel
 	}
 }

@@ -2,21 +2,29 @@ package main;
 
 import java.awt.Graphics;
 
+import gameobjects.Snake;
+
+import static main.Utilities.Constants.WindowConstants.*;
+
 public class GameManager implements Runnable{
 
-    // private GameWindow gameWindow;
+	// UI objects
 	private GamePanel gamePanel;
     private Thread gameThread;
 
-    private final int FPS = 60;
-	private final int UPS = 200;
+	// game objects
+    private Snake snake;
 
     public GameManager() {
-		
+        initGameClasses();
+		initGameLoop();
+    }
+	
+    private void initGameClasses() {
+		snake = new Snake(TILE_SIZE * 10, TILE_SIZE * 15);		
+
 		gamePanel = new GamePanel(this);
         new GameWindow(gamePanel);
-
-		initGameLoop();
     }
 
     private void initGameLoop() {
@@ -26,15 +34,14 @@ public class GameManager implements Runnable{
 
 	@Override
 	public void run() {
-
 		double timePerFrame = 1000000000.0 / FPS;
-		double timePerUpdate = 1000000000.0 / UPS;
+		double timePerUpdate = 1000000000.0 / UPS; // time in nanoseconds for precision
 
-		long previousTime = System.nanoTime();
+		long timeOfLastUpdate = System.nanoTime();
 
 		int frames = 0;
 		int updates = 0;
-		long lastCheck = System.currentTimeMillis();
+		long timeOfLastCheck = System.currentTimeMillis();
 
 		double deltaU = 0;
 		double deltaF = 0;
@@ -42,40 +49,36 @@ public class GameManager implements Runnable{
 		while (true) {
 			long currentTime = System.nanoTime();
 
-			deltaU += (currentTime - previousTime) / timePerUpdate;
-			deltaF += (currentTime - previousTime) / timePerFrame;
-			previousTime = currentTime;
+			deltaU += (currentTime - timeOfLastUpdate) / timePerUpdate;
+			deltaF += (currentTime - timeOfLastUpdate) / timePerFrame;
+			timeOfLastUpdate = currentTime;
 
-			if (deltaU >= 1) {
+			if (deltaU >= 1) { // update the game if the time has passed
 				update();
 				updates++;
 				deltaU--;
 			}
 
-			if (deltaF >= 1) {
+			if (deltaF >= 1) { // refresh the game after the objects have been updated
 				gamePanel.repaint();
 				frames++;
 				deltaF--;
 			}
 
-			if (System.currentTimeMillis() - lastCheck >= 1000) {
-				lastCheck = System.currentTimeMillis();
+			if (System.currentTimeMillis() - timeOfLastCheck >= 1000) {
+				timeOfLastCheck = System.currentTimeMillis();
 				System.out.println("FPS: " + frames + " | UPS: " + updates);
 				frames = 0;
 				updates = 0;
-
 			}
 		}
-
 	}
 
     public void draw(Graphics g) {
-    // draw the graphics for every game state
-
+        snake.draw(g);
     }
 
     public void update() {
-    // update the game objects every frame
+        snake.update();
     }
-
 }
