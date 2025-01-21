@@ -28,6 +28,7 @@ public class Utilities {
         public static class FruitConstants {
             public static final int APPLE_RADIUS = 45;
             public static final int ORANGE_RADIUS = 45;
+            // make smaller than snake for easier visuals
         }
     }
 

@@ -46,6 +46,7 @@ public class GamePanel extends JPanel {
 	}
 
 	// getters and setters
+	
 	public void updateScore(int score) {
 		userScore += score;
 		this.score.setText("Score: " + String.valueOf(userScore));

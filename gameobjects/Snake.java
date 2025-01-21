@@ -2,7 +2,6 @@ package gameobjects;
 
 import java.awt.Color;
 import java.awt.Graphics;
-
 import main.GameManager;
 
 import static main.Utilities.Constants.SnakeConstants.*;
@@ -13,8 +12,8 @@ public class Snake{
     private boolean collided = false; // check if snake hits something and therefore game over/stunned
 
     private int xPos, yPos;
-
-    private Color snakeColor = Color.green;
+    
+    private Color snakeColor = Color.red;
     private GameManager game;
     private Orientation direction = Orientation.UP;
     

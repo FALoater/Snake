@@ -1,6 +1,7 @@
 package main;
 
 import java.awt.Graphics;
+import java.util.LinkedList;
 
 import gameobjects.Fruit;
 import gameobjects.FruitType;
@@ -11,8 +12,8 @@ import static main.Utilities.Constants.WindowConstants.*;
 public class GameManager implements Runnable{
 
 	// UI objects
-	private Fruit apple, orange;
 	private GamePanel gamePanel;
+	private LinkedList<Fruit> fruits = new LinkedList<>();
     private Thread gameThread;
 
 	// game objects
@@ -26,8 +27,8 @@ public class GameManager implements Runnable{
 	
     private void initGameClasses() {
 		playerSnake = new Snake(TILE_SIZE * 10, TILE_SIZE * 15, this);		
-		apple = new Fruit(TILE_SIZE * 5, TILE_SIZE * 7, FruitType.APPLE, this);
-		orange = new Fruit(TILE_SIZE * 7, TILE_SIZE * 10, FruitType.ORANGE, this);
+		fruits.add(new Fruit(TILE_SIZE * 5, TILE_SIZE * 7, FruitType.APPLE, this));
+		fruits.add(new Fruit(TILE_SIZE * 7, TILE_SIZE * 10, FruitType.ORANGE, this));
 
 		gamePanel = new GamePanel(this);
         new GameWindow(gamePanel);
@@ -81,17 +82,29 @@ public class GameManager implements Runnable{
 	}
 
     public void draw(Graphics g) {
-		//g.drawImage(bg, 0, 0, WINDOW_WIDTH, WINDOW_HEIGHT, null);
-		apple.draw(g);
-		orange.draw(g);
+		for(int i=0;i<fruits.size();i++) {
+			fruits.get(i).draw(g);
+		}
+		
 		playerSnake.draw(g);
     }
 
     public void update() {
 		playerSnake.update();
-		apple.update();
-		orange.update();
+		
+		for(int i=0;i<fruits.size();i++) {
+			Fruit currentFruit = fruits.get(i);
+
+			if(currentFruit.isDeleteFlag()) { // if the fruit has been eaten, remove it from the linked list
+				fruits.remove(i);
+				i--; // decrement i to avoid out of bounds error
+			} else {
+				currentFruit.update();
+			}
+		}
     }
+
+	// getters and setters
 
 	public Snake getPlayerSnake() {
 		return playerSnake;

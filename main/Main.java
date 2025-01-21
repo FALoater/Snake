@@ -1,4 +1,4 @@
-import main.GameManager;
+package main;
 
 public class Main{
 

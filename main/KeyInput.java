@@ -11,7 +11,7 @@ public class KeyInput implements KeyListener {
     private GameManager game;
 
     public KeyInput(GameManager game) {
-        this.game = game;
+        this.game = game; // gamePanel needs access to the objects inside the gameManager
     }
 
     @Override
@@ -19,10 +19,10 @@ public class KeyInput implements KeyListener {
         int pressedKey = e.getKeyCode();
         Snake snake = game.getPlayerSnake();
 
-        switch(pressedKey) {
+        switch(pressedKey) { // enables more keybinds to be added easily
             case KeyEvent.VK_W:
             case KeyEvent.VK_UP:
-                if(snake.getDirection() != Orientation.DOWN) snake.setDirection(Orientation.UP);
+                if(snake.getDirection() != Orientation.DOWN) snake.setDirection(Orientation.UP); // prevents 180 degree turns
                 break;
             case KeyEvent.VK_A:
             case KeyEvent.VK_LEFT:
@@ -38,14 +38,10 @@ public class KeyInput implements KeyListener {
         }
     }
 
+    // good practice to override these methods even if they are not used
     @Override
     public void keyReleased(KeyEvent e) {
-        int pressedKey = e.getKeyCode();
-
-        switch(pressedKey) {
-            default:
-                break;
-        }
+        return;
     }
 
     @Override
