@@ -1,10 +1,12 @@
 package main;
 
+import java.awt.image.BufferedImage;
 import java.awt.Graphics;
 
 import gameobjects.Snake;
 
 import static main.Utilities.Constants.WindowConstants.*;
+import static main.Utilities.Methods.*;
 
 public class GameManager implements Runnable{
 
@@ -13,9 +15,13 @@ public class GameManager implements Runnable{
     private Thread gameThread;
 
 	// game objects
-    private Snake playerSnake;
+	private Snake playerSnake;
+	
+	private BufferedImage bg;
 
     public GameManager() {
+		bg = LoadImage("bg/snak");
+
         initGameClasses();
 		initGameLoop();
     }
@@ -75,6 +81,8 @@ public class GameManager implements Runnable{
 	}
 
     public void draw(Graphics g) {
+		g.drawImage(bg, 0, 0, WINDOW_WIDTH, WINDOW_HEIGHT, null);
+
         playerSnake.draw(g);
     }
 
