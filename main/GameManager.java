@@ -2,6 +2,8 @@ package main;
 
 import java.awt.Graphics;
 
+import gameobjects.Fruit;
+import gameobjects.FruitType;
 import gameobjects.Snake;
 
 import static main.Utilities.Constants.WindowConstants.*;
@@ -9,19 +11,23 @@ import static main.Utilities.Constants.WindowConstants.*;
 public class GameManager implements Runnable{
 
 	// UI objects
+	private Fruit apple, orange;
 	private GamePanel gamePanel;
     private Thread gameThread;
 
 	// game objects
-    private Snake playerSnake;
+	private Snake playerSnake;
 
     public GameManager() {
+
         initGameClasses();
 		initGameLoop();
     }
 	
     private void initGameClasses() {
 		playerSnake = new Snake(TILE_SIZE * 10, TILE_SIZE * 15, this);		
+		apple = new Fruit(TILE_SIZE * 5, TILE_SIZE * 7, FruitType.APPLE, this);
+		orange = new Fruit(TILE_SIZE * 7, TILE_SIZE * 10, FruitType.ORANGE, this);
 
 		gamePanel = new GamePanel(this);
         new GameWindow(gamePanel);
@@ -75,14 +81,23 @@ public class GameManager implements Runnable{
 	}
 
     public void draw(Graphics g) {
-        playerSnake.draw(g);
+		//g.drawImage(bg, 0, 0, WINDOW_WIDTH, WINDOW_HEIGHT, null);
+		apple.draw(g);
+		orange.draw(g);
+		playerSnake.draw(g);
     }
 
     public void update() {
-        playerSnake.update();
+		playerSnake.update();
+		apple.update();
+		orange.update();
     }
 
 	public Snake getPlayerSnake() {
 		return playerSnake;
+	}
+
+	public GamePanel getGamePanel() {
+		return gamePanel;
 	}
 }

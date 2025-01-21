@@ -17,12 +17,17 @@ public class Utilities {
             public static final int WINDOW_WIDTH = 22 * TILE_SIZE;
             public static final int WINDOW_HEIGHT = 18 * TILE_SIZE;
             public static final int FPS = 60;
-            public static final int UPS = 2;
+            public static final int UPS = 6;
         }
 
         public static class SnakeConstants {
             public static final int SNAKE_WIDTH = 60;
             public static final int SNAKE_HEIGHT = 60;
+        }
+
+        public static class FruitConstants {
+            public static final int APPLE_RADIUS = 45;
+            public static final int ORANGE_RADIUS = 45;
         }
     }
 
