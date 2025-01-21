@@ -17,7 +17,7 @@ public class Utilities {
             public static final int WINDOW_WIDTH = 22 * TILE_SIZE;
             public static final int WINDOW_HEIGHT = 18 * TILE_SIZE;
             public static final int FPS = 60;
-            public static final int UPS = 2;
+            public static final int UPS = 3;
         }
 
         public static class SnakeConstants {
