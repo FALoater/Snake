@@ -1,5 +1,6 @@
 package main;
 
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import javax.swing.JPanel;
@@ -13,6 +14,7 @@ public class GamePanel extends JPanel {
 	public GamePanel(GameManager gameManager) {
 		this.gameManager = gameManager; // gamePanel needs access to the objects inside the gameManager
 		setPanelSize(); // set the size of the gamePanel;
+		setBackground(Color.black);
 		addKeyListener(new KeyInput(gameManager)); // add key listener to the game panel, and pass this class in to access other classes
 		setFocusable(true); // enables key inputs to be received
 	}
