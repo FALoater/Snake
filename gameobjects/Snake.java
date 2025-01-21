@@ -1,20 +1,23 @@
 package gameobjects;
 
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 
 import main.GameManager;
 
-import static main.Utilities.Methods.*;
 import static main.Utilities.Constants.SnakeConstants.*;
 import static main.Utilities.Constants.WindowConstants.*;
 
 public class Snake{
 
     private boolean collided = false; // check if snake hits something and therefore game over/stunned
+    private boolean up = false, down = false, right = false, left = false;
+
     private int xPos, yPos;
     
     private BufferedImage snakeImg;
+    private Color snakeColor = Color.red;
     private GameManager game;
     private Orientation direction = Orientation.UP;
     
@@ -22,16 +25,9 @@ public class Snake{
         this.game = game;
         this.xPos = xPos;
         this.yPos = yPos;
-
-        loadImg(); // load the snake image on instantiation
     }
 
-    public void loadImg() {
-        snakeImg = LoadImage("snake/snake_body");
-    }
-    
     public void update() {
-        System.out.println(String.valueOf(xPos) + " " + String.valueOf(yPos));
         // move the snake position in its direction
         switch(direction) {
             case Orientation.UP:
@@ -64,11 +60,20 @@ public class Snake{
     }
 
     public void draw(Graphics g) {
-        g.drawImage(snakeImg, xPos, yPos, SNAKE_WIDTH, SNAKE_HEIGHT, null);
-        //          image,     x,     y,  image width, image height,  observer
+        g.setColor(snakeColor); // can change later
+        g.fillRect(xPos, yPos, SNAKE_WIDTH, SNAKE_HEIGHT);
     }
 
+    // GETTERS AND SETTERS
     public void setDirection(Orientation direction) {
         this.direction = direction;
+    }
+
+    public Orientation getDirection() {
+        return direction;
+    }
+
+    public void setColor(Color color) {
+        this.snakeColor = color;
     }
 }
