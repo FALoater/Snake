@@ -2,6 +2,7 @@ package main;
 
 import java.awt.Graphics;
 import java.util.LinkedList;
+import java.util.Random;
 
 import gameobjects.Fruit;
 import gameobjects.FruitType;
@@ -16,6 +17,7 @@ public class GameManager implements Runnable{
 	private GamePanel gamePanel;
 	private LinkedList<Fruit> fruits = new LinkedList<Fruit>();
 	private LinkedList<SnakeBody> body = new LinkedList<SnakeBody>();
+	private Random rand = new Random();
     private Thread gameThread;
 
 	// game objects
@@ -30,17 +32,31 @@ public class GameManager implements Runnable{
     private void initGameClasses() {
 		playerSnake = new SnakeHead(TILE_SIZE * 10, TILE_SIZE * 15, this);		
 		body.add(playerSnake);
-		
-		fruits.add(new Fruit(TILE_SIZE * 5, TILE_SIZE * 7, FruitType.APPLE, this));
-		fruits.add(new Fruit(TILE_SIZE * 7, TILE_SIZE * 10, FruitType.ORANGE, this));
 
 		gamePanel = new GamePanel(this);
         new GameWindow(gamePanel);
+
+		for(int i=0;i<3;i++) {
+			generateFruit(); // generate 3 fruits at random locations
+		}
     }
 
     private void initGameLoop() {
         gameThread = new Thread(this);
         gameThread.start();
+	}
+
+	public void generateFruit() {
+		int xPos = rand.nextInt(TILES_IN_WIDTH) * TILE_SIZE;
+		int yPos = rand.nextInt(TILES_IN_HEIGHT) * TILE_SIZE; // generate random position for fruit
+
+		int fruitType = rand.nextInt(6); // generate random fruit type
+
+		if(fruitType < 3) { // make apples more common
+			fruits.add(new Fruit(xPos, yPos, FruitType.APPLE, this));
+		} else {
+			fruits.add(new Fruit(xPos, yPos, FruitType.ORANGE, this));
+		}
 	}
 	
 	public void fruitEaten(int score) {
@@ -113,6 +129,7 @@ public class GameManager implements Runnable{
 			if(currentFruit.isDeleteFlag()) { // if the fruit has been eaten, remove it from the linked list
 				fruits.remove(i);
 				i--; // decrement i to avoid out of bounds error
+				generateFruit();
 			} else {
 				currentFruit.update();
 			}
