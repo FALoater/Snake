@@ -45,8 +45,10 @@ public class SnakeBody {
     }
 
     public void draw(Graphics g) {
-        g.setColor(snakeColor); // can change later
-        g.fillRect(xPos, yPos, SNAKE_WIDTH, SNAKE_HEIGHT);
+        g.setColor(Color.black);
+        g.fillRect(xPos - 2, yPos - 2, SNAKE_WIDTH, SNAKE_HEIGHT); // first fill a black square
+        g.setColor(snakeColor); // change colour to red
+        g.fillRect(xPos, yPos, SNAKE_WIDTH - 4, SNAKE_HEIGHT - 4); // fill with red a slightly smaller square to allow for black border
     }
 
     public void update() {

@@ -21,7 +21,7 @@ public class Utilities {
             public static final int WINDOW_WIDTH = TILES_IN_WIDTH * TILE_SIZE;
             public static final int WINDOW_HEIGHT = 18 * TILE_SIZE;
             public static final int FPS = 60;
-            public static final int UPS = 6;
+            public static final int UPS = 6; // controls speed of snake
         }
 
         public static class SnakeConstants {
