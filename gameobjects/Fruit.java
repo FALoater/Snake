@@ -22,25 +22,25 @@ public class Fruit {
         this.type = type;
 
         switch(type) { // set point value and color based on fruit type
-            case FruitType.APPLE:
+            case APPLE:
                 pointValue = 1;
                 color = Color.red;
                 break;
-            case FruitType.ORANGE:
+            case ORANGE:
                 pointValue = 2;
                 color = Color.orange;
         }
     }
 
     public void checkCollision() {
-        Snake snake = game.getPlayerSnake();
+        SnakeHead snake = game.getPlayerSnake();
         
         int snakeX = snake.getX();
         int snakeY = snake.getY();
 
         if(snakeX == xPos && snakeY == yPos) { // compare x and y since this is always done from top left corner
             color = Color.black;
-            game.getGamePanel().updateScore(pointValue);
+            game.fruitEaten(pointValue);
             deleteFlag = true;
         }
     }
@@ -54,10 +54,10 @@ public class Fruit {
 
         if(!deleteFlag) { // draw fruits as circle to distinguish from snake
             switch(type) {
-                case FruitType.APPLE:
+                case APPLE:
                     g.fillOval(xPos, yPos, APPLE_RADIUS, APPLE_RADIUS);
                     break;
-                case FruitType.ORANGE:
+                case ORANGE:
                     g.fillOval(xPos, yPos, ORANGE_RADIUS, ORANGE_RADIUS);
                     break;
             }

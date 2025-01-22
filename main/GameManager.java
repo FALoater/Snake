@@ -5,7 +5,8 @@ import java.util.LinkedList;
 
 import gameobjects.Fruit;
 import gameobjects.FruitType;
-import gameobjects.Snake;
+import gameobjects.SnakeBody;
+import gameobjects.SnakeHead;
 
 import static main.Utilities.Constants.WindowConstants.*;
 
@@ -13,11 +14,12 @@ public class GameManager implements Runnable{
 
 	// UI objects
 	private GamePanel gamePanel;
-	private LinkedList<Fruit> fruits = new LinkedList<>();
+	private LinkedList<Fruit> fruits = new LinkedList<Fruit>();
+	private LinkedList<SnakeBody> body = new LinkedList<SnakeBody>();
     private Thread gameThread;
 
 	// game objects
-	private Snake playerSnake;
+	private SnakeHead playerSnake;
 
     public GameManager() {
 
@@ -26,7 +28,9 @@ public class GameManager implements Runnable{
     }
 	
     private void initGameClasses() {
-		playerSnake = new Snake(TILE_SIZE * 10, TILE_SIZE * 15, this);		
+		playerSnake = new SnakeHead(TILE_SIZE * 10, TILE_SIZE * 15, this);		
+		body.add(playerSnake);
+		
 		fruits.add(new Fruit(TILE_SIZE * 5, TILE_SIZE * 7, FruitType.APPLE, this));
 		fruits.add(new Fruit(TILE_SIZE * 7, TILE_SIZE * 10, FruitType.ORANGE, this));
 
@@ -37,7 +41,14 @@ public class GameManager implements Runnable{
     private void initGameLoop() {
         gameThread = new Thread(this);
         gameThread.start();
-    }
+	}
+	
+	public void fruitEaten(int score) {
+		// update score and increase the length of the snake
+		SnakeBody lastBody = body.get(body.size() - 1);
+		body.add(new SnakeBody(lastBody.getX(), lastBody.getY(), lastBody));
+		gamePanel.updateScore(score);
+	}
 
 	@Override
 	public void run() {
@@ -85,6 +96,10 @@ public class GameManager implements Runnable{
 		for(int i=0;i<fruits.size();i++) {
 			fruits.get(i).draw(g);
 		}
+
+		for(int i=0;i<body.size();i++) {
+			body.get(i).draw(g);
+		}
 		
 		playerSnake.draw(g);
     }
@@ -102,11 +117,15 @@ public class GameManager implements Runnable{
 				currentFruit.update();
 			}
 		}
+
+		for(int i=1;i<body.size();i++) {
+			body.get(i).update();
+		}
     }
 
 	// getters and setters
 
-	public Snake getPlayerSnake() {
+	public SnakeHead getPlayerSnake() {
 		return playerSnake;
 	}
 

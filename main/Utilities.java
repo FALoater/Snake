@@ -7,27 +7,31 @@ import javax.imageio.ImageIO;
 
 public class Utilities {
 
+    public static final int SCALE = 3;
+
     public static class Constants {
 
     // class contains constants for the game
     // gives numbers more meaningful identifiers
 
         public static class WindowConstants {
-            public static final int TILE_SIZE = 60;
-            public static final int WINDOW_WIDTH = 22 * TILE_SIZE;
+            public static final int TILE_SIZE = 20 * SCALE;
+            public static final int TILES_IN_WIDTH = 22;
+            public static final int TILES_IN_HEIGHT = 18;
+            public static final int WINDOW_WIDTH = TILES_IN_WIDTH * TILE_SIZE;
             public static final int WINDOW_HEIGHT = 18 * TILE_SIZE;
             public static final int FPS = 60;
             public static final int UPS = 6;
         }
 
         public static class SnakeConstants {
-            public static final int SNAKE_WIDTH = 60;
-            public static final int SNAKE_HEIGHT = 60;
+            public static final int SNAKE_WIDTH = WindowConstants.TILE_SIZE;
+            public static final int SNAKE_HEIGHT = WindowConstants.TILE_SIZE;
         }
 
         public static class FruitConstants {
-            public static final int APPLE_RADIUS = 45;
-            public static final int ORANGE_RADIUS = 45;
+            public static final int APPLE_RADIUS = 15 * SCALE;
+            public static final int ORANGE_RADIUS = 15 * SCALE;
             // make smaller than snake for easier visuals
         }
     }

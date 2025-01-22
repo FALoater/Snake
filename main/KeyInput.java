@@ -4,7 +4,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
 import gameobjects.Orientation;
-import gameobjects.Snake;
+import gameobjects.SnakeHead;
 
 public class KeyInput implements KeyListener {
 
@@ -17,7 +17,7 @@ public class KeyInput implements KeyListener {
     @Override
     public void keyPressed(KeyEvent e) {
         int pressedKey = e.getKeyCode();
-        Snake snake = game.getPlayerSnake();
+        SnakeHead snake = game.getPlayerSnake();
 
         switch(pressedKey) { // enables more keybinds to be added easily
             case KeyEvent.VK_W:
