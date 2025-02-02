@@ -1,17 +1,18 @@
 package gameobjects;
 
-import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.image.BufferedImage;
 
 import main.GameManager;
 
 import static main.Utilities.Constants.FruitConstants.*;
+import static main.Utilities.Methods;
 
 public class Fruit {
     private boolean deleteFlag = false;
     private int xPos, yPos, pointValue;
 
-    private Color color;
+    private BufferedImage img;
     private FruitType type;
     private GameManager game;
 
@@ -24,11 +25,22 @@ public class Fruit {
         switch(type) { // set point value and color based on fruit type
             case APPLE:
                 pointValue = 1;
-                color = Color.red;
                 break;
             case ORANGE:
-                pointValue = 2;
-                color = Color.orange;
+                pointValue = 3;
+        }
+
+        loadImg();
+    }
+
+    private void loadImg() {
+        switch(type) {
+            case APPLE:
+                img = Methods.LoadImage("fruits/apple");
+                break;
+            case ORANGE:
+                img = Methods.LoadImage("fruits/orange");
+                break;
         }
     }
 
@@ -39,7 +51,6 @@ public class Fruit {
         int snakeY = snake.getY();
 
         if(snakeX == xPos && snakeY == yPos) { // compare x and y since this is always done from top left corner
-            color = Color.black;
             game.fruitEaten(pointValue);
             deleteFlag = true;
         }
@@ -50,18 +61,7 @@ public class Fruit {
     }
 
     public void draw(Graphics g) {
-        g.setColor(color);
-
-        if(!deleteFlag) { // draw fruits as circle to distinguish from snake
-            switch(type) {
-                case APPLE:
-                    g.fillOval(xPos, yPos, APPLE_RADIUS, APPLE_RADIUS);
-                    break;
-                case ORANGE:
-                    g.fillOval(xPos, yPos, ORANGE_RADIUS, ORANGE_RADIUS);
-                    break;
-            }
-        }
+        if(!deleteFlag) g.drawImage(img, xPos, yPos, FRUIT_RADIUS, FRUIT_RADIUS, null);
     }
 
     // getters and setters

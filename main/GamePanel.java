@@ -22,8 +22,8 @@ public class GamePanel extends JPanel {
 		initScoreBoard();
 
 		setPanelSize(); // set the size of the gamePanel;
-		setBackground(Color.blue);
-		add(score);
+		setBackground(Color.gray); // set the background color of the gamePanel
+		add(score); // add the score label to the gamePanel
 		addKeyListener(new KeyInput(gameManager)); // add key listener to the game panel, and pass this class in to access other classes
 		setFocusable(true); // enables key inputs to be received
 	}

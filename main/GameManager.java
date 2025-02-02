@@ -30,7 +30,7 @@ public class GameManager implements Runnable{
     }
 	
     private void initGameClasses() {
-		playerSnake = new SnakeHead(TILE_SIZE * 10, TILE_SIZE * 15, this);		
+		playerSnake = new SnakeHead(TILE_SIZE * 10, TILE_SIZE * 15);		
 		body.add(playerSnake);
 
 		gamePanel = new GamePanel(this);
@@ -52,7 +52,7 @@ public class GameManager implements Runnable{
 
 		int fruitType = rand.nextInt(6); // generate random fruit type
 
-		if(fruitType < 3) { // make apples more common
+		if(fruitType <= 4) { // make apples more common
 			fruits.add(new Fruit(xPos, yPos, FruitType.APPLE, this));
 		} else {
 			fruits.add(new Fruit(xPos, yPos, FruitType.ORANGE, this));
@@ -61,8 +61,10 @@ public class GameManager implements Runnable{
 	
 	public void fruitEaten(int score) {
 		// update score and increase the length of the snake
-		SnakeBody lastBody = body.get(body.size() - 1);
-		body.add(new SnakeBody(lastBody.getX(), lastBody.getY(), lastBody));
+		for(int i=0;i<score;i++) {
+			SnakeBody lastBody = body.get(body.size() - 1);
+			body.add(new SnakeBody(lastBody.getX(), lastBody.getY(), lastBody));	
+		}
 		gamePanel.updateScore(score);
 	}
 
