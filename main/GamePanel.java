@@ -30,13 +30,13 @@ public class GamePanel extends JPanel {
 
 	private void initScoreBoard() {
 		score = new JLabel();
-		score.setText("Score: " + String.valueOf(userScore));
+		score.setText("Score: " + String.valueOf(userScore)); // display at top of screen
 		score.setForeground(Color.RED);
-		score.setFont(new Font("Arial", Font.PLAIN, 50));
+		score.setFont(new Font("Arial", Font.PLAIN, 50)); // large so can be seen
 	}
 
 	private void setPanelSize() {
-		Dimension size = new Dimension(WINDOW_WIDTH, WINDOW_HEIGHT);
+		Dimension size = new Dimension(WINDOW_WIDTH, WINDOW_HEIGHT); // defined in utilities constants
 		setPreferredSize(size);
 	}
 

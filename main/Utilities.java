@@ -1,5 +1,6 @@
 package main;
 
+import java.awt.Color;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStream;
@@ -7,7 +8,7 @@ import javax.imageio.ImageIO;
 
 public class Utilities {
 
-    public static final int SCALE = 3;
+    public static final int SCALE = 3; // scale of the game window, changes proportionally
 
     public static class Constants {
 
@@ -27,11 +28,12 @@ public class Utilities {
         public static class SnakeConstants {
             public static final int SNAKE_WIDTH = WindowConstants.TILE_SIZE;
             public static final int SNAKE_HEIGHT = WindowConstants.TILE_SIZE;
+            public static final Color SNAKE_DEFAULT_COLOR = Color.red;
         }
 
         public static class FruitConstants {
             public static final int FRUIT_RADIUS = 45;
-            // make smaller than snake for easier visuals
+            // make smaller than snake to identify easier
         }
     }
 

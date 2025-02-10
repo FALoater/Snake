@@ -24,17 +24,17 @@ public class GameManager implements Runnable{
 	private SnakeHead playerSnake;
 
     public GameManager() {
-
+		// init classes and game loop
         initGameClasses();
 		initGameLoop();
     }
 	
     private void initGameClasses() {
 		playerSnake = new SnakeHead(TILE_SIZE * 10, TILE_SIZE * 15, this);		
-		body.add(playerSnake);
+		body.add(playerSnake); // create snake head
 
 		gamePanel = new GamePanel(this);
-        new GameWindow(gamePanel);
+        new GameWindow(gamePanel); // create game window
 
 		for(int i=0;i<3;i++) {
 			generateFruit(); // generate 3 fruits at random locations
@@ -69,7 +69,7 @@ public class GameManager implements Runnable{
 	}
 
 	@Override
-	public void run() {
+	public void run() { // will automatically be executed so no need to call
 		double timePerFrame = 1000000000.0 / FPS;
 		double timePerUpdate = 1000000000.0 / UPS; // time in nanoseconds for precision
 
@@ -111,6 +111,7 @@ public class GameManager implements Runnable{
 	}
 
     public void draw(Graphics g) {
+		// snakebody should be above fruits so draw fruits first
 		for(int i=0;i<fruits.size();i++) {
 			fruits.get(i).draw(g);
 		}
@@ -123,8 +124,11 @@ public class GameManager implements Runnable{
     }
 
     public void update() {
+		// move snake first before updating any fruit collisions
 		playerSnake.update();
-		
+
+		if(playerSnake.isCollided()) return;
+
 		for(int i=0;i<fruits.size();i++) {
 			Fruit currentFruit = fruits.get(i);
 

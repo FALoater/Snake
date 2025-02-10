@@ -28,6 +28,19 @@ public class SnakeHead extends SnakeBody{ // inherit as attributes will be the s
         down = Methods.LoadImage("snake/snake_head_down");
     }
 
+    public void checkCollisions() {
+        for(int i=1;i<game.getBody().size();i++) {
+            // start at index 1 as snake head is head of linked list
+            SnakeBody currentBody = game.getBody().get(i);
+
+            if(currentBody.getX() == xPos && currentBody.getY() == yPos) {
+                // collided with body so stop game
+                collided = true;
+                return;
+            }
+        }
+    }
+
     @Override
     public void move() {
         // move the snake position in its direction
@@ -56,6 +69,19 @@ public class SnakeHead extends SnakeBody{ // inherit as attributes will be the s
         g.drawImage(img, xPos - 2, yPos - 2, SNAKE_WIDTH, SNAKE_HEIGHT, null);
     }
 
+    @Override
+    public void update() {
+        previousXPos = xPos;
+        previousYPos = yPos;
+        
+        checkCollisions();
+
+        if(collided) return;
+
+        move();
+        checkEdge();
+    }
+
     // getters and setters
     
     public void setDirection(Orientation direction) {
@@ -64,5 +90,9 @@ public class SnakeHead extends SnakeBody{ // inherit as attributes will be the s
 
     public Orientation getDirection() {
         return direction;
+    }
+
+    public boolean isCollided() {
+        return collided;
     }
 }

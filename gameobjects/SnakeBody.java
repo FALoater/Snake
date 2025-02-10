@@ -11,15 +11,16 @@ import static main.Utilities.Constants.WindowConstants.*;
 public class SnakeBody {
 
     // private as the snake head does not require these attributes
-    private boolean spawned; // for inital spawn check
+    private boolean spawned; // inital spawn check to ensure body does not spawn on top of head`
     private int index;
 
     protected int xPos, yPos;
     protected int previousXPos = xPos, previousYPos = yPos;
-    protected Color snakeColor;
+    
+    protected Color snakeColor = SNAKE_DEFAULT_COLOR; // default color is red
     protected GameManager game;
     protected SnakeBody nextBody;
-    // all needed, including the SnakeHead
+    // protected so can be inherited
 
     public SnakeBody(int xPos, int yPos, int index, SnakeBody nextBody, GameManager game) {
         this.xPos = xPos;
@@ -27,8 +28,6 @@ public class SnakeBody {
         this.index = index;
         this.nextBody = nextBody; 
         this.game = game;
-
-        this.snakeColor = Color.red;
     }
 
     public void checkEdge() {
@@ -66,18 +65,18 @@ public class SnakeBody {
         // check if position of tile is currently occupied
         for(SnakeBody body : game.getBody()) {
             if(body.getX() == xPos && body.getY() == yPos) {
-                // check if this element occupies this square
-                if(body.getIndex() == index) {
+                if(body.getIndex() != index) {
+                    // no snake body can occupy 2 squares at the same time so end early
+                    return;
+                } else {
                     // spawn
                     spawned = true;
                     break;
-                } else {
-                    // no snake body can occupy 2 squares at the same time so end early
-                    return;
                 }
             }
         }
 
+        // 'move' snake body to the position of the body infront
         previousXPos = xPos;
         previousYPos = yPos;
 

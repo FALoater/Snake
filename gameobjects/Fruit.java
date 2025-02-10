@@ -9,7 +9,7 @@ import static main.Utilities.Constants.FruitConstants.*;
 import static main.Utilities.Methods;
 
 public class Fruit {
-    private boolean deleteFlag = false;
+    private boolean deleteFlag = false; // signals whether the fruit has been eaten
     private int xPos, yPos, pointValue;
 
     private BufferedImage img;
@@ -22,7 +22,7 @@ public class Fruit {
         this.yPos = yPos;
         this.type = type;
 
-        switch(type) { // set point value and color based on fruit type
+        switch(type) { // set point value and color based on fruit type, switch case is easier to read
             case APPLE:
                 pointValue = 1;
                 break;
@@ -30,7 +30,7 @@ public class Fruit {
                 pointValue = 3;
         }
 
-        loadImg();
+        loadImg(); // load appropriate fruit sprite
     }
 
     private void loadImg() {
@@ -51,13 +51,14 @@ public class Fruit {
         int snakeY = snake.getY();
 
         if(snakeX == xPos && snakeY == yPos) { // compare x and y since this is always done from top left corner
-            game.fruitEaten(pointValue);
+            game.fruitEaten(pointValue); 
             deleteFlag = true;
+            // increase score and send flag for fruit to be deleted
         }
     }
  
     public void update() {
-        checkCollision();
+        checkCollision(); // fruit does not move, only listens for collisions with the snake
     }
 
     public void draw(Graphics g) {
