@@ -1,4 +1,5 @@
 package gameobjects;
+import main.GameManager;
 import main.Utilities.Methods;
 
 import static main.Utilities.Constants.SnakeConstants.*;
@@ -13,8 +14,8 @@ public class SnakeHead extends SnakeBody{ // inherit as attributes will be the s
     private BufferedImage img, left, right, up, down;
     private Orientation direction;
     
-    public SnakeHead(int xPos, int yPos) {
-        super(xPos, yPos, null);
+    public SnakeHead(int xPos, int yPos, GameManager game) {
+        super(xPos, yPos, 0, null, game);
         this.direction = Orientation.UP;
 
         initImg();

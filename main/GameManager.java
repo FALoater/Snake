@@ -30,7 +30,7 @@ public class GameManager implements Runnable{
     }
 	
     private void initGameClasses() {
-		playerSnake = new SnakeHead(TILE_SIZE * 10, TILE_SIZE * 15);		
+		playerSnake = new SnakeHead(TILE_SIZE * 10, TILE_SIZE * 15, this);		
 		body.add(playerSnake);
 
 		gamePanel = new GamePanel(this);
@@ -63,7 +63,7 @@ public class GameManager implements Runnable{
 		// update score and increase the length of the snake
 		for(int i=0;i<score;i++) {
 			SnakeBody lastBody = body.get(body.size() - 1);
-			body.add(new SnakeBody(lastBody.getX(), lastBody.getY(), lastBody));	
+			body.add(new SnakeBody(lastBody.getX(), lastBody.getY(), body.size() - 1, lastBody, this));	
 		}
 		gamePanel.updateScore(score);
 	}
@@ -150,5 +150,9 @@ public class GameManager implements Runnable{
 
 	public GamePanel getGamePanel() {
 		return gamePanel;
+	}
+
+	public LinkedList<SnakeBody> getBody() {
+		return body;
 	}
 }
