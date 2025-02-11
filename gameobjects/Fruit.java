@@ -3,6 +3,8 @@ package gameobjects;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 
+import gameobjects.snake.EnemySnakeHead;
+import gameobjects.snake.SnakeHead;
 import main.GameManager;
 
 import static main.Utilities.Constants.FruitConstants.*;

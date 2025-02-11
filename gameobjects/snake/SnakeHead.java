@@ -1,11 +1,14 @@
-package gameobjects;
+package gameobjects.snake;
 import main.GameManager;
+import main.GridObject;
 import main.Utilities.Methods;
 
 import static main.Utilities.Constants.SnakeConstants.*;
 
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
+
+import gameobjects.Direction;
 
 public class SnakeHead extends SnakeBody{ // inherit as attributes will be the same
 
@@ -28,23 +31,18 @@ public class SnakeHead extends SnakeBody{ // inherit as attributes will be the s
     }
 
     protected void checkCollisions() {
-        for(int i=1;i<game.getPlayerBody().size();i++) {
-            // start at index 1 as snake head is head of linked list
-            SnakeBody currentBody = game.getPlayerBody().get(i);
-
-            if(currentBody.getX() == xPos && currentBody.getY() == yPos) {
-                if(currentBody.isSpawned()) { // can only collide if the body is 'spawned' in
-                    // collided with body so stop game
-                    collided = true;
-                    return;
-                }
-            }
+        GridObject object = game.getObjectAtGridPos(xPos, yPos);
+        if(object != GridObject.EMPTY && object != GridObject.FRUIT && object != GridObject.PLAYER_HEAD) {
+            // snake head collided with body
+            collided = true;
         }
     }
 
     @Override
     protected void move() {
         // move the snake position in its direction
+        game.setGrid(xPos, yPos, GridObject.EMPTY);
+
         switch(direction) {
             case UP:
                 yPos -= SNAKE_HEIGHT;
@@ -63,6 +61,8 @@ public class SnakeHead extends SnakeBody{ // inherit as attributes will be the s
                 img = right;
                 break;
         }
+
+        checkEdge();
     }
     
     @Override
@@ -75,14 +75,14 @@ public class SnakeHead extends SnakeBody{ // inherit as attributes will be the s
         // update previous positions for snakeBody to move to
         previousXPos = xPos;
         previousYPos = yPos;
-        
+
         // check if snake collides with anything, and if so then stop moving
         checkCollisions(); 
         if(collided) return;
+        game.setGrid(xPos, yPos, GridObject.PLAYER_HEAD);
 
         // move the snake in given direction, wrapping around if applicable
         move();
-        checkEdge();
     }
 
     // getters and setters

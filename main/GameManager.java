@@ -1,16 +1,21 @@
 package main;
 
 import java.awt.Graphics;
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.Random;
 
-import gameobjects.EnemySnakeBody;
-import gameobjects.EnemySnakeHead;
 import gameobjects.Fruit;
 import gameobjects.FruitType;
-import gameobjects.SnakeBody;
-import gameobjects.SnakeHead;
+import gameobjects.snake.EnemySnakeBody;
+import gameobjects.snake.EnemySnakeHead;
+import gameobjects.snake.SnakeBody;
+import gameobjects.snake.SnakeHead;
 
+import static main.Utilities.Constants.SnakeConstants.ENEMY_START_X;
+import static main.Utilities.Constants.SnakeConstants.ENEMY_START_Y;
+import static main.Utilities.Constants.SnakeConstants.PLAYER_START_X;
+import static main.Utilities.Constants.SnakeConstants.PLAYER_START_Y;
 import static main.Utilities.Constants.WindowConstants.*;
 
 public class GameManager implements Runnable{
@@ -26,6 +31,7 @@ public class GameManager implements Runnable{
 
 	// game objects
     private EnemySnakeHead enemySnakeHead;
+	private GridObject[][] grid;
 	private SnakeHead playerSnakeHead;
 
     public GameManager() {
@@ -35,13 +41,25 @@ public class GameManager implements Runnable{
     }
 	
     private void initGameClasses() {
+		// implement grid, y then x
+		grid = new GridObject[TILES_IN_HEIGHT][TILES_IN_WIDTH];
+		
+		// populate 2D array with empty squares
+		for(GridObject[] row : grid) {
+			Arrays.fill(row, GridObject.EMPTY);
+		}
+
         // create player snake head
-		playerSnakeHead = new SnakeHead(TILE_SIZE * 10, TILE_SIZE * 15, this);		
+		playerSnakeHead = new SnakeHead(PLAYER_START_X, PLAYER_START_Y, this);		
 		playerBody.add(playerSnakeHead); 
 
         // create enemy snake head
-        enemySnakeHead = new EnemySnakeHead(TILE_SIZE * 10, TILE_SIZE * 10, this);
+        enemySnakeHead = new EnemySnakeHead(ENEMY_START_X, ENEMY_START_Y, this);
         enemyBody.add(enemySnakeHead);
+
+		// add snake heads to grid
+		grid[PLAYER_START_Y / TILE_SIZE][PLAYER_START_X / TILE_SIZE] = GridObject.PLAYER_HEAD;
+		grid[ENEMY_START_Y / TILE_SIZE][ENEMY_START_X / TILE_SIZE] = GridObject.ENEMY_HEAD;
 
         // create game window
 		gamePanel = new GamePanel(this);
@@ -63,25 +81,24 @@ public class GameManager implements Runnable{
 		boolean validPosition = false;
 		int xPos = 0, yPos = 0;
 
+		// check position is not covered by a snake or fruit
 		while(!validPosition) {
-			xPos = rand.nextInt(TILES_IN_WIDTH) * TILE_SIZE;
-			yPos = rand.nextInt(TILES_IN_HEIGHT) * TILE_SIZE; 
-	
-			// check that fruit does not spawn on already occupied tile
-			for(SnakeBody body : playerBody) {
-				if(body.getX() != xPos && body.getY() != yPos) {
-					validPosition = true;
-				}
-			}	
+			xPos = rand.nextInt(TILES_IN_WIDTH);
+			yPos = rand.nextInt(TILES_IN_HEIGHT);
+
+			if(grid[yPos][xPos] == GridObject.EMPTY) {
+				validPosition = true;
+				grid[yPos][xPos] = GridObject.FRUIT;
+			}
 		}
 
 		// generate random fruit type
 		int fruitType = rand.nextInt(6); 
 
 		if(fruitType <= 4) { // make apples more common
-			fruits.add(new Fruit(xPos, yPos, FruitType.APPLE, this));
+			fruits.add(new Fruit(xPos * TILE_SIZE, yPos * TILE_SIZE, FruitType.APPLE, this));
 		} else {
-			fruits.add(new Fruit(xPos, yPos, FruitType.ORANGE, this));
+			fruits.add(new Fruit(xPos * TILE_SIZE, yPos * TILE_SIZE, FruitType.ORANGE, this));
 		}
 	}
 	
@@ -92,8 +109,8 @@ public class GameManager implements Runnable{
 		if(collisionType == 1) {
 			// player snake
 			for(int i=0;i<score;i++) {
-				lastBody = playerBody.get(playerBody.size() - 1);
-				playerBody.add(new SnakeBody(lastBody.getX(), lastBody.getY(), playerBody.size() - 1, lastBody, this));	
+				lastBody = playerBody.get(playerBody.size() - 1); // 'pointer' for new body
+				playerBody.add(new SnakeBody(lastBody.getX(), lastBody.getY(), playerBody.size() - 1, lastBody, this));	// added in linkedlist but not yet spawned as grid could be occupied
 			}
 			gamePanel.updateScore(score);
 		} else {
@@ -153,6 +170,7 @@ public class GameManager implements Runnable{
 			fruits.get(i).draw(g);
 		}
 
+		// does not matter which snake is drawn first as they never overlap
 		for(int i=0;i<playerBody.size();i++) {
 			playerBody.get(i).draw(g);
 		}
@@ -167,15 +185,19 @@ public class GameManager implements Runnable{
 
     public void update() {
 		// move snake first before updating any fruit collisions
+		// stop updating game entirely if player is collided
+		if(playerSnakeHead.isCollided()) return;
+
 		enemySnakeHead.update();
 		playerSnakeHead.update();
 
-		if(playerSnakeHead.isCollided()) return;
-
+		// update all the fruits
 		for(int i=0;i<fruits.size();i++) {
 			Fruit currentFruit = fruits.get(i);
 
-			if(currentFruit.isDeleteFlag()) { // if the fruit has been eaten, remove it from the linked list
+			// remove fruit if it has been eaten
+			if(currentFruit.isDeleteFlag()) {
+				grid[currentFruit.getY() / TILE_SIZE][currentFruit.getX() / TILE_SIZE] = GridObject.EMPTY;
 				fruits.remove(i);
 				i--; // decrement i to avoid out of bounds error
 				generateFruit();
@@ -184,6 +206,7 @@ public class GameManager implements Runnable{
 			}
 		}
 
+		// update snake body last
 		for(int i=1;i<playerBody.size();i++) {
 			playerBody.get(i).update();
 		}
@@ -217,5 +240,13 @@ public class GameManager implements Runnable{
 
 	public LinkedList<Fruit> getFruits() {
 		return fruits;
+	}
+
+	public void setGrid(int xPos, int yPos, GridObject object) {
+		grid[yPos / TILE_SIZE][xPos / TILE_SIZE] = object;
+	}
+
+	public GridObject getObjectAtGridPos(int xPos, int yPos) {
+		return grid[yPos / TILE_SIZE][xPos / TILE_SIZE];
 	}
 }

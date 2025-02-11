@@ -4,7 +4,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
 import gameobjects.Direction;
-import gameobjects.SnakeHead;
+import gameobjects.snake.SnakeHead;
 
 public class KeyInput implements KeyListener {
 

@@ -1,12 +1,16 @@
-package gameobjects;
+package gameobjects.snake;
 
 import main.GameManager;
+import main.GridObject;
 import main.Utilities.Methods;
 
 import static main.Utilities.Constants.SnakeConstants.*;
 
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
+
+import gameobjects.Direction;
+import gameobjects.Fruit;
 
 public class EnemySnakeHead extends EnemySnakeBody {
 
@@ -74,22 +78,19 @@ public class EnemySnakeHead extends EnemySnakeBody {
 
     @Override
     protected void checkCollisions() {
-        for(int i=1;i<game.getPlayerBody().size();i++) {
-            // start at index 1 as snake head is head of linked list
-            SnakeBody currentBody = game.getPlayerBody().get(i);
+        GridObject object = game.getObjectAtGridPos(xPos, yPos);
 
-            if(currentBody.getX() == xPos && currentBody.getY() == yPos) {
-                if(currentBody.isSpawned()) { // can only collide if the body is 'spawned' in
-                    // collided with body so stop game
-                    collided = true;
-                    return;
-                }
-            }
+        if(object != GridObject.EMPTY && object != GridObject.FRUIT && object != GridObject.ENEMY_HEAD) {
+            // collided with body so stop game
+            collided = true;
+            return;
         }
     }
 
     @Override
     protected void move() {
+        game.setGrid(xPos, yPos, GridObject.EMPTY);
+
         // move the snake position in its direction
         switch(direction) {
             case UP:
@@ -109,6 +110,8 @@ public class EnemySnakeHead extends EnemySnakeBody {
                 img = right;
                 break;
         }
+
+        checkEdge();
     }
 
     @Override
@@ -117,17 +120,17 @@ public class EnemySnakeHead extends EnemySnakeBody {
         // // update previous positions for snakeBody to move to
         previousXPos = xPos;
         previousYPos = yPos;
-        
+
         // check if snake collides with anything, and if so then stop moving
         checkCollisions(); 
         if(collided) return;
+        game.setGrid(xPos, yPos, GridObject.ENEMY_HEAD);
 
         // change direction depending on closest fruit
         pathfindToFruit();
 
         // move the snake in given direction, wrapping around if applicable
         move();
-        checkEdge();
     }
 
     @Override

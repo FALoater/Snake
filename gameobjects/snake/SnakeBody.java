@@ -1,9 +1,10 @@
-package gameobjects;
+package gameobjects.snake;
 
 import java.awt.Color;
 import java.awt.Graphics;
 
 import main.GameManager;
+import main.GridObject;
 
 import static main.Utilities.Constants.SnakeConstants.*;
 import static main.Utilities.Constants.WindowConstants.*;
@@ -12,7 +13,6 @@ public class SnakeBody {
 
     // protected so enemy snake can also access
     protected boolean spawned; // inital spawn check to ensure body does not spawn on top of head
-    protected int index;
     protected int xPos, yPos;
     protected int previousXPos = xPos, previousYPos = yPos;
     
@@ -24,7 +24,6 @@ public class SnakeBody {
     public SnakeBody(int xPos, int yPos, int index, SnakeBody nextBody, GameManager game) {
         this.xPos = xPos;
         this.yPos = yPos;
-        this.index = index;
         this.nextBody = nextBody; 
         this.game = game;
     }
@@ -49,21 +48,15 @@ public class SnakeBody {
         // move to the position of the tile infront
         xPos = nextBody.getPreviousXPos();
         yPos = nextBody.getPreviousYPos();
+
+        checkEdge();
     }
 
     protected void checkCollisions() {
         // check if position of tile is currently occupied
-        for(SnakeBody body : game.getPlayerBody()) {
-            if(body.getX() == xPos && body.getY() == yPos) {
-                if(body.getIndex() != index) {
-                    // no snake body can occupy 2 squares at the same time so end early
-                    return;
-                } else {
-                    // spawn
-                    spawned = true;
-                    break;
-                }
-            }
+        if(game.getObjectAtGridPos(xPos, yPos) == GridObject.EMPTY) {
+            spawned = true;
+            game.setGrid(xPos, yPos, GridObject.PLAYER_BODY);
         }
     }
 
@@ -79,12 +72,14 @@ public class SnakeBody {
     public void update() {
         checkCollisions();
 
-        // 'move' snake body to the position of the body infront
-        previousXPos = xPos;
-        previousYPos = yPos;
-
-        move();
-        checkEdge();
+        if(spawned) {
+            previousXPos = xPos;
+            previousYPos = yPos;
+    
+            game.setGrid(xPos, yPos, GridObject.EMPTY);
+            move(); // 'move' snake body to the position of the body infront
+            game.setGrid(xPos, yPos, GridObject.PLAYER_BODY);
+        }
     }
 
     // getters and setters
@@ -107,10 +102,6 @@ public class SnakeBody {
 
     public int getPreviousYPos() {
         return previousYPos;
-    }
-
-    public int getIndex() {
-        return index;
     }
 
     public boolean isSpawned() {

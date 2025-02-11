@@ -28,6 +28,11 @@ public class Utilities {
         public static class SnakeConstants {
             public static final int SNAKE_WIDTH = WindowConstants.TILE_SIZE;
             public static final int SNAKE_HEIGHT = WindowConstants.TILE_SIZE;
+            public static final int PLAYER_START_X = 10 * WindowConstants.TILE_SIZE;
+            public static final int PLAYER_START_Y =  15 * WindowConstants.TILE_SIZE;
+            public static final int ENEMY_START_X = 10 * WindowConstants.TILE_SIZE;
+            public static final int ENEMY_START_Y = 10 * WindowConstants.TILE_SIZE;
+
             public static final Color PLAYER_SNAKE_DEFAULT_COLOR = Color.red;
             public static final Color ENEMY_SNAKE_DEFAULT_COLOR = Color.green;
         }
