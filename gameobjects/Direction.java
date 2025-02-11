@@ -1,6 +1,6 @@
 package gameobjects;
 
-public enum Orientation {
+public enum Direction {
     UP,
     RIGHT,
     LEFT,

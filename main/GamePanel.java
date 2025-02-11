@@ -31,7 +31,7 @@ public class GamePanel extends JPanel {
 	private void initScoreBoard() {
 		score = new JLabel();
 		score.setText("Score: " + String.valueOf(userScore)); // display at top of screen
-		score.setForeground(Color.RED);
+		score.setForeground(new Color(255,255,255));
 		score.setFont(new Font("Arial", Font.PLAIN, 50)); // large so can be seen
 	}
 

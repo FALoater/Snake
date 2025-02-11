@@ -8,7 +8,7 @@ import javax.imageio.ImageIO;
 
 public class Utilities {
 
-    public static final int SCALE = 3; // scale of the game window, changes proportionally
+    public static final int SCALE = 2; // scale of the game window, changes proportionally
 
     public static class Constants {
 
@@ -28,11 +28,12 @@ public class Utilities {
         public static class SnakeConstants {
             public static final int SNAKE_WIDTH = WindowConstants.TILE_SIZE;
             public static final int SNAKE_HEIGHT = WindowConstants.TILE_SIZE;
-            public static final Color SNAKE_DEFAULT_COLOR = Color.red;
+            public static final Color PLAYER_SNAKE_DEFAULT_COLOR = Color.red;
+            public static final Color ENEMY_SNAKE_DEFAULT_COLOR = Color.green;
         }
 
         public static class FruitConstants {
-            public static final int FRUIT_RADIUS = 45;
+            public static final int FRUIT_RADIUS = 15 * SCALE;
             // make smaller than snake to identify easier
         }
     }
@@ -44,7 +45,6 @@ public class Utilities {
         public static BufferedImage LoadImage(String filePath) {
             // method for loading image resources
             BufferedImage img = null; // set to null initially
-
             InputStream imageFile = Methods.class.getResourceAsStream("/assets/" + filePath + ".png");
 
             try {

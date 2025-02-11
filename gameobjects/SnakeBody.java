@@ -10,14 +10,13 @@ import static main.Utilities.Constants.WindowConstants.*;
 
 public class SnakeBody {
 
-    // private as the snake head does not require these attributes
-    private boolean spawned; // inital spawn check to ensure body does not spawn on top of head`
-    private int index;
-
+    // protected so enemy snake can also access
+    protected boolean spawned; // inital spawn check to ensure body does not spawn on top of head
+    protected int index;
     protected int xPos, yPos;
     protected int previousXPos = xPos, previousYPos = yPos;
     
-    protected Color snakeColor = SNAKE_DEFAULT_COLOR; // default color is red
+    protected Color snakeColor = PLAYER_SNAKE_DEFAULT_COLOR; // default color is red
     protected GameManager game;
     protected SnakeBody nextBody;
     // protected so can be inherited
@@ -30,7 +29,7 @@ public class SnakeBody {
         this.game = game;
     }
 
-    public void checkEdge() {
+    protected void checkEdge() {
         // loop snake back around if it goes through the sides of the game
         if(yPos + SNAKE_HEIGHT > WINDOW_HEIGHT) {
             yPos = 0;
@@ -46,10 +45,26 @@ public class SnakeBody {
         }
     }
 
-    public void move() {
+    protected void move() {
         // move to the position of the tile infront
         xPos = nextBody.getPreviousXPos();
         yPos = nextBody.getPreviousYPos();
+    }
+
+    protected void checkCollisions() {
+        // check if position of tile is currently occupied
+        for(SnakeBody body : game.getPlayerBody()) {
+            if(body.getX() == xPos && body.getY() == yPos) {
+                if(body.getIndex() != index) {
+                    // no snake body can occupy 2 squares at the same time so end early
+                    return;
+                } else {
+                    // spawn
+                    spawned = true;
+                    break;
+                }
+            }
+        }
     }
 
     public void draw(Graphics g) {
@@ -62,19 +77,7 @@ public class SnakeBody {
     }
 
     public void update() {
-        // check if position of tile is currently occupied
-        for(SnakeBody body : game.getBody()) {
-            if(body.getX() == xPos && body.getY() == yPos) {
-                if(body.getIndex() != index) {
-                    // no snake body can occupy 2 squares at the same time so end early
-                    return;
-                } else {
-                    // spawn
-                    spawned = true;
-                    break;
-                }
-            }
-        }
+        checkCollisions();
 
         // 'move' snake body to the position of the body infront
         previousXPos = xPos;
@@ -108,5 +111,9 @@ public class SnakeBody {
 
     public int getIndex() {
         return index;
+    }
+
+    public boolean isSpawned() {
+        return spawned;
     }
 }

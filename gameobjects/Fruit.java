@@ -45,15 +45,23 @@ public class Fruit {
     }
 
     public void checkCollision() {
-        SnakeHead snake = game.getPlayerSnake();
+        SnakeHead playerSnake = game.getPlayerSnakeHead();
+        EnemySnakeHead enemySnake = game.getEnemySnakeHead();
         
-        int snakeX = snake.getX();
-        int snakeY = snake.getY();
+        int playerSnakeX = playerSnake.getX();
+        int playerSnakeY = playerSnake.getY();
+        int enemySnakeX = enemySnake.getX();
+        int enemySnakeY = enemySnake.getY();
 
-        if(snakeX == xPos && snakeY == yPos) { // compare x and y since this is always done from top left corner
-            game.fruitEaten(pointValue); 
-            deleteFlag = true;
-            // increase score and send flag for fruit to be deleted
+        if(!deleteFlag) {
+            if(playerSnakeX == xPos && playerSnakeY == yPos) { // compare x and y since this is always done from top left corner
+                game.fruitEaten(pointValue, 1); 
+                deleteFlag = true;
+                // increase score and send flag for fruit to be deleted
+            } else if(enemySnakeX == xPos && enemySnakeY == yPos) {
+                game.fruitEaten(pointValue, 2); 
+                deleteFlag = true;
+            }
         }
     }
  
@@ -69,5 +77,13 @@ public class Fruit {
 
     public boolean isDeleteFlag() {
         return deleteFlag;
+    }
+
+    public int getX() {
+        return xPos;
+    }
+
+    public int getY() {
+        return yPos;
     }
 }
