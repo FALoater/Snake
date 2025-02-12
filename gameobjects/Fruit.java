@@ -3,7 +3,7 @@ package gameobjects;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 
-import gameobjects.snake.EnemySnakeHead;
+import gameobjects.snake.EnemyHead;
 import gameobjects.snake.SnakeHead;
 import main.GameManager;
 
@@ -48,12 +48,12 @@ public class Fruit {
 
     public void checkCollision() {
         SnakeHead playerSnake = game.getPlayerSnakeHead();
-        EnemySnakeHead enemySnake = game.getEnemySnakeHead();
+        EnemyHead enemySnake = game.getEnemySnakeHead();
         
         int playerSnakeX = playerSnake.getX();
         int playerSnakeY = playerSnake.getY();
         int enemySnakeX = enemySnake.getX();
-        int enemySnakeY = enemySnake.getY();
+        int enemySnakeY = enemySnake.getY(); // get x and y of both snakes
 
         if(!deleteFlag) {
             if(playerSnakeX == xPos && playerSnakeY == yPos) { // compare x and y since this is always done from top left corner

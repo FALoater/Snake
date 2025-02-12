@@ -7,32 +7,33 @@ import java.util.Random;
 
 import gameobjects.Fruit;
 import gameobjects.FruitType;
-import gameobjects.snake.EnemySnakeBody;
-import gameobjects.snake.EnemySnakeHead;
+import gameobjects.snake.EnemyBody;
+import gameobjects.snake.EnemyHead;
 import gameobjects.snake.SnakeBody;
 import gameobjects.snake.SnakeHead;
 
-import static main.Utilities.Constants.SnakeConstants.ENEMY_START_X;
-import static main.Utilities.Constants.SnakeConstants.ENEMY_START_Y;
-import static main.Utilities.Constants.SnakeConstants.PLAYER_START_X;
-import static main.Utilities.Constants.SnakeConstants.PLAYER_START_Y;
+import static main.Utilities.Constants.SnakeConstants.*;
 import static main.Utilities.Constants.WindowConstants.*;
+import static main.Utilities.Methods;
 
 public class GameManager implements Runnable{
 
 	// UI objects
 	private GamePanel gamePanel;
 	private LinkedList<Fruit> fruits = new LinkedList<Fruit>();
-    private LinkedList<EnemySnakeBody> enemyBody = new LinkedList<EnemySnakeBody>();
+    private LinkedList<EnemyBody> enemyBody = new LinkedList<EnemyBody>();
 	private LinkedList<SnakeBody> playerBody = new LinkedList<SnakeBody>();
 
 	private Random rand = new Random();
     private Thread gameThread;
 
 	// game objects
-    private EnemySnakeHead enemySnakeHead;
+    private EnemyHead enemySnakeHead;
 	private GridObject[][] grid;
 	private SnakeHead playerSnakeHead;
+
+	// game variables
+	private int enemyRespawnTick, playerRespawnTick;
 
     public GameManager() {
 		// init classes and game loop
@@ -54,7 +55,7 @@ public class GameManager implements Runnable{
 		playerBody.add(playerSnakeHead); 
 
         // create enemy snake head
-        enemySnakeHead = new EnemySnakeHead(ENEMY_START_X, ENEMY_START_Y, this);
+        enemySnakeHead = new EnemyHead(ENEMY_START_X, ENEMY_START_Y, this);
         enemyBody.add(enemySnakeHead);
 
 		// add snake heads to grid
@@ -65,8 +66,8 @@ public class GameManager implements Runnable{
 		gamePanel = new GamePanel(this);
         new GameWindow(gamePanel); 
 
-        // generate 3 fruits at random locations
-		for(int i=0;i<3;i++) {
+        // generate 5 fruits at random locations
+		for(int i=0;i<5;i++) {
 			generateFruit(); 
 		}
     }
@@ -78,19 +79,11 @@ public class GameManager implements Runnable{
 
 	public void generateFruit() {
 		// generate random position for fruit
-		boolean validPosition = false;
-		int xPos = 0, yPos = 0;
+		int[] newPosition = Methods.GenerateRandomValidPosition(this);
+		int xPos = newPosition[0];
+		int yPos = newPosition[1];
 
-		// check position is not covered by a snake or fruit
-		while(!validPosition) {
-			xPos = rand.nextInt(TILES_IN_WIDTH);
-			yPos = rand.nextInt(TILES_IN_HEIGHT);
-
-			if(grid[yPos][xPos] == GridObject.EMPTY) {
-				validPosition = true;
-				grid[yPos][xPos] = GridObject.FRUIT;
-			}
-		}
+		grid[yPos][xPos] = GridObject.FRUIT;
 
 		// generate random fruit type
 		int fruitType = rand.nextInt(6); 
@@ -117,7 +110,7 @@ public class GameManager implements Runnable{
 			// enemy snake
 			for(int i=0;i<score;i++) {
 				lastBody = enemyBody.get(enemyBody.size() - 1);
-				enemyBody.add(new EnemySnakeBody(lastBody.getX(), lastBody.getY(), enemyBody.size() - 1, lastBody, this));	
+				enemyBody.add(new EnemyBody(lastBody.getX(), lastBody.getY(), enemyBody.size() - 1, lastBody, this));	
 			}
 		}
 	}
@@ -179,14 +172,39 @@ public class GameManager implements Runnable{
 			enemyBody.get(i).draw(g);
 		}
 		
+		// draw the snake heads
         enemySnakeHead.draw(g);
 		playerSnakeHead.draw(g);
-    }
+	}
 
     public void update() {
+		// only update respawn timer if the enemy is dead
+		if(enemySnakeHead.isCollided()) {
+			enemyRespawnTick++;
+
+			if(enemyRespawnTick > RESPAWN_TIME) {
+				// respawn the snake
+				enemyRespawnTick = 0;
+				enemySnakeHead.setCollided(false);
+				enemySnakeHead.resetSnake();
+			}
+		}
+
+		// do same for player
+		if(playerSnakeHead.isCollided()) {
+			playerRespawnTick++;
+
+			if(playerRespawnTick > RESPAWN_TIME) {
+				gamePanel.resetScore();
+				playerRespawnTick = 0;
+				playerSnakeHead.setCollided(false);
+				playerSnakeHead.resetSnake();
+			}
+		}
+
 		// move snake first before updating any fruit collisions
-		// stop updating game entirely if player is collided
-		if(playerSnakeHead.isCollided()) return;
+		// stop updating game entirely if player is collided, only in classic mode
+		//if(playerSnakeHead.isCollided()) return;
 
 		enemySnakeHead.update();
 		playerSnakeHead.update();
@@ -205,7 +223,6 @@ public class GameManager implements Runnable{
 				currentFruit.update();
 			}
 		}
-
 		// update snake body last
 		for(int i=1;i<playerBody.size();i++) {
 			playerBody.get(i).update();
@@ -222,7 +239,7 @@ public class GameManager implements Runnable{
 		return playerSnakeHead;
 	}
 
-	public EnemySnakeHead getEnemySnakeHead() {
+	public EnemyHead getEnemySnakeHead() {
 		return enemySnakeHead;
 	}
 
@@ -234,15 +251,36 @@ public class GameManager implements Runnable{
 		return playerBody;
 	}
 
-	public LinkedList<EnemySnakeBody> getEnemyBody() {
+	public LinkedList<EnemyBody> getEnemyBody() {
 		return enemyBody;
+	}
+
+	public void resetEnemyBody() {
+		// remove all the snake body length
+		while(enemyBody.size() > 1) {
+			EnemyBody currentBody = enemyBody.removeLast();
+			grid[currentBody.getY() / TILE_SIZE][currentBody.getX() / TILE_SIZE] = GridObject.EMPTY;
+		}
+	}
+
+	public void resetPlayerBody() {
+		// remove all the snake body length
+		while(playerBody.size() > 1) {
+			SnakeBody currentBody = playerBody.removeLast();
+			grid[currentBody.getY() / TILE_SIZE][currentBody.getX() / TILE_SIZE] = GridObject.EMPTY;
+		}
 	}
 
 	public LinkedList<Fruit> getFruits() {
 		return fruits;
 	}
 
+	public GridObject[][] getGrid() {
+		return grid;
+	}
+
 	public void setGrid(int xPos, int yPos, GridObject object) {
+		// standardise for index positions
 		grid[yPos / TILE_SIZE][xPos / TILE_SIZE] = object;
 	}
 

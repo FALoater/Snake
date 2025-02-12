@@ -51,4 +51,9 @@ public class GamePanel extends JPanel {
 		userScore += score;
 		this.score.setText("Score: " + String.valueOf(userScore));
 	}
+
+	public void resetScore() {
+		userScore = 0;
+		score.setText("Score: " + String.valueOf(userScore));
+	}
 }

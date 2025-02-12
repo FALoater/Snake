@@ -10,6 +10,8 @@ import static main.Utilities.Constants.SnakeConstants.*;
 import static main.Utilities.Constants.WindowConstants.*;
 
 public class SnakeBody {
+    
+    private SnakeHead playerHead;
 
     // protected so enemy snake can also access
     protected boolean spawned; // inital spawn check to ensure body does not spawn on top of head
@@ -19,13 +21,13 @@ public class SnakeBody {
     protected Color snakeColor = PLAYER_SNAKE_DEFAULT_COLOR; // default color is red
     protected GameManager game;
     protected SnakeBody nextBody;
-    // protected so can be inherited
 
     public SnakeBody(int xPos, int yPos, int index, SnakeBody nextBody, GameManager game) {
         this.xPos = xPos;
         this.yPos = yPos;
         this.nextBody = nextBody; 
         this.game = game;
+        playerHead = game.getPlayerSnakeHead(); // removes need to pass in as parameter
     }
 
     protected void checkEdge() {
@@ -61,7 +63,7 @@ public class SnakeBody {
     }
 
     public void draw(Graphics g) {
-        if(spawned) { // only draw if the body is spawned in
+        if(spawned && !playerHead.isCollided()) { // only draw if snake body is spawned in and the snake head is active
             g.setColor(Color.black);
             g.fillRect(xPos - 2, yPos - 2, SNAKE_WIDTH, SNAKE_HEIGHT); // first fill a black square
             g.setColor(snakeColor); // change colour to red
@@ -70,6 +72,10 @@ public class SnakeBody {
     }
 
     public void update() {
+        if(game.getPlayerSnakeHead().isCollided()) {
+            spawned = false;
+        }
+
         checkCollisions();
 
         if(spawned) {

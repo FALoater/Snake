@@ -4,6 +4,7 @@ import main.GridObject;
 import main.Utilities.Methods;
 
 import static main.Utilities.Constants.SnakeConstants.*;
+import static main.Utilities.Constants.WindowConstants.TILE_SIZE;
 
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
@@ -18,8 +19,7 @@ public class SnakeHead extends SnakeBody{ // inherit as attributes will be the s
 
     public SnakeHead(int xPos, int yPos, GameManager game) {
         super(xPos, yPos, 0, null, game);
-        this.direction = Direction.UP;
-
+        direction = Direction.UP;
         initImg();
     }
 
@@ -33,9 +33,30 @@ public class SnakeHead extends SnakeBody{ // inherit as attributes will be the s
     protected void checkCollisions() {
         GridObject object = game.getObjectAtGridPos(xPos, yPos);
         if(object != GridObject.EMPTY && object != GridObject.FRUIT && object != GridObject.PLAYER_HEAD) {
-            // snake head collided with body
-            collided = true;
+            if(!game.getEnemySnakeHead().isCollided()) { // make sure other snake is not despawned
+                game.setGrid(xPos, yPos, GridObject.EMPTY);
+                collided = true;
+            }
+
         }
+    }
+
+    private void resetPosition() {
+        previousXPos = xPos;
+        previousYPos = yPos;
+
+        // get random valid starting position and respawn there
+        int[] newPosition = Methods.GenerateRandomValidPosition(game);
+
+        // scale index positions to coordinates
+        xPos = newPosition[0] * TILE_SIZE;
+        yPos = newPosition[1] * TILE_SIZE;
+    }
+
+    public void resetSnake() {
+        // reset snake after it has respawned
+        game.resetPlayerBody();
+        resetPosition();
     }
 
     @Override
@@ -67,7 +88,7 @@ public class SnakeHead extends SnakeBody{ // inherit as attributes will be the s
     
     @Override
     public void draw(Graphics g) {
-        g.drawImage(img, xPos - 2, yPos - 2, SNAKE_WIDTH, SNAKE_HEIGHT, null);
+        if(!collided) g.drawImage(img, xPos - 2, yPos - 2, SNAKE_WIDTH, SNAKE_HEIGHT, null);
     }
 
     @Override
@@ -97,5 +118,9 @@ public class SnakeHead extends SnakeBody{ // inherit as attributes will be the s
 
     public boolean isCollided() {
         return collided;
+    }
+
+    public void setCollided(boolean collided) {
+        this.collided = collided;
     }
 }
