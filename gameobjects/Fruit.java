@@ -40,10 +40,10 @@ public class Fruit {
     private void loadImg() {
         switch(type) {
             case APPLE:
-                img = Methods.LoadImage("fruits/apple");
+                img = Methods.LoadImage(APPLE_IMG);
                 break;
             case ORANGE:
-                img = Methods.LoadImage("fruits/orange");
+                img = Methods.LoadImage(ORANGE_IMG);
                 break;
         }
     }

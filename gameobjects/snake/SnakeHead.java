@@ -24,10 +24,10 @@ public class SnakeHead extends SnakeBody{ // inherit as attributes will be the s
     }
 
     protected void initImg() {
-        left = Methods.LoadImage("snake/player/snake_head_left");
-        right = Methods.LoadImage("snake/player/snake_head_right");
-        up = Methods.LoadImage("snake/player/snake_head_up");
-        down = Methods.LoadImage("snake/player/snake_head_down");
+        left = Methods.LoadImage(PLAYER_HEAD_LEFT_IMG);
+        right = Methods.LoadImage(PLAYER_HEAD_RIGHT_IMG);
+        up = Methods.LoadImage(PLAYER_HEAD_UP_IMG);
+        down = Methods.LoadImage(PLAYER_HEAD_DOWN_IMG);
     }
 
     protected void checkCollisions() {

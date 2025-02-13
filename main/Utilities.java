@@ -21,6 +21,7 @@ public class Utilities {
     // gives numbers more meaningful identifiers
 
         public static class WindowConstants {
+            // game window sizes and refresh rates
             public static final int TILE_SIZE = 20 * SCALE;
             public static final int TILES_IN_WIDTH = 22;
             public static final int TILES_IN_HEIGHT = 18;
@@ -31,6 +32,7 @@ public class Utilities {
         }
 
         public static class SnakeConstants {
+            // snake sizes, image sources, respawn time and colours
             public static final int SNAKE_WIDTH = WindowConstants.TILE_SIZE;
             public static final int SNAKE_HEIGHT = WindowConstants.TILE_SIZE;
 
@@ -44,11 +46,29 @@ public class Utilities {
 
             public static final Color PLAYER_SNAKE_DEFAULT_COLOR = Color.green;
             public static final Color ENEMY_SNAKE_DEFAULT_COLOR = Color.red;
+
+            public static final String PLAYER_HEAD_LEFT_IMG = "snake/player/snake_head_left";
+            public static final String PLAYER_HEAD_RIGHT_IMG = "snake/player/snake_head_right";
+            public static final String PLAYER_HEAD_UP_IMG = "snake/player/snake_head_up";
+            public static final String PLAYER_HEAD_DOWN_IMG = "snake/player/snake_head_down";
+
+            public static final String ENEMY_HEAD_LEFT_IMG = "snake/enemy/snake_head_left";
+            public static final String ENEMY_HEAD_RIGHT_IMG = "snake/enemy/snake_head_right";
+            public static final String ENEMY_HEAD_UP_IMG = "snake/enemy/snake_head_up";
+            public static final String ENEMY_HEAD_DOWN_IMG = "snake/enemy/snake_head_down";
         }
 
         public static class FruitConstants {
+            // fruit sizes and image sources
             public static final int FRUIT_RADIUS = 15 * SCALE;
-            // make smaller than snake to identify easier
+            
+            public static final String APPLE_IMG = "fruits/apple";
+            public static final String ORANGE_IMG = "fruits/orange";
+
+        }
+
+        public static class ButtonConstants {
+            // button sizes and image sources
         }
     }
 

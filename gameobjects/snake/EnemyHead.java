@@ -31,10 +31,10 @@ public class EnemyHead extends EnemyBody {
     }
 
     private void initImg() {
-        left = Methods.LoadImage("snake/enemy/snake_head_left");
-        right = Methods.LoadImage("snake/enemy/snake_head_right");
-        up = Methods.LoadImage("snake/enemy/snake_head_up");
-        down = Methods.LoadImage("snake/enemy/snake_head_down");
+        left = Methods.LoadImage(ENEMY_HEAD_LEFT_IMG);
+        right = Methods.LoadImage(ENEMY_HEAD_RIGHT_IMG);
+        up = Methods.LoadImage(ENEMY_HEAD_UP_IMG);
+        down = Methods.LoadImage(ENEMY_HEAD_DOWN_IMG);
     }
 
     private boolean checkSafe(GridObject object) {

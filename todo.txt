@@ -1,8 +1,8 @@
 todo
-enemy snake scoreboard
 game states
-UI
-
+UI 
+Buttons
 
 -----------------------------------------
 problems
+snake heads cannot collide
