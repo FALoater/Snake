@@ -34,12 +34,13 @@ public class Utilities {
             public static final int SNAKE_WIDTH = WindowConstants.TILE_SIZE;
             public static final int SNAKE_HEIGHT = WindowConstants.TILE_SIZE;
 
-            public static final int PLAYER_START_X = 10 * WindowConstants.TILE_SIZE;
-            public static final int PLAYER_START_Y =  15 * WindowConstants.TILE_SIZE;
-            public static final int ENEMY_START_X = 0 * WindowConstants.TILE_SIZE;
-            public static final int ENEMY_START_Y = 10 * WindowConstants.TILE_SIZE;
+            public static final int PLAYER_START_X = 12 * WindowConstants.TILE_SIZE;
+            public static final int PLAYER_START_Y = 9 * WindowConstants.TILE_SIZE;
+            public static final int ENEMY_START_X = 10 * WindowConstants.TILE_SIZE;
+            public static final int ENEMY_START_Y = 9 * WindowConstants.TILE_SIZE;
 
             public static final int RESPAWN_TIME = WindowConstants.UPS * 4; // 4 second respawn time
+            public static final int DEATH_POINT_DEDUCTION = 10;
 
             public static final Color PLAYER_SNAKE_DEFAULT_COLOR = Color.green;
             public static final Color ENEMY_SNAKE_DEFAULT_COLOR = Color.red;

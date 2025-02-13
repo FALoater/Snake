@@ -1,9 +1,10 @@
 package gameobjects;
 
+// easier to use and remember than hardcoded integers
 public enum Direction {
     UP,
     RIGHT,
     LEFT,
     DOWN
-    // easier to use than hardcoded integers
+
 }

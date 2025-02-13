@@ -18,7 +18,7 @@ public class SnakeBody {
     protected int xPos, yPos;
     protected int previousXPos = xPos, previousYPos = yPos;
     
-    protected Color snakeColor = PLAYER_SNAKE_DEFAULT_COLOR; // default color is red
+    protected Color snakeColor = PLAYER_SNAKE_DEFAULT_COLOR; // default color is green
     protected GameManager game;
     protected SnakeBody nextBody;
 
@@ -63,7 +63,8 @@ public class SnakeBody {
     }
 
     public void draw(Graphics g) {
-        if(spawned && !playerHead.isCollided()) { // only draw if snake body is spawned in and the snake head is active
+        // only draw if snake body is spawned in and the snake head is active
+        if(spawned && !playerHead.isCollided()) { 
             g.setColor(Color.black);
             g.fillRect(xPos - 2, yPos - 2, SNAKE_WIDTH, SNAKE_HEIGHT); // first fill a black square
             g.setColor(snakeColor); // change colour to red
@@ -72,12 +73,14 @@ public class SnakeBody {
     }
 
     public void update() {
+        // unspawn if the player head is stunned
         if(game.getPlayerSnakeHead().isCollided()) {
             spawned = false;
         }
 
         checkCollisions();
 
+        // can update if spawned
         if(spawned) {
             previousXPos = xPos;
             previousYPos = yPos;

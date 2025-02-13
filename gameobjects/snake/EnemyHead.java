@@ -223,10 +223,10 @@ public class EnemyHead extends EnemyBody {
 
         if(object != GridObject.EMPTY && object != GridObject.FRUIT && object != GridObject.ENEMY_HEAD) {
             // make sure collided when player snake is still active
-            if(!game.getPlayerSnakeHead().isCollided()) {
-                collided = true;
+            if(!collided) {
                 game.setGrid(xPos, yPos, GridObject.EMPTY);
-                return;
+                collided = true;
+                game.resetEnemyScore();
             }
         }
     }

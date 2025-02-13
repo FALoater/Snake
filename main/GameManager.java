@@ -34,6 +34,7 @@ public class GameManager implements Runnable{
 
 	// game variables
 	private int enemyRespawnTick, playerRespawnTick;
+	private int timeLeftTick = 60 * UPS;
 
     public GameManager() {
 		// init classes and game loop
@@ -73,6 +74,7 @@ public class GameManager implements Runnable{
     }
 
     private void initGameLoop() {
+		// start the whole game loop
         gameThread = new Thread(this);
         gameThread.start();
 	}
@@ -83,12 +85,14 @@ public class GameManager implements Runnable{
 		int xPos = newPosition[0];
 		int yPos = newPosition[1];
 
+		// update position in grid
 		grid[yPos][xPos] = GridObject.FRUIT;
 
 		// generate random fruit type
 		int fruitType = rand.nextInt(6); 
 
-		if(fruitType <= 4) { // make apples more common
+		// make apples spawn more commonly
+		if(fruitType <= 3) {
 			fruits.add(new Fruit(xPos * TILE_SIZE, yPos * TILE_SIZE, FruitType.APPLE, this));
 		} else {
 			fruits.add(new Fruit(xPos * TILE_SIZE, yPos * TILE_SIZE, FruitType.ORANGE, this));
@@ -105,54 +109,63 @@ public class GameManager implements Runnable{
 				lastBody = playerBody.get(playerBody.size() - 1); // 'pointer' for new body
 				playerBody.add(new SnakeBody(lastBody.getX(), lastBody.getY(), playerBody.size() - 1, lastBody, this));	// added in linkedlist but not yet spawned as grid could be occupied
 			}
-			gamePanel.updateScore(score);
+			gamePanel.updatePlayerScore(score);
 		} else {
 			// enemy snake
 			for(int i=0;i<score;i++) {
 				lastBody = enemyBody.get(enemyBody.size() - 1);
 				enemyBody.add(new EnemyBody(lastBody.getX(), lastBody.getY(), enemyBody.size() - 1, lastBody, this));	
 			}
+			gamePanel.updateEnemyScore(score);
 		}
 	}
 
 	@Override
 	public void run() { // will automatically be executed so no need to call
+
+		// time in nanoseconds for precision
 		double timePerFrame = 1000000000.0 / FPS;
-		double timePerUpdate = 1000000000.0 / UPS; // time in nanoseconds for precision
+		double timePerUpdate = 1000000000.0 / UPS; 
 
 		long timeOfLastUpdate = System.nanoTime();
 
-		int frames = 0;
-		int updates = 0;
+		// count refreshes per second
+		int fps = 0;
+		int ups = 0;
 		long timeOfLastCheck = System.currentTimeMillis();
 
-		double deltaU = 0;
-		double deltaF = 0;
+		// number of refreshes required since last check
+		double numUpdateRefresh = 0;
+		double numFrameRefresh = 0;
 
+		// start game loop
 		while (true) {
 			long currentTime = System.nanoTime();
 
-			deltaU += (currentTime - timeOfLastUpdate) / timePerUpdate;
-			deltaF += (currentTime - timeOfLastUpdate) / timePerFrame;
+			numUpdateRefresh += (currentTime - timeOfLastUpdate) / timePerUpdate;
+			numFrameRefresh += (currentTime - timeOfLastUpdate) / timePerFrame;
 			timeOfLastUpdate = currentTime;
 
-			if (deltaU >= 1) { // update the game if the time has passed
+			if (numUpdateRefresh >= 1) { 
+				// update the game
 				update();
-				updates++;
-				deltaU--;
+				ups++;
+				numUpdateRefresh--;
 			}
 
-			if (deltaF >= 1) { // refresh the game after the objects have been updated
+			if (numFrameRefresh >= 1) { 
+				// refresh the game after the objects have been updated
 				gamePanel.repaint();
-				frames++;
-				deltaF--;
+				fps++;
+				numFrameRefresh--;
 			}
 
+			// print refreshes per second and reset counters
 			if (System.currentTimeMillis() - timeOfLastCheck >= 1000) {
 				timeOfLastCheck = System.currentTimeMillis();
-				System.out.println("FPS: " + frames + " | UPS: " + updates);
-				frames = 0;
-				updates = 0;
+				System.out.println("FPS: " + fps + " | UPS: " + ups);
+				fps = 0;
+				ups = 0;
 			}
 		}
 	}
@@ -178,6 +191,15 @@ public class GameManager implements Runnable{
 	}
 
     public void update() {
+		// update game timer
+		timeLeftTick--;
+
+		// stop updating if timer reaches 0
+		if(timeLeftTick <= 0) return;
+
+		// else countdown timer
+		gamePanel.updateHUD();
+
 		// only update respawn timer if the enemy is dead
 		if(enemySnakeHead.isCollided()) {
 			enemyRespawnTick++;
@@ -195,7 +217,6 @@ public class GameManager implements Runnable{
 			playerRespawnTick++;
 
 			if(playerRespawnTick > RESPAWN_TIME) {
-				gamePanel.resetScore();
 				playerRespawnTick = 0;
 				playerSnakeHead.setCollided(false);
 				playerSnakeHead.resetSnake();
@@ -205,9 +226,9 @@ public class GameManager implements Runnable{
 		// move snake first before updating any fruit collisions
 		// stop updating game entirely if player is collided, only in classic mode
 		//if(playerSnakeHead.isCollided()) return;
-
-		enemySnakeHead.update();
 		playerSnakeHead.update();
+		enemySnakeHead.update();
+
 
 		// update all the fruits
 		for(int i=0;i<fruits.size();i++) {
@@ -218,11 +239,13 @@ public class GameManager implements Runnable{
 				grid[currentFruit.getY() / TILE_SIZE][currentFruit.getX() / TILE_SIZE] = GridObject.EMPTY;
 				fruits.remove(i);
 				i--; // decrement i to avoid out of bounds error
-				generateFruit();
+				generateFruit(); // generate new fruit at random position
 			} else {
+				// listen for collisions if fruit has not yet been interacted with
 				currentFruit.update();
 			}
 		}
+		
 		// update snake body last
 		for(int i=1;i<playerBody.size();i++) {
 			playerBody.get(i).update();
@@ -253,6 +276,14 @@ public class GameManager implements Runnable{
 
 	public LinkedList<EnemyBody> getEnemyBody() {
 		return enemyBody;
+	}
+
+	public void resetPlayerScore() {
+		gamePanel.resetPlayerScore();
+	}
+
+	public void resetEnemyScore() {
+		gamePanel.resetEnemyScore();
 	}
 
 	public void resetEnemyBody() {
@@ -286,5 +317,9 @@ public class GameManager implements Runnable{
 
 	public GridObject getObjectAtGridPos(int xPos, int yPos) {
 		return grid[yPos / TILE_SIZE][xPos / TILE_SIZE];
+	}
+
+	public int getTimeLeft() {
+		return timeLeftTick / UPS;
 	}
 }

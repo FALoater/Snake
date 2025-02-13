@@ -24,7 +24,8 @@ public class Fruit {
         this.yPos = yPos;
         this.type = type;
 
-        switch(type) { // set point value and color based on fruit type, switch case is easier to read
+        // set point value and color based on fruit type, switch case is easier to read
+        switch(type) { 
             case APPLE:
                 pointValue = 1;
                 break;
@@ -32,7 +33,8 @@ public class Fruit {
                 pointValue = 3;
         }
 
-        loadImg(); // load appropriate fruit sprite
+        // load appropriate fruit sprite
+        loadImg(); 
     }
 
     private void loadImg() {
@@ -47,16 +49,18 @@ public class Fruit {
     }
 
     public void checkCollision() {
+        // get both x and y of both snakes
         SnakeHead playerSnake = game.getPlayerSnakeHead();
         EnemyHead enemySnake = game.getEnemySnakeHead();
         
         int playerSnakeX = playerSnake.getX();
         int playerSnakeY = playerSnake.getY();
         int enemySnakeX = enemySnake.getX();
-        int enemySnakeY = enemySnake.getY(); // get x and y of both snakes
+        int enemySnakeY = enemySnake.getY();
 
         if(!deleteFlag) {
-            if(playerSnakeX == xPos && playerSnakeY == yPos) { // compare x and y since this is always done from top left corner
+            // compare x and y positions since this always refers to the top left corner
+            if(playerSnakeX == xPos && playerSnakeY == yPos) { 
                 game.fruitEaten(pointValue, 1); 
                 deleteFlag = true;
                 // increase score and send flag for fruit to be deleted
@@ -68,10 +72,12 @@ public class Fruit {
     }
  
     public void update() {
-        checkCollision(); // fruit does not move, only listens for collisions with the snake
+        // fruit does not move, only listens for collisions with the snake
+        checkCollision(); 
     }
 
     public void draw(Graphics g) {
+        // only draw if not marked for deletion
         if(!deleteFlag) g.drawImage(img, xPos, yPos, FRUIT_RADIUS, FRUIT_RADIUS, null);
     }
 

@@ -14,7 +14,7 @@ import gameobjects.Direction;
 public class SnakeHead extends SnakeBody{ // inherit as attributes will be the same
 
     private boolean collided = false; // check if snake hits something and therefore game over/stunned
-    private BufferedImage img, left, right, up, down; // EnemySnakeHead can inherit
+    private BufferedImage img, left, right, up, down;
     private Direction direction;
 
     public SnakeHead(int xPos, int yPos, GameManager game) {
@@ -31,17 +31,19 @@ public class SnakeHead extends SnakeBody{ // inherit as attributes will be the s
     }
 
     protected void checkCollisions() {
+        // get object at current position
         GridObject object = game.getObjectAtGridPos(xPos, yPos);
-        if(object != GridObject.EMPTY && object != GridObject.FRUIT && object != GridObject.PLAYER_HEAD) {
-            if(!game.getEnemySnakeHead().isCollided()) { // make sure other snake is not despawned
-                game.setGrid(xPos, yPos, GridObject.EMPTY);
-                collided = true;
-            }
 
+        if(object != GridObject.EMPTY && object != GridObject.FRUIT && object != GridObject.PLAYER_HEAD && !collided) {
+            // collided with snake body
+            game.setGrid(xPos, yPos, GridObject.EMPTY);
+            collided = true;
+            game.resetPlayerScore();
         }
     }
 
     private void resetPosition() {
+        // update previous positions so snake body can move
         previousXPos = xPos;
         previousYPos = yPos;
 
@@ -83,11 +85,13 @@ public class SnakeHead extends SnakeBody{ // inherit as attributes will be the s
                 break;
         }
 
+        // check if wrapping around the corner of the screen
         checkEdge();
     }
     
     @Override
     public void draw(Graphics g) {
+        // only draw if not stunned
         if(!collided) g.drawImage(img, xPos - 2, yPos - 2, SNAKE_WIDTH, SNAKE_HEIGHT, null);
     }
 
