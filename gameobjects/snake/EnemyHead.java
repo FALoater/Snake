@@ -24,7 +24,7 @@ public class EnemyHead extends EnemyBody {
     private Random rand = new Random();
 
     public EnemyHead(int xPos, int yPos, GameManager game) {
-        super(xPos, yPos, 0, null, game);
+        super(xPos, yPos, null, game);
         snakeColor = ENEMY_SNAKE_DEFAULT_COLOR;
 
         initImg();

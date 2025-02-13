@@ -10,18 +10,18 @@ import static main.Utilities.Constants.SnakeConstants.*;
 
 public class EnemyBody extends SnakeBody {
 
-    private EnemyHead enemySnakeHead;
+    private EnemyHead enemyHead;
 
-    public EnemyBody(int xPos, int yPos, int index, SnakeBody nextBody, GameManager game) {
-        super(xPos, yPos, index, nextBody, game);
+    public EnemyBody(int xPos, int yPos, SnakeBody nextBody, GameManager game) {
+        super(xPos, yPos, nextBody, game);
 
         // change snake colour to red
         snakeColor = ENEMY_SNAKE_DEFAULT_COLOR;
-        enemySnakeHead = game.getEnemySnakeHead();
+        enemyHead = game.getEnemyHead();
     }
 
     public void draw(Graphics g) {
-        if(spawned && !enemySnakeHead.isCollided()) { // only draw if the body is spawned in
+        if(spawned && !enemyHead.isCollided()) { // only draw if the body is spawned in
             g.setColor(Color.black);
             g.fillRect(xPos - 2, yPos - 2, SNAKE_WIDTH, SNAKE_HEIGHT); // first fill a black square
             g.setColor(snakeColor); // change colour to red
@@ -30,8 +30,8 @@ public class EnemyBody extends SnakeBody {
     }
 
     @Override
-        public void update() {
-        if(game.getEnemySnakeHead().isCollided()) {
+    public void update() {
+        if(game.getEnemyHead().isCollided()) {
             spawned = false;
         }
 

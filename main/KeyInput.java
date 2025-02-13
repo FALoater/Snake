@@ -17,7 +17,7 @@ public class KeyInput implements KeyListener {
     @Override
     public void keyPressed(KeyEvent e) {
         int pressedKey = e.getKeyCode();
-        SnakeHead snake = game.getPlayerSnakeHead();
+        SnakeHead snake = game.getPlayerHead();
 
         switch(pressedKey) { // enables more keybinds to be added easily
             case KeyEvent.VK_W:

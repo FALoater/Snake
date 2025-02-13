@@ -22,12 +22,12 @@ public class SnakeBody {
     protected GameManager game;
     protected SnakeBody nextBody;
 
-    public SnakeBody(int xPos, int yPos, int index, SnakeBody nextBody, GameManager game) {
+    public SnakeBody(int xPos, int yPos, SnakeBody nextBody, GameManager game) {
         this.xPos = xPos;
         this.yPos = yPos;
         this.nextBody = nextBody; 
         this.game = game;
-        playerHead = game.getPlayerSnakeHead(); // removes need to pass in as parameter
+        playerHead = game.getPlayerHead(); // removes need to pass in as parameter
     }
 
     protected void checkEdge() {
@@ -74,7 +74,7 @@ public class SnakeBody {
 
     public void update() {
         // unspawn if the player head is stunned
-        if(game.getPlayerSnakeHead().isCollided()) {
+        if(game.getPlayerHead().isCollided()) {
             spawned = false;
         }
 

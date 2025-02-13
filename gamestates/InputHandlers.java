@@ -1,13 +1,10 @@
 package gamestates;
 
-import java.awt.Graphics;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 
-public interface GamestateMethods {
+public interface InputHandlers {
     // contains methods that all the gamestates will require
-    public void update();
-    public void draw(Graphics g);
     public void mouseClicked(MouseEvent e);
     public void mousePressed(MouseEvent e);
     public void mouseReleased(MouseEvent e);

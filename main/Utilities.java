@@ -10,8 +10,7 @@ import java.util.LinkedList;
 import java.util.Random;
 
 public class Utilities {
-
-    public static Random rand = new Random();
+    private static Random rand = new Random();
 
     public static final int SCALE = 2; // scale of the game window, changes proportionally
 
@@ -64,7 +63,6 @@ public class Utilities {
             
             public static final String APPLE_IMG = "fruits/apple";
             public static final String ORANGE_IMG = "fruits/orange";
-
         }
 
         public static class ButtonConstants {

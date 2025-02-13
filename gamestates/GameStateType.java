@@ -1,6 +1,6 @@
 package gamestates;
 
-public enum Gamestates {
+public enum GameStateType {
     CLASSIC_GAME,
     VERSUS_GAME,
     MAIN_MENU,

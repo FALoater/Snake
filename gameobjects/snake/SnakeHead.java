@@ -18,7 +18,7 @@ public class SnakeHead extends SnakeBody{ // inherit as attributes will be the s
     private Direction direction;
 
     public SnakeHead(int xPos, int yPos, GameManager game) {
-        super(xPos, yPos, 0, null, game);
+        super(xPos, yPos, null, game);
         direction = Direction.UP;
         initImg();
     }

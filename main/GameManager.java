@@ -28,9 +28,9 @@ public class GameManager implements Runnable{
     private Thread gameThread;
 
 	// game objects
-    private EnemyHead enemySnakeHead;
+    private EnemyHead enemyHead;
+	private SnakeHead playerHead;
 	private GridObject[][] grid;
-	private SnakeHead playerSnakeHead;
 
 	// game variables
 	private int enemyRespawnTick, playerRespawnTick;
@@ -52,12 +52,12 @@ public class GameManager implements Runnable{
 		}
 
         // create player snake head
-		playerSnakeHead = new SnakeHead(PLAYER_START_X, PLAYER_START_Y, this);		
-		playerBody.add(playerSnakeHead); 
+		playerHead = new SnakeHead(PLAYER_START_X, PLAYER_START_Y, this);		
+		playerBody.add(playerHead); 
 
         // create enemy snake head
-        enemySnakeHead = new EnemyHead(ENEMY_START_X, ENEMY_START_Y, this);
-        enemyBody.add(enemySnakeHead);
+        enemyHead = new EnemyHead(ENEMY_START_X, ENEMY_START_Y, this);
+        enemyBody.add(enemyHead);
 
 		// add snake heads to grid
 		grid[PLAYER_START_Y / TILE_SIZE][PLAYER_START_X / TILE_SIZE] = GridObject.PLAYER_HEAD;
@@ -107,14 +107,14 @@ public class GameManager implements Runnable{
 			// player snake
 			for(int i=0;i<score;i++) {
 				lastBody = playerBody.get(playerBody.size() - 1); // 'pointer' for new body
-				playerBody.add(new SnakeBody(lastBody.getX(), lastBody.getY(), playerBody.size() - 1, lastBody, this));	// added in linkedlist but not yet spawned as grid could be occupied
+				playerBody.add(new SnakeBody(lastBody.getX(), lastBody.getY(), lastBody, this));	// added in linkedlist but not yet spawned as grid could be occupied
 			}
 			gamePanel.updatePlayerScore(score);
 		} else {
 			// enemy snake
 			for(int i=0;i<score;i++) {
 				lastBody = enemyBody.get(enemyBody.size() - 1);
-				enemyBody.add(new EnemyBody(lastBody.getX(), lastBody.getY(), enemyBody.size() - 1, lastBody, this));	
+				enemyBody.add(new EnemyBody(lastBody.getX(), lastBody.getY(), lastBody, this));	
 			}
 			gamePanel.updateEnemyScore(score);
 		}
@@ -186,8 +186,8 @@ public class GameManager implements Runnable{
 		}
 		
 		// draw the snake heads
-        enemySnakeHead.draw(g);
-		playerSnakeHead.draw(g);
+        enemyHead.draw(g);
+		playerHead.draw(g);
 	}
 
     public void update() {
@@ -201,33 +201,33 @@ public class GameManager implements Runnable{
 		gamePanel.updateHUD();
 
 		// only update respawn timer if the enemy is dead
-		if(enemySnakeHead.isCollided()) {
+		if(enemyHead.isCollided()) {
 			enemyRespawnTick++;
 
 			if(enemyRespawnTick > RESPAWN_TIME) {
 				// respawn the snake
 				enemyRespawnTick = 0;
-				enemySnakeHead.setCollided(false);
-				enemySnakeHead.resetSnake();
+				enemyHead.setCollided(false);
+				enemyHead.resetSnake();
 			}
 		}
 
 		// do same for player
-		if(playerSnakeHead.isCollided()) {
+		if(playerHead.isCollided()) {
 			playerRespawnTick++;
 
 			if(playerRespawnTick > RESPAWN_TIME) {
 				playerRespawnTick = 0;
-				playerSnakeHead.setCollided(false);
-				playerSnakeHead.resetSnake();
+				playerHead.setCollided(false);
+				playerHead.resetSnake();
 			}
 		}
 
 		// move snake first before updating any fruit collisions
 		// stop updating game entirely if player is collided, only in classic mode
-		//if(playerSnakeHead.isCollided()) return;
-		playerSnakeHead.update();
-		enemySnakeHead.update();
+		//if(playerHead.isCollided()) return;
+		playerHead.update();
+		enemyHead.update();
 
 
 		// update all the fruits
@@ -258,12 +258,12 @@ public class GameManager implements Runnable{
 
 	// getters and setters
 
-	public SnakeHead getPlayerSnakeHead() {
-		return playerSnakeHead;
+	public SnakeHead getPlayerHead() {
+		return playerHead;
 	}
 
-	public EnemyHead getEnemySnakeHead() {
-		return enemySnakeHead;
+	public EnemyHead getEnemyHead() {
+		return enemyHead;
 	}
 
 	public GamePanel getGamePanel() {

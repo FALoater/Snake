@@ -50,8 +50,8 @@ public class Fruit {
 
     public void checkCollision() {
         // get both x and y of both snakes
-        SnakeHead playerSnake = game.getPlayerSnakeHead();
-        EnemyHead enemySnake = game.getEnemySnakeHead();
+        SnakeHead playerSnake = game.getPlayerHead();
+        EnemyHead enemySnake = game.getEnemyHead();
         
         int playerSnakeX = playerSnake.getX();
         int playerSnakeY = playerSnake.getY();
