@@ -1,11 +1,12 @@
-package gameobjects;
+package gameobject;
 
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 
-import gameobjects.snake.EnemyHead;
-import gameobjects.snake.SnakeHead;
-import main.GameManager;
+import gameobject.snake.EnemyHead;
+import gameobject.snake.SnakeHead;
+import gamestate.GameStateType;
+import gamestate.PlayingGameState;
 
 import static main.Utilities.Constants.FruitConstants.*;
 import static main.Utilities.Methods;
@@ -16,10 +17,10 @@ public class Fruit {
 
     private BufferedImage img;
     private FruitType type;
-    private GameManager game;
+    private PlayingGameState gameState;
 
-    public Fruit(int xPos, int yPos, FruitType type, GameManager game) {
-        this.game = game;
+    public Fruit(int xPos, int yPos, FruitType type, PlayingGameState gameState) {
+        this.gameState = gameState;
         this.xPos = xPos;
         this.yPos = yPos;
         this.type = type;
@@ -48,32 +49,34 @@ public class Fruit {
         }
     }
 
-    public void checkCollision() {
-        // get both x and y of both snakes
-        SnakeHead playerSnake = game.getPlayerHead();
-        EnemyHead enemySnake = game.getEnemyHead();
-        
+    public void checkPlayerCollision() {
+        SnakeHead playerSnake = gameState.getPlayerHead();
+
         int playerSnakeX = playerSnake.getX();
         int playerSnakeY = playerSnake.getY();
+
+        if(!deleteFlag && playerSnakeX == xPos && playerSnakeY == yPos) {
+            gameState.fruitEaten(pointValue, 1); 
+            deleteFlag = true;
+        }
+    }
+
+    public void checkEnemyCollision() {
+        EnemyHead enemySnake = gameState.getEnemyHead();
         int enemySnakeX = enemySnake.getX();
         int enemySnakeY = enemySnake.getY();
 
-        if(!deleteFlag) {
-            // compare x and y positions since this always refers to the top left corner
-            if(playerSnakeX == xPos && playerSnakeY == yPos) { 
-                game.fruitEaten(pointValue, 1); 
-                deleteFlag = true;
-                // increase score and send flag for fruit to be deleted
-            } else if(enemySnakeX == xPos && enemySnakeY == yPos) {
-                game.fruitEaten(pointValue, 2); 
-                deleteFlag = true;
-            }
+        // increase score and send flag for fruit to be deleted
+        if(enemySnakeX == xPos && enemySnakeY == yPos) {
+            gameState.fruitEaten(pointValue, 2); 
+            deleteFlag = true;
         }
     }
  
     public void update() {
         // fruit does not move, only listens for collisions with the snake
-        checkCollision(); 
+        checkPlayerCollision();
+        if(gameState.getGameManager().getGameState() == GameStateType.VERSUS_GAME) checkEnemyCollision();
     }
 
     public void draw(Graphics g) {

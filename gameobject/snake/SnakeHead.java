@@ -1,5 +1,4 @@
-package gameobjects.snake;
-import main.GameManager;
+package gameobject.snake;
 import main.GridObject;
 import main.Utilities.Methods;
 
@@ -9,16 +8,19 @@ import static main.Utilities.Constants.WindowConstants.TILE_SIZE;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 
-import gameobjects.Direction;
+import gameobject.Direction;
+import gamestate.GameStateType;
+import gamestate.PlayingGameState;
 
-public class SnakeHead extends SnakeBody{ // inherit as attributes will be the same
+public class SnakeHead extends SnakeBody{
+    // inherited attributes from superclass
 
     private boolean collided = false; // check if snake hits something and therefore game over/stunned
     private BufferedImage img, left, right, up, down;
     private Direction direction;
 
-    public SnakeHead(int xPos, int yPos, GameManager game) {
-        super(xPos, yPos, null, game);
+    public SnakeHead(int xPos, int yPos, PlayingGameState gameState) {
+        super(xPos, yPos, null, gameState);
         direction = Direction.UP;
         initImg();
     }
@@ -32,39 +34,26 @@ public class SnakeHead extends SnakeBody{ // inherit as attributes will be the s
 
     protected void checkCollisions() {
         // get object at current position
-        GridObject object = game.getObjectAtGridPos(xPos, yPos);
+        GridObject object = gameState.getObjectAtGridPos(xPos, yPos);
 
         if(object != GridObject.EMPTY && object != GridObject.FRUIT && object != GridObject.PLAYER_HEAD && !collided) {
             // collided with snake body
-            game.setGrid(xPos, yPos, GridObject.EMPTY);
+            gameState.setGrid(xPos, yPos, GridObject.EMPTY);
             collided = true;
-            game.resetPlayerScore();
+            
+            // gamemode check
+            if(gameState.getGameManager().getGameState() == GameStateType.VERSUS_GAME) {
+                gameState.resetPlayerScore();
+            } else {
+                return;
+            }
         }
-    }
-
-    private void resetPosition() {
-        // update previous positions so snake body can move
-        previousXPos = xPos;
-        previousYPos = yPos;
-
-        // get random valid starting position and respawn there
-        int[] newPosition = Methods.GenerateRandomValidPosition(game);
-
-        // scale index positions to coordinates
-        xPos = newPosition[0] * TILE_SIZE;
-        yPos = newPosition[1] * TILE_SIZE;
-    }
-
-    public void resetSnake() {
-        // reset snake after it has respawned
-        game.resetPlayerBody();
-        resetPosition();
     }
 
     @Override
     protected void move() {
         // move the snake position in its direction
-        game.setGrid(xPos, yPos, GridObject.EMPTY);
+        gameState.setGrid(xPos, yPos, GridObject.EMPTY);
 
         switch(direction) {
             case UP:
@@ -104,7 +93,7 @@ public class SnakeHead extends SnakeBody{ // inherit as attributes will be the s
         // check if snake collides with anything, and if so then stop moving
         checkCollisions(); 
         if(collided) return;
-        game.setGrid(xPos, yPos, GridObject.PLAYER_HEAD);
+        gameState.setGrid(xPos, yPos, GridObject.PLAYER_HEAD);
 
         // move the snake in given direction, wrapping around if applicable
         move();
@@ -126,5 +115,13 @@ public class SnakeHead extends SnakeBody{ // inherit as attributes will be the s
 
     public void setCollided(boolean collided) {
         this.collided = collided;
+    }
+
+    public void resetPosition(int[] position) {
+        previousXPos = xPos;
+        previousYPos = yPos;
+        // scale index positions to coordinates
+        xPos = position[0] * TILE_SIZE;
+        yPos = position[1] * TILE_SIZE;
     }
 }

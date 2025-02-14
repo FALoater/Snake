@@ -1,4 +1,4 @@
-package gameobjects;
+package gameobject;
 
 // easier to use and remember than hardcoded integers
 public enum Direction {

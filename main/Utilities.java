@@ -99,8 +99,7 @@ public class Utilities {
             return Math.pow(thisX - otherX, 2) + Math.pow(thisY - otherY, 2);
         }
 
-        public static int[] GenerateRandomValidPosition(GameManager game) {
-            GridObject[][] grid = game.getGrid();
+        public static int[] GenerateRandomValidPosition(GridObject[][] grid) {
             
             // get all grid values that are empty, linkedlist as size can vary
             LinkedList<String> validPos = new LinkedList<String>();

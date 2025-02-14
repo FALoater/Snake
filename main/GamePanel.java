@@ -7,6 +7,8 @@ import java.awt.Graphics;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import gamestate.GameStateType;
+
 import static main.Utilities.Constants.SnakeConstants.DEATH_POINT_DEDUCTION;
 import static main.Utilities.Constants.WindowConstants.*;
 
@@ -43,7 +45,11 @@ public class GamePanel extends JPanel {
 
 	public void updateHUD() {
 		// update the JLabel after attributes have been modified
-		hud.setText("<html><nobr>Score: <font color='#00ff00'>" + userScore + "</font> - <font color='ff0000'>" + enemyScore + "</font>&nbsp;&nbsp;&nbsp;&nbsp;Time left: " + game.getTimeLeft() + "</p></nobr></html>");
+		if(game.getGameState() == GameStateType.VERSUS_GAME) {
+			hud.setText("<html><nobr>Score: <font color='#00ff00'>" + userScore + "</font> - <font color='ff0000'>" + enemyScore + "</font>&nbsp;&nbsp;&nbsp;&nbsp;Time left: " + game.getTimeLeft() + "</p></nobr></html>");
+		} else {
+			hud.setText("<html><nobr>Score: " + userScore);
+		}
 	}
 
 	public void paintComponent(Graphics g) {

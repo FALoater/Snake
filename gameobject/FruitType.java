@@ -1,4 +1,4 @@
-package gameobjects;
+package gameobject;
 
 public enum FruitType {
     APPLE,

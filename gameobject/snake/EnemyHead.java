@@ -1,6 +1,5 @@
-package gameobjects.snake;
+package gameobject.snake;
 
-import main.GameManager;
 import main.GridObject;
 
 import static main.Utilities.Constants.SnakeConstants.*;
@@ -13,8 +12,9 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Random;
 
-import gameobjects.Direction;
-import gameobjects.Fruit;
+import gameobject.Direction;
+import gameobject.Fruit;
+import gamestate.VersusGame;
 
 public class EnemyHead extends EnemyBody {
 
@@ -23,10 +23,10 @@ public class EnemyHead extends EnemyBody {
     private Direction direction = Direction.UP;
     private Random rand = new Random();
 
-    public EnemyHead(int xPos, int yPos, GameManager game) {
-        super(xPos, yPos, null, game);
+    public EnemyHead(int xPos, int yPos, VersusGame versusGame) {
+        super(xPos, yPos, null, versusGame);
         snakeColor = ENEMY_SNAKE_DEFAULT_COLOR;
-
+        
         initImg();
     }
 
@@ -42,13 +42,14 @@ public class EnemyHead extends EnemyBody {
     }
 
     private void pathfindToFruit() {
+        LinkedList<Fruit> fruits = gameState.getFruits();
 
         // find position of closest fruit
         double closestDistance = Double.POSITIVE_INFINITY; // initalise to be largest possible
         int fruitX = 0, fruitY = 0;
 
         // iterate through fruits to determine nearest fruit by pythagorean distance
-        for(Fruit fruit : game.getFruits()) {
+        for(Fruit fruit : fruits) {
             double distance = Methods.SquaredDistanceBetween(xPos, yPos, fruit.getX(), fruit.getY());// no need to square root as this will be the same
 
             // minimising function for distance
@@ -73,10 +74,10 @@ public class EnemyHead extends EnemyBody {
 
         // find objects
 
-        GridObject upObject = game.getObjectAtGridPos(xPos, upY);
-        GridObject downObject = game.getObjectAtGridPos(xPos, downY);
-        GridObject leftObject = game.getObjectAtGridPos(leftX, yPos);
-        GridObject rightObject = game.getObjectAtGridPos(rightX, yPos);
+        GridObject upObject = gameState.getObjectAtGridPos(xPos, upY);
+        GridObject downObject = gameState.getObjectAtGridPos(xPos, downY);
+        GridObject leftObject = gameState.getObjectAtGridPos(leftX, yPos);
+        GridObject rightObject = gameState.getObjectAtGridPos(rightX, yPos);
 
         // switch case for directions, ensuring no 180 degree turns
         switch(direction) {
@@ -199,41 +200,23 @@ public class EnemyHead extends EnemyBody {
 
     }
 
-    private void resetPosition() {
-        previousXPos = xPos;
-        previousYPos = yPos;
-
-        // get random valid starting position and respawn there
-        int[] newPosition = Methods.GenerateRandomValidPosition(game);
-
-        // scale index positions to coordinates
-        xPos = newPosition[0] * TILE_SIZE;
-        yPos = newPosition[1] * TILE_SIZE;
-    }
-
-    public void resetSnake() {
-        // reset snake after it has respawned
-        game.resetEnemyBody();
-        resetPosition();
-    }
-
     @Override
-    protected void checkCollisions() {
-        GridObject object = game.getObjectAtGridPos(xPos, yPos);
+    protected void updatePosition() {
+        GridObject object = gameState.getObjectAtGridPos(xPos, yPos);
 
         if(object != GridObject.EMPTY && object != GridObject.FRUIT && object != GridObject.ENEMY_HEAD) {
             // make sure collided when player snake is still active
             if(!collided) {
-                game.setGrid(xPos, yPos, GridObject.EMPTY);
+                gameState.setGrid(xPos, yPos, GridObject.EMPTY);
                 collided = true;
-                game.resetEnemyScore();
+                gameState.resetEnemyScore();
             }
         }
     }
 
     @Override
     protected void move() {
-        game.setGrid(xPos, yPos, GridObject.EMPTY);
+        gameState.setGrid(xPos, yPos, GridObject.EMPTY);
 
         // move the snake position in its direction
         switch(direction) {
@@ -266,9 +249,9 @@ public class EnemyHead extends EnemyBody {
         previousYPos = yPos;
 
         // check if snake collides with anything, and if so then stop moving
-        checkCollisions(); 
+        updatePosition(); 
         if(collided) return;
-        game.setGrid(xPos, yPos, GridObject.ENEMY_HEAD);
+        gameState.setGrid(xPos, yPos, GridObject.ENEMY_HEAD);
 
         // change direction depending on closest fruit
         pathfindToFruit();
@@ -290,5 +273,13 @@ public class EnemyHead extends EnemyBody {
 
     public void setCollided(boolean collided) {
         this.collided = collided;
+    }
+
+    public void resetPosition(int[] position) {
+        previousXPos = xPos;
+        previousYPos = yPos;
+        // scale index positions to coordinates
+        xPos = position[0] * TILE_SIZE;
+        yPos = position[1] * TILE_SIZE;
     }
 }

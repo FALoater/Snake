@@ -1,9 +1,9 @@
-package gameobjects.snake;
+package gameobject.snake;
 
 import java.awt.Color;
 import java.awt.Graphics;
 
-import main.GameManager;
+import gamestate.PlayingGameState;
 import main.GridObject;
 
 import static main.Utilities.Constants.SnakeConstants.*;
@@ -19,15 +19,15 @@ public class SnakeBody {
     protected int previousXPos = xPos, previousYPos = yPos;
     
     protected Color snakeColor = PLAYER_SNAKE_DEFAULT_COLOR; // default color is green
-    protected GameManager game;
+    protected PlayingGameState gameState;
     protected SnakeBody nextBody;
 
-    public SnakeBody(int xPos, int yPos, SnakeBody nextBody, GameManager game) {
+    public SnakeBody(int xPos, int yPos, SnakeBody nextBody, PlayingGameState gameState) {
         this.xPos = xPos;
         this.yPos = yPos;
         this.nextBody = nextBody; 
-        this.game = game;
-        playerHead = game.getPlayerHead(); // removes need to pass in as parameter
+        this.gameState = gameState;
+        playerHead = gameState.getPlayerHead();
     }
 
     protected void checkEdge() {
@@ -54,11 +54,11 @@ public class SnakeBody {
         checkEdge();
     }
 
-    protected void checkCollisions() {
+    protected void updatePosition() {
         // check if position of tile is currently occupied
-        if(game.getObjectAtGridPos(xPos, yPos) == GridObject.EMPTY) {
+        if(gameState.getObjectAtGridPos(xPos, yPos) == GridObject.EMPTY) {
             spawned = true;
-            game.setGrid(xPos, yPos, GridObject.PLAYER_BODY);
+            gameState.setGrid(xPos, yPos, GridObject.PLAYER_BODY);
         }
     }
 
@@ -74,20 +74,21 @@ public class SnakeBody {
 
     public void update() {
         // unspawn if the player head is stunned
-        if(game.getPlayerHead().isCollided()) {
+        if(gameState.getPlayerHead().isCollided()) {
             spawned = false;
         }
 
-        checkCollisions();
+        updatePosition();
 
         // can update if spawned
         if(spawned) {
             previousXPos = xPos;
             previousYPos = yPos;
-    
-            game.setGrid(xPos, yPos, GridObject.EMPTY);
+            
+            // update grid values
+            gameState.setGrid(xPos, yPos, GridObject.EMPTY);
             move(); // 'move' snake body to the position of the body infront
-            game.setGrid(xPos, yPos, GridObject.PLAYER_BODY);
+            gameState.setGrid(xPos, yPos, GridObject.PLAYER_BODY);
         }
     }
 

@@ -1,10 +1,10 @@
-package gamestates;
+package gamestate;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 
 public interface InputHandlers {
-    // contains methods that all the gamestates will require
+    // contains input-related methods that all the gamestates will require
     public void mouseClicked(MouseEvent e);
     public void mousePressed(MouseEvent e);
     public void mouseReleased(MouseEvent e);

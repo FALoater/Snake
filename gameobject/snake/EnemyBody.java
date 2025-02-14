@@ -1,9 +1,9 @@
-package gameobjects.snake;
+package gameobject.snake;
 
 import java.awt.Color;
 import java.awt.Graphics;
 
-import main.GameManager;
+import gamestate.VersusGame;
 import main.GridObject;
 
 import static main.Utilities.Constants.SnakeConstants.*;
@@ -12,12 +12,12 @@ public class EnemyBody extends SnakeBody {
 
     private EnemyHead enemyHead;
 
-    public EnemyBody(int xPos, int yPos, SnakeBody nextBody, GameManager game) {
-        super(xPos, yPos, nextBody, game);
+    public EnemyBody(int xPos, int yPos, SnakeBody nextBody, VersusGame versusGame) {
+        super(xPos, yPos, nextBody, versusGame);
 
         // change snake colour to red
         snakeColor = ENEMY_SNAKE_DEFAULT_COLOR;
-        enemyHead = game.getEnemyHead();
+        enemyHead = versusGame.getEnemyHead();
     }
 
     public void draw(Graphics g) {
@@ -31,19 +31,21 @@ public class EnemyBody extends SnakeBody {
 
     @Override
     public void update() {
-        if(game.getEnemyHead().isCollided()) {
+        // despawn if enemy head is stunned
+        if(enemyHead.isCollided()) {
             spawned = false;
         }
 
-        checkCollisions();
+        // update position on grid
+        updatePosition();
 
         if(spawned) {
             previousXPos = xPos;
             previousYPos = yPos;
     
-            game.setGrid(xPos, yPos, GridObject.EMPTY);
+            gameState.setGrid(xPos, yPos, GridObject.EMPTY);
             move(); // 'move' snake body to the position of the body infront
-            game.setGrid(xPos, yPos, GridObject.ENEMY_BODY);
+            gameState.setGrid(xPos, yPos, GridObject.ENEMY_BODY);
         }
     }
 
