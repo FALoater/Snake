@@ -82,6 +82,7 @@ public class ClassicGame extends PlayingGameState {
 
     @Override
     public void draw(Graphics g) {
+		drawGrid(g);
         // playerBody should be above fruits so draw fruits first
 		for(int i=0;i<fruits.size();i++) {
 			fruits.get(i).draw(g);

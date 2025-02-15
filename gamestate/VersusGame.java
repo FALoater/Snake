@@ -147,6 +147,7 @@ public class VersusGame extends PlayingGameState {
 
     @Override
     public void draw(Graphics g) {
+		drawGrid(g);
         // playerBody should be above fruits so draw fruits first
         for(int i=0;i<fruits.size();i++) {
         	fruits.get(i).draw(g);
@@ -182,6 +183,7 @@ public class VersusGame extends PlayingGameState {
 	}
 
 	public int getTimeLeft() {
-		return timeLeftTick / UPS;
+		// prevent timer going negative
+		return Math.max(timeLeftTick / UPS, 0);
 	}
 }

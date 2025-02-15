@@ -1,7 +1,11 @@
 package gamestate;
 
 import static main.Utilities.Constants.WindowConstants.TILE_SIZE;
+import static main.Utilities.Constants.WindowConstants.WINDOW_HEIGHT;
+import static main.Utilities.Constants.WindowConstants.WINDOW_WIDTH;
 
+import java.awt.Color;
+import java.awt.Graphics;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.util.LinkedList;
@@ -13,11 +17,12 @@ import gameobject.FruitType;
 import gameobject.snake.EnemyHead;
 import gameobject.snake.SnakeBody;
 import gameobject.snake.SnakeHead;
+import input.InputHandlers;
 import main.GameManager;
 import main.GridObject;
 import main.Utilities.Methods;
 
-public abstract class PlayingGameState extends GameState implements InputHandlers {
+public abstract class PlayingGameState extends GameState implements InputHandlers{
     // superclass for classic and versus game
 
     // game objects
@@ -30,6 +35,20 @@ public abstract class PlayingGameState extends GameState implements InputHandler
 
     public PlayingGameState(GameManager game) {
         super(game);
+    }
+
+    protected void drawGrid(Graphics g) {
+        // draw lines to give a grid effect
+        g.setColor(Color.decode(Methods.GetCurrentTextColor(game)));
+        // horizontal lines
+        for(int y=0;y<WINDOW_HEIGHT;y+=TILE_SIZE) {
+            g.drawLine(0, y - 2, WINDOW_WIDTH, y - 2);
+        }
+
+        // vertical lines
+        for(int x=0;x<WINDOW_WIDTH;x+=TILE_SIZE) {
+            g.drawLine(x - 2, 0, x - 2, WINDOW_HEIGHT);
+        }
     }
 
     protected void generateFruit() {
@@ -56,21 +75,6 @@ public abstract class PlayingGameState extends GameState implements InputHandler
     
     // keyboard inputs
     @Override
-    public void mouseClicked(MouseEvent e) {}
-
-    @Override
-    public void mousePressed(MouseEvent e) {}
-
-    @Override
-    public void mouseReleased(MouseEvent e) {}
-
-    @Override
-    public void mouseMoved(MouseEvent e) {}
-
-    @Override
-    public void keyReleased(KeyEvent e) {}
-
-    @Override
     public void keyPressed(KeyEvent e) {
         switch(e.getKeyCode()) {
             case KeyEvent.VK_W:
@@ -91,6 +95,26 @@ public abstract class PlayingGameState extends GameState implements InputHandler
         }
     }
 
+    @Override
+    public void mousePressed(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mouseReleased(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mouseDragged(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mouseMoved(MouseEvent e) {
+	
+	}
+    
     // getters and setters
 
 	public void resetEnemyScore() {

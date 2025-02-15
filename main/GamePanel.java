@@ -2,12 +2,13 @@ package main;
 
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.Font;
 import java.awt.Graphics;
+
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import gamestate.GameStateType;
+import input.*;
+import main.Utilities.Methods;
 
 import static main.Utilities.Constants.SnakeConstants.DEATH_POINT_DEDUCTION;
 import static main.Utilities.Constants.WindowConstants.*;
@@ -15,25 +16,31 @@ import static main.Utilities.Constants.WindowConstants.*;
 public class GamePanel extends JPanel {
 
 	private int userScore = 0, enemyScore = 0;
+	private String hudColor;
 
 	private GameManager game;
 	private JLabel hud;
 
 	public GamePanel(GameManager game) {
 		this.game = game; // gamePanel needs access to the objects inside the game
+		MouseInput mouseInput = new MouseInput(game);
+		hudColor = Methods.GetCurrentTextColor(game);
+
 		initHUD();
 		setPanelSize(); // set the size of the gamePanel;
-		setBackground(Color.gray); // set the background color of the gamePanel
+		setBackground(Methods.GetBgColor(game)); // set the background color of the gamePanel
 		add(hud); // add the score and tiemr to the top of the screen
 		addKeyListener(new KeyInput(game)); // add key listener to the game panel, and pass this class in to access other classes
+		addMouseListener(mouseInput); // listens to mouse presses
+		addMouseMotionListener(mouseInput); // listens to mouse movement
 		setFocusable(true); // enables key inputs to be received
 	}
 
 	private void initHUD() {
 		// create a JLabel for top of screen to display score and timer
 		hud = new JLabel();
-		hud.setForeground(Color.white);
-		hud.setFont(new Font("Arial", Font.PLAIN,40));
+		hud.setForeground(Color.decode(hudColor));
+		hud.setFont(DEFAUT_FONT);
 		updateHUD();
 	}
 
@@ -44,11 +51,21 @@ public class GamePanel extends JPanel {
 	}
 
 	public void updateHUD() {
+		hudColor = Methods.GetCurrentTextColor(game);
 		// update the JLabel after attributes have been modified
-		if(game.getGameState() == GameStateType.VERSUS_GAME) {
-			hud.setText("<html><nobr>Score: <font color='#00ff00'>" + userScore + "</font> - <font color='ff0000'>" + enemyScore + "</font>&nbsp;&nbsp;&nbsp;&nbsp;Time left: " + game.getTimeLeft() + "</p></nobr></html>");
-		} else {
-			hud.setText("<html><nobr>Score: " + userScore);
+		switch(game.getGameState()) {
+			case CLASSIC_GAME:
+				hud.setText("<html><nobr><font color='" + hudColor + "'>Score: " + userScore);
+				break;
+			case VERSUS_GAME:
+				hud.setText("<html><nobr><font color='" + hudColor + "'>Score: </font><font color='#00ff00'>" + userScore + "</font><font color='" + hudColor + "'> - </font><font color='ff0000'>" + enemyScore + "</font>&nbsp;&nbsp;&nbsp;&nbsp;<font color='" + hudColor + "'>Time left: " + game.getTimeLeft() + "</font></nobr></html>");
+				break;
+			case END_SCREEN:
+			case MAIN_MENU:
+			case OPTIONS_MENU:
+			case PAUSE_MENU:
+				hud.setText("");
+				break;
 		}
 	}
 

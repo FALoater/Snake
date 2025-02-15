@@ -2,6 +2,7 @@ package main;
 
 import java.awt.Graphics;
 import java.awt.event.KeyEvent;
+import java.awt.event.MouseEvent;
 
 import gamestate.ClassicGame;
 import gamestate.GameStateType;
@@ -22,12 +23,17 @@ public class GameManager implements Runnable{
 	private MainMenu mainMenu;
 
 	// game objects
-	private GameStateType currentGameState = GameStateType.CLASSIC_GAME;
+	private GameStateType currentGameState = GameStateType.MAIN_MENU;
+
+	// game variables
+	private ColorMode colourMode = ColorMode.DARK;
 
     public GameManager() {
 		// init classes and game loop
         initGameClasses();
 		initGameLoop();
+
+		gamePanel.requestFocus();
     }
 	
     private void initGameClasses() {
@@ -106,6 +112,7 @@ public class GameManager implements Runnable{
 				versusGame.draw(g);
 				break;
 			case MAIN_MENU:
+				mainMenu.draw(g);
 				break;
 			case PAUSE_MENU:
 				break;
@@ -117,6 +124,8 @@ public class GameManager implements Runnable{
 	}
 
     public void update() {
+		gamePanel.updateHUD();
+
 		switch(currentGameState) {
 			case CLASSIC_GAME:
 				classicGame.update();
@@ -125,6 +134,7 @@ public class GameManager implements Runnable{
 				versusGame.update();
 				break;
 			case MAIN_MENU:
+				mainMenu.update();
 				break;
 			case PAUSE_MENU:
 				break;
@@ -135,7 +145,7 @@ public class GameManager implements Runnable{
 		}
     }
 
-	// keyboard inputs
+	// inputs
 	public void keyPressed(KeyEvent e) {
 		switch(currentGameState) {
 			case CLASSIC_GAME:
@@ -146,6 +156,7 @@ public class GameManager implements Runnable{
 			case END_SCREEN:
 				break;
 			case MAIN_MENU:
+				mainMenu.keyPressed(e);
 				break;
 			case OPTIONS_MENU:
 				break;
@@ -153,6 +164,83 @@ public class GameManager implements Runnable{
 				break;
         }
 	} 
+
+    public void mousePressed(MouseEvent e) {
+		switch(currentGameState) {
+			case CLASSIC_GAME:
+				classicGame.mousePressed(e);
+				break;
+			case VERSUS_GAME:
+				versusGame.mousePressed(e);
+			case END_SCREEN:
+				break;
+			case MAIN_MENU:
+				mainMenu.mousePressed(e);
+				break;
+			case OPTIONS_MENU:
+				break;
+			case PAUSE_MENU:
+				break;
+        }
+    }
+
+    public void mouseReleased(MouseEvent e) {
+		switch(currentGameState) {
+			case CLASSIC_GAME:
+				classicGame.mouseReleased(e);
+				break;
+			case VERSUS_GAME:
+				versusGame.mouseReleased(e);
+			case END_SCREEN:
+				break;
+			case MAIN_MENU:
+				mainMenu.mouseReleased(e);
+				break;
+			case OPTIONS_MENU:
+				break;
+			case PAUSE_MENU:
+				break;
+        }
+    }
+
+    public void mouseDragged(MouseEvent e) {
+		switch(currentGameState) {
+			case CLASSIC_GAME:
+				classicGame.mouseDragged(e);
+				break;
+			case VERSUS_GAME:
+				versusGame.mouseDragged(e);
+			case END_SCREEN:
+				break;
+			case MAIN_MENU:
+				mainMenu.mouseDragged(e);
+				break;
+			case OPTIONS_MENU:
+				break;
+			case PAUSE_MENU:
+				break;
+        }
+    }
+
+    public void mouseMoved(MouseEvent e) {
+		switch(currentGameState) {
+			case CLASSIC_GAME:
+				classicGame.mouseMoved(e);
+				break;
+			case VERSUS_GAME:
+				versusGame.mouseMoved(e);
+			case END_SCREEN:
+				break;
+			case MAIN_MENU:
+				mainMenu.mouseMoved(e);
+				break;
+			case OPTIONS_MENU:
+				break;
+			case PAUSE_MENU:
+				break;
+        }
+	}
+
 	// getters and setters
 
 	public GamePanel getGamePanel() {
@@ -160,10 +248,19 @@ public class GameManager implements Runnable{
 	}
 
 	public int getTimeLeft() {
+		// only applicable in versus mode
 		return versusGame.getTimeLeft();
 	}
 
 	public GameStateType getGameState() {
 		return currentGameState;
+	}
+
+	public void changeGameState(GameStateType newGameStateType) {
+		currentGameState = newGameStateType;
+	}
+
+	public ColorMode getColorMode() {
+		return colourMode;
 	}
 }

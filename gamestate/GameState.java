@@ -4,7 +4,7 @@ import java.awt.Graphics;
 
 import main.GameManager;
 
-public class GameState {
+public class GameState{
     // superclass for all gamestates
 
     protected GameManager game;

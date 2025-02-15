@@ -1,8 +1,10 @@
-todo
-game states
-UI 
-Buttons
+todo:
+    Buttons
+    UI 
+        main menu
+        end game screen
 
 -----------------------------------------
 problems
 snake heads cannot collide
+player head can still collide with dead body of enemy

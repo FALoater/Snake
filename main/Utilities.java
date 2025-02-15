@@ -1,10 +1,14 @@
 package main;
 
 import java.awt.Color;
+import java.awt.Font;
+import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStream;
 import javax.imageio.ImageIO;
+
+import ui.Button;
 
 import java.util.LinkedList;
 import java.util.Random;
@@ -28,6 +32,13 @@ public class Utilities {
             public static final int WINDOW_HEIGHT = TILES_IN_HEIGHT * TILE_SIZE; // 720
             public static final int FPS = 60;
             public static final int UPS = 6; // controls speed of snake
+
+            public static final Color BG_LIGHT_MODE = new Color(230, 255, 255);
+            public static final Color BG_DARK_MODE = Color.gray;
+            public static final String TEXT_LIGHT_MODE = "#000000";
+            public static final String TEXT_DARK_MODE = "#6ccbc1";
+
+            public static final Font DEFAUT_FONT = new Font("Arial", Font.PLAIN,40);
         }
 
         public static class SnakeConstants {
@@ -61,12 +72,24 @@ public class Utilities {
             // fruit sizes and image sources
             public static final int FRUIT_RADIUS = 15 * SCALE;
             
-            public static final String APPLE_IMG = "fruits/apple";
-            public static final String ORANGE_IMG = "fruits/orange";
+            public static final String APPLE_IMG = "fruit/apple";
+            public static final String ORANGE_IMG = "fruit/orange";
         }
 
         public static class ButtonConstants {
-            // button sizes and image sources
+            // button sizes, colours and image sources
+            public static final int MAIN_MENU_BUTTON_WIDTH = 300;
+            public static final int MAIN_MENU_BUTTON_HEIGHT = 75;
+            public static final int MENU_X = (WindowConstants.WINDOW_WIDTH - MAIN_MENU_BUTTON_WIDTH) / 2;
+
+            public static final Color LIGHT_TEXT_COLOR = new Color(15,158,213);
+            public static final Color LIGHT_BG_COLOR = new Color(232,232,232);
+            public static final Color LIGHT_HIGHLIGHT_COLOR = new Color(217, 217, 217);
+            public static final Color DARK_TEXT_COLOR = new Color(235, 248, 253);
+            public static final Color DARK_BG_COLOR = new Color(57, 130, 137);
+            public static final Color DARK_HIGHLIGHT_COLOR = new Color(54, 123, 131);
+
+            public static final String EXIT_BUTTON_IMG = "button/exit";
         }
     }
 
@@ -120,5 +143,52 @@ public class Utilities {
             int[] position = {Integer.valueOf(positionTemp[0]), Integer.valueOf(positionTemp[1])};
             return position;
         }
+
+        public static int GetCentralisedTextX(String text, Graphics g) {
+            // put text in the middle
+            int textLength = (int)g.getFontMetrics().getStringBounds(text, g).getWidth();
+            return (Constants.WindowConstants.WINDOW_WIDTH - textLength) / 2;
+        }
+
+        public static String GetCurrentTextColor(GameManager game) {
+            // return correct text colour for mode
+            switch(game.getColorMode()) {
+                case DARK:
+                    return Constants.WindowConstants.TEXT_DARK_MODE;
+                case LIGHT:
+                    return Constants.WindowConstants.TEXT_LIGHT_MODE;
+                default:
+                    return null;
+            }
+        }
+
+        public static void GetButtonColor(GameManager game, Button button) {
+            // change button design if dark mode
+            // order is text, bg, highlight
+
+            switch(game.getColorMode()) {
+                case DARK:
+                    button.setFontColor(Constants.ButtonConstants.DARK_TEXT_COLOR);
+                    button.setBgColor(Constants.ButtonConstants.DARK_BG_COLOR);
+                    button.setHighlightColor(Constants.ButtonConstants.DARK_HIGHLIGHT_COLOR);
+                    break;
+                case LIGHT:
+                    button.setFontColor(Constants.ButtonConstants.LIGHT_TEXT_COLOR);
+                    button.setBgColor(Constants.ButtonConstants.LIGHT_BG_COLOR);
+                    button.setHighlightColor(Constants.ButtonConstants.LIGHT_HIGHLIGHT_COLOR);
+                    break;
+            }
+        }
+
+        public static Color GetBgColor(GameManager game) {
+            switch(game.getColorMode()) {
+                case DARK:
+                    return Constants.WindowConstants.BG_DARK_MODE;
+                case LIGHT:
+                    return Constants.WindowConstants.BG_LIGHT_MODE;
+                default:
+                    return null;
+            }
+        } 
     }
 }
