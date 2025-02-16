@@ -66,9 +66,7 @@ public class SnakeHead extends SnakeBody{
             }
         }
     }
-
-
-
+    
     @Override
     protected void move() {
         // move the snake position in its direction

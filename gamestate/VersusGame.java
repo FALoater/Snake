@@ -6,7 +6,6 @@ import java.util.LinkedList;
 
 import main.GameManager;
 import main.GridObject;
-import main.Utilities.Methods;
 import gameobject.snake.*;
 import gameobject.Direction;
 import gameobject.Fruit;
@@ -147,7 +146,7 @@ public class VersusGame extends PlayingGameState {
 
 		// check if snake heads are collided
 		// if this happens despawn both heads
-		if(playerHead.getX() == enemyHead.getX() && playerHead.getY() == enemyHead.getY()) {
+		if(playerHead.getX() == enemyHead.getX() && playerHead.getY() == enemyHead.getY() && !playerHead.isCollided() && !enemyHead.isCollided()) {
 			playerHead.setCollided(true);
 			enemyHead.setCollided(true);
 		}

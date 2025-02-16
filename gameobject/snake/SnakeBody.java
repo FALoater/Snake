@@ -33,8 +33,8 @@ public class SnakeBody {
     protected void checkEdge() {
         // loop snake back around if it goes through the sides of the game
         if(yPos + SNAKE_HEIGHT > WINDOW_HEIGHT) {
-            yPos = 0;
-        } else if (yPos < 0) {
+            yPos = TILE_SIZE * 2;
+        } else if (yPos < TILE_SIZE * 2) {
             yPos = WINDOW_HEIGHT - SNAKE_WIDTH;
             // place one early as position of square is bottom left
         }

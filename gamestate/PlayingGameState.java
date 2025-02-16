@@ -48,13 +48,13 @@ public abstract class PlayingGameState extends GameState implements InputHandler
         // draw lines to give a grid effect
         g.setColor(Color.decode(Methods.GetCurrentTextColor(game)));
         // horizontal lines
-        for(int y=0;y<WINDOW_HEIGHT;y+=TILE_SIZE) {
+        for(int y=TILE_SIZE*2;y<WINDOW_HEIGHT;y+=TILE_SIZE) {
             g.drawLine(0, y - 2, WINDOW_WIDTH, y - 2);
         }
 
         // vertical lines
         for(int x=0;x<WINDOW_WIDTH;x+=TILE_SIZE) {
-            g.drawLine(x - 2, 0, x - 2, WINDOW_HEIGHT);
+            g.drawLine(x - 2, TILE_SIZE * 2, x - 2, WINDOW_HEIGHT);
         }
 
         // draw button

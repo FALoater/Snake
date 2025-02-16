@@ -143,7 +143,7 @@ public class Utilities {
             LinkedList<String> validPos = new LinkedList<String>();
 
             // iterate through grid and find valid positions to append
-            for(int y=0;y<grid.length;y++) {
+            for(int y=2;y<grid.length;y++) {
                 for(int x=0;x<grid[0].length;x++) {
                     if(grid[y][x] == GridObject.EMPTY) {
                          // check position is not covered by a snake or fruit
