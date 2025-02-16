@@ -117,4 +117,9 @@ public class SnakeBody {
     public boolean isSpawned() {
         return spawned;
     }
+
+    public void setPosition(int xPos, int yPos) {
+        this.xPos = xPos;
+        this.yPos = yPos;
+    }
 }

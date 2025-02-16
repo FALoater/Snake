@@ -41,6 +41,22 @@ public class ClassicGame extends PlayingGameState {
 			generateFruit(); 
 		}
     }
+
+	public void reset() {
+		// reset snakes and body
+		playerHead.setPosition(PLAYER_START_X, PLAYER_START_Y);
+		resetPlayerBody();
+
+		// reset score
+		game.getGamePanel().clearScore();
+
+		// reset fruits
+		fruits.clear();
+
+		for(int i=0;i<5;i++) {
+			generateFruit(); 
+		}
+	}	
     
     @Override
     public void update() {
@@ -82,7 +98,6 @@ public class ClassicGame extends PlayingGameState {
 
     @Override
     public void draw(Graphics g) {
-		drawGrid(g);
         // playerBody should be above fruits so draw fruits first
 		for(int i=0;i<fruits.size();i++) {
 			fruits.get(i).draw(g);
@@ -95,5 +110,8 @@ public class ClassicGame extends PlayingGameState {
 
 		// draw the snake head
 		playerHead.draw(g);
+
+		// draw grid last
+		drawButtonAndGrid(g);
     }
 }

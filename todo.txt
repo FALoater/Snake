@@ -1,8 +1,9 @@
 todo:
     Buttons
     UI 
-        main menu
         end game screen
+        pause menu
+    add delay when entering game
 
 -----------------------------------------
 problems

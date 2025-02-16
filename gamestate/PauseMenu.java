@@ -3,46 +3,37 @@ package gamestate;
 import static main.Utilities.Constants.ButtonConstants.COLOR_BUTTON_HEIGHT;
 import static main.Utilities.Constants.ButtonConstants.OPTIONS_BACK_BUTTON_WIDTH;
 import static main.Utilities.Constants.ButtonConstants.OPTIONS_BACK_BUTTON_X;
-import static main.Utilities.Constants.ButtonConstants.OPTIONS_BUTTON_X;
+import static main.Utilities.Constants.ButtonConstants.OPTIONS_MENU_TEXT_OFFSET;
 import static main.Utilities.Constants.ButtonConstants.SOUND_BUTTON_HEIGHT;
 import static main.Utilities.Constants.ButtonConstants.VOLUME_BUTTON_HEIGHT;
+import static main.Utilities.Constants.WindowConstants.WINDOW_HEIGHT;
+import static main.Utilities.Constants.WindowConstants.WINDOW_WIDTH;
 import static main.Utilities.Constants.ButtonConstants.OPTIONS_LABEL_X;
 import static main.Utilities.Constants.ButtonConstants.OPTIONS_MENU_BUTTON_HEIGHT;
-import static main.Utilities.Constants.ButtonConstants.CIRCLE_BUTTON_RADIUS;
-import static main.Utilities.Constants.ButtonConstants.OPTIONS_MENU_TEXT_OFFSET;
-
 
 import java.awt.Color;
 import java.awt.Graphics;
-import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 
-import input.InputHandlers;
 import main.GameManager;
 import main.Utilities.Methods;
-import ui.ColorButton;
 import ui.SettingsButton;
-import ui.ToggleButton;
-import ui.VolumeButton;
 
-public class OptionsMenu extends GameState implements InputHandlers{
+public class PauseMenu extends OptionsMenu {
 
-    protected ColorButton color;
-    protected SettingsButton backToMenu;
-    protected ToggleButton sound;
-    protected VolumeButton volume;
+    private SettingsButton backToGame;
 
-    public OptionsMenu(GameManager game) {
+    public PauseMenu(GameManager game) {
         super(game);
-
-        // init buttons
-        sound = new ToggleButton(OPTIONS_BUTTON_X, SOUND_BUTTON_HEIGHT, CIRCLE_BUTTON_RADIUS, CIRCLE_BUTTON_RADIUS, game);
-        volume = new VolumeButton(OPTIONS_BUTTON_X, VOLUME_BUTTON_HEIGHT, CIRCLE_BUTTON_RADIUS, CIRCLE_BUTTON_RADIUS, game);
-        color = new ColorButton(OPTIONS_BUTTON_X, COLOR_BUTTON_HEIGHT, CIRCLE_BUTTON_RADIUS, CIRCLE_BUTTON_RADIUS, game);
-        backToMenu = new SettingsButton(OPTIONS_BACK_BUTTON_X, 625, OPTIONS_BACK_BUTTON_WIDTH, OPTIONS_MENU_BUTTON_HEIGHT, game, "Back to Menu");
+        backToGame = new SettingsButton(OPTIONS_BACK_BUTTON_X, 50, OPTIONS_BACK_BUTTON_WIDTH, OPTIONS_MENU_BUTTON_HEIGHT, game, "Back to Game");
     }
 
+    @Override
     public void draw(Graphics g) {
+        // draw transparent background
+        g.setColor(new Color(0, 0, 0, 50));
+        g.fillRect(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
+
         // draw title
         g.setColor(Color.decode(Methods.GetCurrentTextColor(game)));
         g.drawString("Settings", Methods.GetCentralisedTextX("Settings", g), 90);
@@ -57,7 +48,7 @@ public class OptionsMenu extends GameState implements InputHandlers{
         volume.draw(g);
         color.draw(g);
         backToMenu.draw(g);
-
+        backToGame.draw(g);
     }
 
     @Override
@@ -65,8 +56,10 @@ public class OptionsMenu extends GameState implements InputHandlers{
         // keep colour if pressed but not released
         if(backToMenu.isMouseIn(e)) {
             backToMenu.setHighlighted(true);
+        } else if(backToGame.isMouseIn(e)) {
+            backToGame.setHighlighted(true);
         } else {
-            backToMenu.setHighlighted(false);
+            resetHighlight();
         }
     }
 
@@ -80,8 +73,10 @@ public class OptionsMenu extends GameState implements InputHandlers{
             volume.increaseMode();
         } else if(sound.isMouseIn(e)) {
             sound.toggleSound();
+        } else if(backToGame.isMouseIn(e)) {
+            game.setPreviousGameState();
         } else {
-            backToMenu.setHighlighted(false);
+            resetHighlight();
         }
     }
 
@@ -89,8 +84,10 @@ public class OptionsMenu extends GameState implements InputHandlers{
     public void mouseMoved(MouseEvent e) {
         if(backToMenu.isMouseIn(e)) {
             backToMenu.setHighlighted(true);
+        } else if(backToGame.isMouseIn(e)) {
+            backToGame.setHighlighted(true);
         } else {
-            backToMenu.setHighlighted(false);
+            resetHighlight();
         }
     }
 
@@ -98,15 +95,16 @@ public class OptionsMenu extends GameState implements InputHandlers{
     public void mouseDragged(MouseEvent e) {
         if(backToMenu.isMouseIn(e)) {
             backToMenu.setHighlighted(true);
+        } else if(backToGame.isMouseIn(e)) {
+            backToGame.setHighlighted(true);
         } else {
-            backToMenu.setHighlighted(false);
+            resetHighlight();
         }
     }
 
-    // unused
+    private void resetHighlight() {
+        backToMenu.setHighlighted(false);
+        backToGame.setHighlighted(false);
+    }
 
-    @Override
-    public void keyPressed(KeyEvent e) {
-        return;
-    }   
 }

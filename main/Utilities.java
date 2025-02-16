@@ -78,20 +78,23 @@ public class Utilities {
 
         public static class ButtonConstants {
             // button sizes, colours and image sources
+            public static final int CIRCLE_BUTTON_RADIUS = 75;
             public static final int MAIN_MENU_BUTTON_WIDTH = 300;
             public static final int MAIN_MENU_BUTTON_HEIGHT = 75;
             public static final int MENU_X = (WindowConstants.WINDOW_WIDTH - MAIN_MENU_BUTTON_WIDTH) / 2;
             public static final String EXIT_BUTTON_IMG = "button/exit";
 
             public static final int OPTIONS_MENU_BUTTON_HEIGHT = 60;
-            public static final int OPTIONS_MENU_BUTTON_RADIUS = 75;
             public static final int OPTIONS_MENU_TEXT_OFFSET = 50;
+            public static final int OPTIONS_LABEL_X = 250;
+            public static final int OPTIONS_BUTTON_X = 500;
+            public static final int OPTIONS_BACK_BUTTON_X = 0;
+            public static final int OPTIONS_BACK_BUTTON_WIDTH = 300;
+            public static final Font OPTION_BUTTON_FONT = new Font("Arial", Font.PLAIN,20);
+
             public static final int COLOR_BUTTON_HEIGHT = 450;
             public static final int SOUND_BUTTON_HEIGHT = 150;
             public static final int VOLUME_BUTTON_HEIGHT = 300;
-            public static final int OPTIONS_LABEL_X = 250;
-            public static final int OPTIONS_BUTTON_X = 500;
-            public static final Font OPTION_BUTTON_FONT = new Font("Arial", Font.PLAIN,20);
 
             public static final Color LIGHT_TEXT_COLOR = new Color(15,158,213);
             public static final Color LIGHT_BG_COLOR = new Color(232,232,232);

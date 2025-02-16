@@ -8,6 +8,7 @@ import gamestate.ClassicGame;
 import gamestate.GameStateType;
 import gamestate.MainMenu;
 import gamestate.OptionsMenu;
+import gamestate.PauseMenu;
 import gamestate.VersusGame;
 
 import static main.Utilities.Constants.WindowConstants.*;
@@ -23,13 +24,16 @@ public class GameManager implements Runnable{
 	private ClassicGame classicGame;
 	private MainMenu mainMenu;
 	private OptionsMenu optionsMenu;
+	private PauseMenu pauseMenu;
 
 	// game objects
-	private GameStateType currentGameState = GameStateType.MAIN_MENU;
+	private GameStateType currentGameState = GameStateType.MAIN_MENU, previousGameState;
 
 	// game variables
-	// make default colorMode dark
-	private ColorMode colorMode = ColorMode.DARK;
+	private boolean soundOn = true; // sound is on by default
+	private int mode = 1; // default sound level is medium
+	private ColorMode colorMode = ColorMode.DARK; // make dark mode default
+
 
     public GameManager() {
 		// init classes and game loop
@@ -45,6 +49,7 @@ public class GameManager implements Runnable{
 		mainMenu = new MainMenu(this);
 		versusGame = new VersusGame(this);
 		optionsMenu = new OptionsMenu(this);
+		pauseMenu = new PauseMenu(this);
 
 		// init game window
 		gamePanel = new GamePanel(this);
@@ -55,6 +60,22 @@ public class GameManager implements Runnable{
 		// start the whole game loop
         gameThread = new Thread(this);
         gameThread.start();
+	}
+
+	private void resetGame() {
+		switch(currentGameState) {
+			case CLASSIC_GAME:
+				classicGame.reset();
+				break;
+			case VERSUS_GAME:
+				versusGame.reset();
+				break;
+			case END_SCREEN:
+			case MAIN_MENU:
+			case OPTIONS_MENU:
+			case PAUSE_MENU:
+				break;
+		}
 	}
 
 	@Override
@@ -121,6 +142,7 @@ public class GameManager implements Runnable{
 				mainMenu.draw(g);
 				break;
 			case PAUSE_MENU:
+				pauseMenu.draw(g);
 				break;
 			case OPTIONS_MENU:
 				optionsMenu.draw(g);
@@ -145,6 +167,7 @@ public class GameManager implements Runnable{
 				mainMenu.update();
 				break;
 			case PAUSE_MENU:
+				pauseMenu.update();
 				break;
 			case OPTIONS_MENU:
 				optionsMenu.update();
@@ -171,6 +194,7 @@ public class GameManager implements Runnable{
 				optionsMenu.keyPressed(e);
 				break;
 			case PAUSE_MENU:
+				pauseMenu.keyPressed(e);
 				break;
         }
 	} 
@@ -191,6 +215,7 @@ public class GameManager implements Runnable{
 				optionsMenu.mousePressed(e);
 				break;
 			case PAUSE_MENU:
+				pauseMenu.mousePressed(e);
 				break;
         }
     }
@@ -211,6 +236,7 @@ public class GameManager implements Runnable{
 				optionsMenu.mouseReleased(e);
 				break;
 			case PAUSE_MENU:
+				pauseMenu.mouseReleased(e);
 				break;
         }
     }
@@ -231,6 +257,7 @@ public class GameManager implements Runnable{
 				optionsMenu.mouseDragged(e);
 				break;
 			case PAUSE_MENU:
+				pauseMenu.mouseDragged(e);
 				break;
         }
     }
@@ -251,6 +278,7 @@ public class GameManager implements Runnable{
 				optionsMenu.mouseMoved(e);
 				break;
 			case PAUSE_MENU:
+				pauseMenu.mouseMoved(e);
 				break;
         }
 	}
@@ -274,11 +302,45 @@ public class GameManager implements Runnable{
 		this.colorMode = colorMode;
 	}
 
+	public void changeColorMode() {
+		if(colorMode == ColorMode.DARK) {
+			colorMode = ColorMode.LIGHT;
+		} else {
+			colorMode = ColorMode.DARK;
+		}
+	}
+
 	public void changeGameState(GameStateType newGameStateType) {
+		previousGameState = currentGameState;
 		currentGameState = newGameStateType;
+
+		if(newGameStateType != GameStateType.PAUSE_MENU) {
+			resetGame();
+		}
 	}
 
 	public ColorMode getColorMode() {
 		return colorMode;
+	}
+
+	public boolean isSoundOn() {
+		return soundOn;
+	}
+
+	public void toggleSound() {
+		soundOn = !soundOn;
+	}
+
+	public int getMode() {
+		return mode;
+	}
+
+	public void increaseMode() {
+		mode++;
+		mode %= 3;
+	}
+
+	public void setPreviousGameState() {
+		currentGameState = previousGameState;
 	}
 }

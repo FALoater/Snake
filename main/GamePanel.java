@@ -58,6 +58,8 @@ public class GamePanel extends JPanel {
 		hudColor = Methods.GetCurrentTextColor(game);
 		// update the JLabel after attributes have been modified
 		switch(game.getGameState()) {
+			case PAUSE_MENU:
+				break;
 			case CLASSIC_GAME:
 				hud.setText("<html><nobr><font color='" + hudColor + "'>Score: " + userScore);
 				break;
@@ -67,7 +69,6 @@ public class GamePanel extends JPanel {
 			case END_SCREEN:
 			case MAIN_MENU:
 			case OPTIONS_MENU:
-			case PAUSE_MENU:
 				hud.setText("");
 				break;
 		}
@@ -100,5 +101,10 @@ public class GamePanel extends JPanel {
 	public void resetEnemyScore() {
 		enemyScore = Math.max(enemyScore - DEATH_POINT_DEDUCTION, 0);
 		updateHUD();
+	}
+
+	public void clearScore() {
+		userScore = 0;
+		enemyScore = 0;
 	}
 }

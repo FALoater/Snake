@@ -282,4 +282,8 @@ public class EnemyHead extends EnemyBody {
         xPos = position[0] * TILE_SIZE;
         yPos = position[1] * TILE_SIZE;
     }
+
+    public void setDirection(Direction direction) {
+        this.direction = direction;
+    }
 }

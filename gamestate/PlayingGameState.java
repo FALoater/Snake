@@ -1,5 +1,6 @@
 package gamestate;
 
+import static main.Utilities.Constants.ButtonConstants.CIRCLE_BUTTON_RADIUS;
 import static main.Utilities.Constants.WindowConstants.TILE_SIZE;
 import static main.Utilities.Constants.WindowConstants.WINDOW_HEIGHT;
 import static main.Utilities.Constants.WindowConstants.WINDOW_WIDTH;
@@ -21,6 +22,7 @@ import input.InputHandlers;
 import main.GameManager;
 import main.GridObject;
 import main.Utilities.Methods;
+import ui.PauseButton;
 
 public abstract class PlayingGameState extends GameState implements InputHandlers{
     // superclass for classic and versus game
@@ -33,11 +35,15 @@ public abstract class PlayingGameState extends GameState implements InputHandler
     protected Random rand = new Random();
     protected SnakeHead playerHead;
 
+    // ui
+    protected PauseButton pause;
+
     public PlayingGameState(GameManager game) {
         super(game);
+        pause = new PauseButton(0, 0, CIRCLE_BUTTON_RADIUS, CIRCLE_BUTTON_RADIUS, game, "Pause");
     }
 
-    protected void drawGrid(Graphics g) {
+    protected void drawButtonAndGrid(Graphics g) {
         // draw lines to give a grid effect
         g.setColor(Color.decode(Methods.GetCurrentTextColor(game)));
         // horizontal lines
@@ -49,6 +55,9 @@ public abstract class PlayingGameState extends GameState implements InputHandler
         for(int x=0;x<WINDOW_WIDTH;x+=TILE_SIZE) {
             g.drawLine(x - 2, 0, x - 2, WINDOW_HEIGHT);
         }
+
+        // draw button
+        pause.draw(g);
     }
 
     protected void generateFruit() {
@@ -97,24 +106,40 @@ public abstract class PlayingGameState extends GameState implements InputHandler
 
     @Override
     public void mousePressed(MouseEvent e) {
-        
+        if(pause.isMouseIn(e)) {
+            pause.setHighlighted(true);
+        } else {
+            pause.setHighlighted(false);
+        }
     }
 
     @Override
     public void mouseReleased(MouseEvent e) {
-
+        if(pause.isMouseIn(e)) {
+            game.changeGameState(GameStateType.PAUSE_MENU);
+        }
+        pause.setHighlighted(false);
     }
+
+    
+    @Override
+    public void mouseMoved(MouseEvent e) {
+        if(pause.isMouseIn(e)) {
+            pause.setHighlighted(true);
+        } else {
+            pause.setHighlighted(false);
+        }
+	}
 
     @Override
     public void mouseDragged(MouseEvent e) {
-
+        if(pause.isMouseIn(e)) {
+            pause.setHighlighted(true);
+        } else {
+            pause.setHighlighted(false);
+        }
     }
 
-    @Override
-    public void mouseMoved(MouseEvent e) {
-	
-	}
-    
     // getters and setters
 
 	public void resetEnemyScore() {
@@ -152,5 +177,5 @@ public abstract class PlayingGameState extends GameState implements InputHandler
 
     public LinkedList<Fruit> getFruits() {
 		return fruits;
-	}
+    }
 }

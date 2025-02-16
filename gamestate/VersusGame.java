@@ -7,6 +7,7 @@ import java.util.LinkedList;
 import main.GameManager;
 import main.GridObject;
 import gameobject.snake.*;
+import gameobject.Direction;
 import gameobject.Fruit;
 
 import static main.Utilities.Constants.SnakeConstants.*;
@@ -73,6 +74,32 @@ public class VersusGame extends PlayingGameState {
 			game.getGamePanel().updateEnemyScore(score);
 		}
 	}
+
+	public void reset() {
+		// reset the game on restart
+
+		// reset snakes and body
+		playerHead.setPosition(PLAYER_START_X, PLAYER_START_Y);
+		playerHead.setCollided(false);
+		playerHead.setDirection(Direction.UP);
+		resetPlayerBody();
+
+		enemyHead.setPosition(ENEMY_START_X, ENEMY_START_Y);
+		enemyHead.setCollided(false);
+		enemyHead.setDirection(Direction.UP);
+		resetEnemyBody();
+
+		// reset fruits
+		fruits.clear();
+		
+		for(int i=0;i<5;i++) {
+			generateFruit(); 
+		}
+
+		// reset timer and score
+		timeLeftTick = 60 * UPS;
+		game.getGamePanel().clearScore();
+	}	
 
     @Override
     public void update() {
@@ -147,7 +174,6 @@ public class VersusGame extends PlayingGameState {
 
     @Override
     public void draw(Graphics g) {
-		drawGrid(g);
         // playerBody should be above fruits so draw fruits first
         for(int i=0;i<fruits.size();i++) {
         	fruits.get(i).draw(g);
@@ -165,6 +191,9 @@ public class VersusGame extends PlayingGameState {
         // draw the snake heads
         enemyHead.draw(g);
         playerHead.draw(g);
+
+		// draw grid last
+		drawButtonAndGrid(g);
     }
     
     // getters and setters

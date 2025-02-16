@@ -6,15 +6,14 @@ import java.awt.Graphics;
 import main.GameManager;
 import main.Utilities.Methods;
 
-import static main.Utilities.Constants.ButtonConstants.OPTIONS_MENU_BUTTON_RADIUS;
+import static main.Utilities.Constants.ButtonConstants.CIRCLE_BUTTON_RADIUS;
 import static main.Utilities.Constants.ButtonConstants.OPTION_BUTTON_FONT;
 
 public class VolumeButton extends MenuButton {
 
-    private int mode = 0;
-
-    public VolumeButton(int xPos, int yPos, int width, int height, GameManager game, String name) {
-        super(xPos, yPos, width, height, game, name);
+    public VolumeButton(int xPos, int yPos, int width, int height, GameManager game) {
+        super(xPos, yPos, width, height, game, "");
+        setColor();
         bgColor = Color.orange;
         fontColor = Color.black;
     }
@@ -28,7 +27,7 @@ public class VolumeButton extends MenuButton {
 
         // fill colour
         g.setColor(bgColor);
-        g.fillOval(xPos, yPos, OPTIONS_MENU_BUTTON_RADIUS, OPTIONS_MENU_BUTTON_RADIUS);
+        g.fillOval(xPos, yPos, CIRCLE_BUTTON_RADIUS, CIRCLE_BUTTON_RADIUS);
 
         // change font size, draw
         g.setFont(OPTION_BUTTON_FONT);
@@ -38,7 +37,7 @@ public class VolumeButton extends MenuButton {
 
     private void setColor() {
         // change colour depending on mode
-        switch(mode) {
+        switch(game.getMode()) {
             case 0:
                 bgColor = Color.green;
                 name = "L";
@@ -55,7 +54,6 @@ public class VolumeButton extends MenuButton {
     }
 
     public void increaseMode() {
-        mode++;
-        mode = mode % 3;
+        game.increaseMode();
     }
 }
