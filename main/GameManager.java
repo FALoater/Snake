@@ -7,6 +7,7 @@ import java.awt.event.MouseEvent;
 import gamestate.ClassicGame;
 import gamestate.GameStateType;
 import gamestate.MainMenu;
+import gamestate.OptionsMenu;
 import gamestate.VersusGame;
 
 import static main.Utilities.Constants.WindowConstants.*;
@@ -21,12 +22,14 @@ public class GameManager implements Runnable{
 	private VersusGame versusGame;
 	private ClassicGame classicGame;
 	private MainMenu mainMenu;
+	private OptionsMenu optionsMenu;
 
 	// game objects
 	private GameStateType currentGameState = GameStateType.MAIN_MENU;
 
 	// game variables
-	private ColorMode colourMode = ColorMode.DARK;
+	// make default colorMode dark
+	private ColorMode colorMode = ColorMode.DARK;
 
     public GameManager() {
 		// init classes and game loop
@@ -41,6 +44,7 @@ public class GameManager implements Runnable{
 		classicGame = new ClassicGame(this);
 		mainMenu = new MainMenu(this);
 		versusGame = new VersusGame(this);
+		optionsMenu = new OptionsMenu(this);
 
 		// init game window
 		gamePanel = new GamePanel(this);
@@ -104,6 +108,8 @@ public class GameManager implements Runnable{
 	}
 
     public void draw(Graphics g) {
+		g.setFont(DEFAULT_FONT);
+
 		switch(currentGameState) {
 			case CLASSIC_GAME:
 				classicGame.draw(g);
@@ -117,6 +123,7 @@ public class GameManager implements Runnable{
 			case PAUSE_MENU:
 				break;
 			case OPTIONS_MENU:
+				optionsMenu.draw(g);
 				break;
 			case END_SCREEN:
 				break;
@@ -124,6 +131,7 @@ public class GameManager implements Runnable{
 	}
 
     public void update() {
+		gamePanel.updateBg();
 		gamePanel.updateHUD();
 
 		switch(currentGameState) {
@@ -139,6 +147,7 @@ public class GameManager implements Runnable{
 			case PAUSE_MENU:
 				break;
 			case OPTIONS_MENU:
+				optionsMenu.update();
 				break;
 			case END_SCREEN:
 				break;
@@ -159,6 +168,7 @@ public class GameManager implements Runnable{
 				mainMenu.keyPressed(e);
 				break;
 			case OPTIONS_MENU:
+				optionsMenu.keyPressed(e);
 				break;
 			case PAUSE_MENU:
 				break;
@@ -178,6 +188,7 @@ public class GameManager implements Runnable{
 				mainMenu.mousePressed(e);
 				break;
 			case OPTIONS_MENU:
+				optionsMenu.mousePressed(e);
 				break;
 			case PAUSE_MENU:
 				break;
@@ -197,6 +208,7 @@ public class GameManager implements Runnable{
 				mainMenu.mouseReleased(e);
 				break;
 			case OPTIONS_MENU:
+				optionsMenu.mouseReleased(e);
 				break;
 			case PAUSE_MENU:
 				break;
@@ -216,6 +228,7 @@ public class GameManager implements Runnable{
 				mainMenu.mouseDragged(e);
 				break;
 			case OPTIONS_MENU:
+				optionsMenu.mouseDragged(e);
 				break;
 			case PAUSE_MENU:
 				break;
@@ -235,6 +248,7 @@ public class GameManager implements Runnable{
 				mainMenu.mouseMoved(e);
 				break;
 			case OPTIONS_MENU:
+				optionsMenu.mouseMoved(e);
 				break;
 			case PAUSE_MENU:
 				break;
@@ -256,11 +270,15 @@ public class GameManager implements Runnable{
 		return currentGameState;
 	}
 
+	public void changeColorMode(ColorMode colorMode) {
+		this.colorMode = colorMode;
+	}
+
 	public void changeGameState(GameStateType newGameStateType) {
 		currentGameState = newGameStateType;
 	}
 
 	public ColorMode getColorMode() {
-		return colourMode;
+		return colorMode;
 	}
 }

@@ -9,14 +9,14 @@ import input.InputHandlers;
 import main.GameManager;
 import main.Utilities.Methods;
 import ui.MenuButton;
+import ui.ExitButton;
 
 import static main.Utilities.Constants.ButtonConstants.*;
-import static main.Utilities.Constants.WindowConstants.DEFAUT_FONT;
 
 public class MainMenu extends GameState implements InputHandlers{
 
-    private Color fontColor = Color.decode(Methods.GetCurrentTextColor(game));
-    private MenuButton classic, versus, settings, exit;
+    private MenuButton classic, versus, settings;
+    private ExitButton exit;
 
     public MainMenu(GameManager game) {
         super(game);
@@ -25,15 +25,19 @@ public class MainMenu extends GameState implements InputHandlers{
         classic = new MenuButton(MENU_X, 300, MAIN_MENU_BUTTON_WIDTH, MAIN_MENU_BUTTON_HEIGHT, game, "Classic");
         versus = new MenuButton(MENU_X, 400, MAIN_MENU_BUTTON_WIDTH, MAIN_MENU_BUTTON_HEIGHT, game, "vs AI");
         settings = new MenuButton(MENU_X, 500, MAIN_MENU_BUTTON_WIDTH, MAIN_MENU_BUTTON_HEIGHT, game, "Settings");
-        exit = new MenuButton(75, 505, 64, 64, game, "");
+        exit = new ExitButton(75, 505, 64, 64, game, "");
+    }
+
+    private void resetButtons() {
+        classic.setHighlighted(false);
+        versus.setHighlighted(false);
+        settings.setHighlighted(false);
     }
 
     @Override
     public void draw(Graphics g) {
-        fontColor = Color.decode(Methods.GetCurrentTextColor(game));
         // draw title
-        g.setFont(DEFAUT_FONT);
-        g.setColor(fontColor);
+        g.setColor(Color.decode(Methods.GetCurrentTextColor(game)));
         g.drawString("Snake", Methods.GetCentralisedTextX("Snake", g), 200);
         
         // draw buttons
@@ -41,11 +45,6 @@ public class MainMenu extends GameState implements InputHandlers{
         versus.draw(g);
         settings.draw(g);
         exit.drawExitButton(g);
-    }
-
-    @Override
-    public void keyPressed(KeyEvent e) {
-        return;
     }
 
     @Override
@@ -59,9 +58,7 @@ public class MainMenu extends GameState implements InputHandlers{
             settings.setHighlighted(true);
         } else {
             // else reset values
-            classic.setHighlighted(false);
-            versus.setHighlighted(false);
-            settings.setHighlighted(false);
+            resetButtons();
         }
     }
 
@@ -80,26 +77,7 @@ public class MainMenu extends GameState implements InputHandlers{
         }
 
         // reset all values 
-        classic.setHighlighted(false);
-        versus.setHighlighted(false);
-        settings.setHighlighted(false);
-    }
-
-    @Override
-    public void mouseDragged(MouseEvent e) {
-        // if mouse is dragged out of button, stop highlighting
-        if(classic.isMouseIn(e)) {
-            classic.setHighlighted(true);
-        } else if(versus.isMouseIn(e)) {
-            versus.setHighlighted(true);
-        } else if (settings.isMouseIn(e)) {
-            settings.setHighlighted(true);
-        } else {
-            // else reset values
-            classic.setHighlighted(false);
-            versus.setHighlighted(false);
-            settings.setHighlighted(false);
-        }
+        resetButtons();
     }
 
     @Override
@@ -113,10 +91,30 @@ public class MainMenu extends GameState implements InputHandlers{
             settings.setHighlighted(true);
         } else {
             // else reset values
-            classic.setHighlighted(false);
-            versus.setHighlighted(false);
-            settings.setHighlighted(false);
+            resetButtons();
+        }
+    }
+
+    @Override
+    public void mouseDragged(MouseEvent e) {
+        // if mouse is dragged out of button, stop highlighting
+        if(classic.isMouseIn(e)) {
+            classic.setHighlighted(true);
+        } else if(versus.isMouseIn(e)) {
+            versus.setHighlighted(true);
+        } else if (settings.isMouseIn(e)) {
+            settings.setHighlighted(true);
+        } else {
+            // else reset values
+            resetButtons();
         }
 	}
-    
+
+    // unused
+
+    @Override
+    public void keyPressed(KeyEvent e) {
+        return;
+    }
+
 }

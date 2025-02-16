@@ -8,7 +8,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import javax.imageio.ImageIO;
 
-import ui.Button;
+import ui.MenuButton;
 
 import java.util.LinkedList;
 import java.util.Random;
@@ -35,10 +35,10 @@ public class Utilities {
 
             public static final Color BG_LIGHT_MODE = new Color(230, 255, 255);
             public static final Color BG_DARK_MODE = Color.gray;
-            public static final String TEXT_LIGHT_MODE = "#000000";
+            public static final String TEXT_LIGHT_MODE = "#420edf";
             public static final String TEXT_DARK_MODE = "#6ccbc1";
 
-            public static final Font DEFAUT_FONT = new Font("Arial", Font.PLAIN,40);
+            public static final Font DEFAULT_FONT = new Font("Arial", Font.PLAIN,40);
         }
 
         public static class SnakeConstants {
@@ -81,6 +81,17 @@ public class Utilities {
             public static final int MAIN_MENU_BUTTON_WIDTH = 300;
             public static final int MAIN_MENU_BUTTON_HEIGHT = 75;
             public static final int MENU_X = (WindowConstants.WINDOW_WIDTH - MAIN_MENU_BUTTON_WIDTH) / 2;
+            public static final String EXIT_BUTTON_IMG = "button/exit";
+
+            public static final int OPTIONS_MENU_BUTTON_HEIGHT = 60;
+            public static final int OPTIONS_MENU_BUTTON_RADIUS = 75;
+            public static final int OPTIONS_MENU_TEXT_OFFSET = 50;
+            public static final int COLOR_BUTTON_HEIGHT = 450;
+            public static final int SOUND_BUTTON_HEIGHT = 150;
+            public static final int VOLUME_BUTTON_HEIGHT = 300;
+            public static final int OPTIONS_LABEL_X = 250;
+            public static final int OPTIONS_BUTTON_X = 500;
+            public static final Font OPTION_BUTTON_FONT = new Font("Arial", Font.PLAIN,20);
 
             public static final Color LIGHT_TEXT_COLOR = new Color(15,158,213);
             public static final Color LIGHT_BG_COLOR = new Color(232,232,232);
@@ -88,8 +99,6 @@ public class Utilities {
             public static final Color DARK_TEXT_COLOR = new Color(235, 248, 253);
             public static final Color DARK_BG_COLOR = new Color(57, 130, 137);
             public static final Color DARK_HIGHLIGHT_COLOR = new Color(54, 123, 131);
-
-            public static final String EXIT_BUTTON_IMG = "button/exit";
         }
     }
 
@@ -146,8 +155,12 @@ public class Utilities {
 
         public static int GetCentralisedTextX(String text, Graphics g) {
             // put text in the middle
+            return GetCentralisedButtonTextX(text, g, 0, Constants.WindowConstants.WINDOW_WIDTH);
+        }
+
+        public static int GetCentralisedButtonTextX(String text, Graphics g, int xPos, int width) {
             int textLength = (int)g.getFontMetrics().getStringBounds(text, g).getWidth();
-            return (Constants.WindowConstants.WINDOW_WIDTH - textLength) / 2;
+            return (2 * xPos + width - textLength) / 2;
         }
 
         public static String GetCurrentTextColor(GameManager game) {
@@ -162,7 +175,7 @@ public class Utilities {
             }
         }
 
-        public static void GetButtonColor(GameManager game, Button button) {
+        public static void GetButtonColor(GameManager game, MenuButton button) {
             // change button design if dark mode
             // order is text, bg, highlight
 

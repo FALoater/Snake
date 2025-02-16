@@ -40,7 +40,7 @@ public class GamePanel extends JPanel {
 		// create a JLabel for top of screen to display score and timer
 		hud = new JLabel();
 		hud.setForeground(Color.decode(hudColor));
-		hud.setFont(DEFAUT_FONT);
+		hud.setFont(DEFAULT_FONT);
 		updateHUD();
 	}
 
@@ -48,6 +48,10 @@ public class GamePanel extends JPanel {
 		// set screen size as pre determined
 		Dimension size = new Dimension(WINDOW_WIDTH, WINDOW_HEIGHT);
 		setPreferredSize(size);
+	}
+
+	public void updateBg() {
+		setBackground(Methods.GetBgColor(game));
 	}
 
 	public void updateHUD() {

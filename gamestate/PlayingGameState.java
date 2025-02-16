@@ -97,7 +97,7 @@ public abstract class PlayingGameState extends GameState implements InputHandler
 
     @Override
     public void mousePressed(MouseEvent e) {
-
+        
     }
 
     @Override
