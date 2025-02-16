@@ -1,7 +1,5 @@
 todo:
     sound
-    add delay when entering game
-    isolate hud
 
 -----------------------------------------
 problems

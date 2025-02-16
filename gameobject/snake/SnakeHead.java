@@ -47,7 +47,7 @@ public class SnakeHead extends SnakeBody{
 
             // check own body
             for(SnakeBody body : gameState.getPlayerBody()) {
-                if(body.getX() == xPos && body.getY() == yPos && body.isSpawned()) {
+                if(body.getX() == xPos && body.getY() == yPos && body.isSpawned() && !collided) {
                     // collided
                     gameState.setGrid(xPos, yPos, GridObject.EMPTY);
                     collided = true;
@@ -57,7 +57,7 @@ public class SnakeHead extends SnakeBody{
             
             // check enemy body
             for(EnemyBody body : gameState.getEnemyBody()) {
-                if(body.getX() == xPos && body.getY() == yPos && body.isSpawned()) {
+                if(body.getX() == xPos && body.getY() == yPos && body.isSpawned() && !collided) {
                     // collided
                     gameState.setGrid(xPos, yPos, GridObject.EMPTY);
                     collided = true;
@@ -66,7 +66,7 @@ public class SnakeHead extends SnakeBody{
             }
         }
     }
-    
+
     @Override
     protected void move() {
         // move the snake position in its direction
