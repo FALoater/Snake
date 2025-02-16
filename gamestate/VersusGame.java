@@ -6,6 +6,7 @@ import java.util.LinkedList;
 
 import main.GameManager;
 import main.GridObject;
+import main.Utilities.Methods;
 import gameobject.snake.*;
 import gameobject.Direction;
 import gameobject.Fruit;
@@ -141,10 +142,15 @@ public class VersusGame extends PlayingGameState {
 		}
 
 		// move snake first before updating any fruit collisions
-		// stop updating game entirely if player is collided, only in classic mode
-		//if(playerHead.isCollided()) return;
 		playerHead.update();
 		enemyHead.update();
+
+		// check if snake heads are collided
+		// if this happens despawn both heads
+		if(playerHead.getX() == enemyHead.getX() && playerHead.getY() == enemyHead.getY()) {
+			playerHead.setCollided(true);
+			enemyHead.setCollided(true);
+		}
 
 		// update all the fruits
 		for(int i=0;i<fruits.size();i++) {
@@ -210,6 +216,11 @@ public class VersusGame extends PlayingGameState {
 	public EnemyHead getEnemyHead() {
 		return enemyHead;
 	}
+
+	@Override	
+    public LinkedList<EnemyBody> getEnemyBody() {
+        return enemyBody;
+    }
 
 	public int getTimeLeft() {
 		// prevent timer going negative

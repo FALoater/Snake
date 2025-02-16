@@ -15,6 +15,7 @@ import java.util.Random;
 import gameobject.Direction;
 import gameobject.Fruit;
 import gameobject.FruitType;
+import gameobject.snake.EnemyBody;
 import gameobject.snake.EnemyHead;
 import gameobject.snake.SnakeBody;
 import gameobject.snake.SnakeHead;
@@ -181,5 +182,13 @@ public abstract class PlayingGameState extends GameState implements InputHandler
 
     public LinkedList<Fruit> getFruits() {
 		return fruits;
+    }
+
+    public LinkedList<SnakeBody> getPlayerBody() {
+        return playerBody;
+    }
+
+    public LinkedList<EnemyBody> getEnemyBody() {
+        return null;
     }
 }

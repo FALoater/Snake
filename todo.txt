@@ -5,5 +5,3 @@ todo:
 
 -----------------------------------------
 problems
-snake heads cannot collide
-player head can still collide with dead body of enemy

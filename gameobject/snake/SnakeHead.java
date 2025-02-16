@@ -33,22 +33,41 @@ public class SnakeHead extends SnakeBody{
     }
 
     protected void checkCollisions() {
-        // get object at current position
-        GridObject object = gameState.getObjectAtGridPos(xPos, yPos);
+        // get object at current position, classic mode only
 
-        if(object != GridObject.EMPTY && object != GridObject.FRUIT && object != GridObject.PLAYER_HEAD && !collided) {
-            // collided with snake body
-            gameState.setGrid(xPos, yPos, GridObject.EMPTY);
-            collided = true;
-            
-            // gamemode check
-            if(gameState.getGameManager().getGameState() == GameStateType.VERSUS_GAME) {
-                gameState.resetPlayerScore();
-            } else {
+        if(gameState.getGame().getGameState() == GameStateType.CLASSIC_GAME) {
+            GridObject object = gameState.getObjectAtGridPos(xPos, yPos);
+
+            if(object != GridObject.EMPTY && object != GridObject.FRUIT && object != GridObject.PLAYER_HEAD && !collided) {
+                // end game
                 gameState.getGame().changeGameState(GameStateType.END_SCREEN);
+            }
+        } else {
+            // versus mode
+
+            // check own body
+            for(SnakeBody body : gameState.getPlayerBody()) {
+                if(body.getX() == xPos && body.getY() == yPos && body.isSpawned()) {
+                    // collided
+                    gameState.setGrid(xPos, yPos, GridObject.EMPTY);
+                    collided = true;
+                    gameState.resetPlayerScore();
+                }
+            }
+            
+            // check enemy body
+            for(EnemyBody body : gameState.getEnemyBody()) {
+                if(body.getX() == xPos && body.getY() == yPos && body.isSpawned()) {
+                    // collided
+                    gameState.setGrid(xPos, yPos, GridObject.EMPTY);
+                    collided = true;
+                    gameState.resetPlayerScore();
+                }
             }
         }
     }
+
+
 
     @Override
     protected void move() {
