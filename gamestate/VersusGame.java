@@ -21,7 +21,7 @@ public class VersusGame extends PlayingGameState {
 
     // game variables
 	private int enemyRespawnTick, playerRespawnTick;
-	private int timeLeftTick = 60 * UPS;
+	private int timeLeftTick;
 
     public VersusGame(GameManager game) {
         super(game);
@@ -107,7 +107,7 @@ public class VersusGame extends PlayingGameState {
 		timeLeftTick--;
 
 		// stop updating if timer reaches 0
-		if(timeLeftTick <= 0) return;
+		if(timeLeftTick <= 0) game.changeGameState(GameStateType.END_SCREEN);
 
 		// else countdown timer
 		game.getGamePanel().updateHUD();

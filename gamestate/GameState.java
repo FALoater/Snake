@@ -7,6 +7,7 @@ import main.GameManager;
 public class GameState{
     // superclass for all gamestates
     protected GameManager game;
+    protected String title;
 
     public GameState(GameManager game) {
         // can be accessed in subclasses

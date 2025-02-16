@@ -45,6 +45,7 @@ public class ClassicGame extends PlayingGameState {
 	public void reset() {
 		// reset snakes and body
 		playerHead.setPosition(PLAYER_START_X, PLAYER_START_Y);
+		playerHead.setCollided(false);
 		resetPlayerBody();
 
 		// reset score

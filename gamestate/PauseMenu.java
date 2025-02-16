@@ -26,6 +26,7 @@ public class PauseMenu extends OptionsMenu {
     public PauseMenu(GameManager game) {
         super(game);
         backToGame = new SettingsButton(OPTIONS_BACK_BUTTON_X, 50, OPTIONS_BACK_BUTTON_WIDTH, OPTIONS_MENU_BUTTON_HEIGHT, game, "Back to Game");
+        title = "Game paused";
     }
 
     @Override
@@ -36,7 +37,7 @@ public class PauseMenu extends OptionsMenu {
 
         // draw title
         g.setColor(Color.decode(Methods.GetCurrentTextColor(game)));
-        g.drawString("Settings", Methods.GetCentralisedTextX("Settings", g), 90);
+        g.drawString(title, Methods.GetCentralisedTextX(title, g), 90);
 
         // draw labels
         g.drawString("Sounds", OPTIONS_LABEL_X, SOUND_BUTTON_HEIGHT + OPTIONS_MENU_TEXT_OFFSET);
@@ -74,7 +75,7 @@ public class PauseMenu extends OptionsMenu {
         } else if(sound.isMouseIn(e)) {
             sound.toggleSound();
         } else if(backToGame.isMouseIn(e)) {
-            game.setPreviousGameState();
+            game.changeGameState();
         } else {
             resetHighlight();
         }

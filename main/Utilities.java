@@ -92,6 +92,9 @@ public class Utilities {
             public static final int OPTIONS_BACK_BUTTON_WIDTH = 300;
             public static final Font OPTION_BUTTON_FONT = new Font("Arial", Font.PLAIN,20);
 
+            public static final int END_GAME_BUTTON_HEIGHT = 500;
+            public static final int END_GAME_BUTTON_RADIUS = 125;
+
             public static final int COLOR_BUTTON_HEIGHT = 450;
             public static final int SOUND_BUTTON_HEIGHT = 150;
             public static final int VOLUME_BUTTON_HEIGHT = 300;

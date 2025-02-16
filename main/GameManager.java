@@ -5,6 +5,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 
 import gamestate.ClassicGame;
+import gamestate.EndGame;
 import gamestate.GameStateType;
 import gamestate.MainMenu;
 import gamestate.OptionsMenu;
@@ -25,6 +26,7 @@ public class GameManager implements Runnable{
 	private MainMenu mainMenu;
 	private OptionsMenu optionsMenu;
 	private PauseMenu pauseMenu;
+	private EndGame endGame;
 
 	// game objects
 	private GameStateType currentGameState = GameStateType.MAIN_MENU, previousGameState;
@@ -32,6 +34,7 @@ public class GameManager implements Runnable{
 	// game variables
 	private boolean soundOn = true; // sound is on by default
 	private int mode = 1; // default sound level is medium
+	private int lastPlayerScore, lastEnemyScore, highscore = 0;
 	private ColorMode colorMode = ColorMode.DARK; // make dark mode default
 
 
@@ -54,6 +57,9 @@ public class GameManager implements Runnable{
 		// init game window
 		gamePanel = new GamePanel(this);
         new GameWindow(gamePanel); 
+
+		// init end game
+		endGame = new EndGame(this);
     }
 
     private void initGameLoop() {
@@ -148,6 +154,7 @@ public class GameManager implements Runnable{
 				optionsMenu.draw(g);
 				break;
 			case END_SCREEN:
+				endGame.draw(g);
 				break;
 		}
 	}
@@ -173,6 +180,7 @@ public class GameManager implements Runnable{
 				optionsMenu.update();
 				break;
 			case END_SCREEN:
+				endGame.update();
 				break;
 		}
     }
@@ -186,6 +194,7 @@ public class GameManager implements Runnable{
 			case VERSUS_GAME:
 				versusGame.keyPressed(e);
 			case END_SCREEN:
+				endGame.keyPressed(e);
 				break;
 			case MAIN_MENU:
 				mainMenu.keyPressed(e);
@@ -207,6 +216,7 @@ public class GameManager implements Runnable{
 			case VERSUS_GAME:
 				versusGame.mousePressed(e);
 			case END_SCREEN:
+				endGame.mousePressed(e);
 				break;
 			case MAIN_MENU:
 				mainMenu.mousePressed(e);
@@ -228,6 +238,7 @@ public class GameManager implements Runnable{
 			case VERSUS_GAME:
 				versusGame.mouseReleased(e);
 			case END_SCREEN:
+				endGame.mouseReleased(e);
 				break;
 			case MAIN_MENU:
 				mainMenu.mouseReleased(e);
@@ -249,6 +260,7 @@ public class GameManager implements Runnable{
 			case VERSUS_GAME:
 				versusGame.mouseDragged(e);
 			case END_SCREEN:
+				endGame.mouseDragged(e);
 				break;
 			case MAIN_MENU:
 				mainMenu.mouseDragged(e);
@@ -270,6 +282,7 @@ public class GameManager implements Runnable{
 			case VERSUS_GAME:
 				versusGame.mouseMoved(e);
 			case END_SCREEN:
+				endGame.mouseMoved(e);
 				break;
 			case MAIN_MENU:
 				mainMenu.mouseMoved(e);
@@ -310,11 +323,29 @@ public class GameManager implements Runnable{
 		}
 	}
 
-	public void changeGameState(GameStateType newGameStateType) {
+	public void changeGameState(GameStateType newGameState) {
+		// change the game state
 		previousGameState = currentGameState;
-		currentGameState = newGameStateType;
+		currentGameState = newGameState;
 
-		if(newGameStateType != GameStateType.PAUSE_MENU) {
+		// save previous scores
+		lastPlayerScore = gamePanel.getPlayerScore();
+		lastEnemyScore = gamePanel.getEnemyScore();
+		if(lastPlayerScore > highscore) highscore = lastPlayerScore;
+
+		resetGame();
+	}
+
+	public void changeGameState() {
+		// no argument means go back to previous game state;
+		// swap two variable values
+		GameStateType temp = currentGameState;
+		currentGameState = previousGameState;
+		previousGameState = temp;
+
+		// check if pause menu back to game is pressed
+		// this means reset only if the current game state is end game
+		if(previousGameState != GameStateType.PAUSE_MENU) {
 			resetGame();
 		}
 	}
@@ -340,7 +371,19 @@ public class GameManager implements Runnable{
 		mode %= 3;
 	}
 
-	public void setPreviousGameState() {
-		currentGameState = previousGameState;
+	public int getPlayerScore() {
+		return lastPlayerScore;
+	}
+
+	public int getPlayerHighScore() {
+		return highscore;
+	}
+
+	public int getEnemyScore() {
+		return lastEnemyScore;
+	}
+
+	public GameStateType getLastGameState() {
+		return previousGameState;
 	}
 }

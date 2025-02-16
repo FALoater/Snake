@@ -40,12 +40,14 @@ public class OptionsMenu extends GameState implements InputHandlers{
         volume = new VolumeButton(OPTIONS_BUTTON_X, VOLUME_BUTTON_HEIGHT, CIRCLE_BUTTON_RADIUS, CIRCLE_BUTTON_RADIUS, game);
         color = new ColorButton(OPTIONS_BUTTON_X, COLOR_BUTTON_HEIGHT, CIRCLE_BUTTON_RADIUS, CIRCLE_BUTTON_RADIUS, game);
         backToMenu = new SettingsButton(OPTIONS_BACK_BUTTON_X, 625, OPTIONS_BACK_BUTTON_WIDTH, OPTIONS_MENU_BUTTON_HEIGHT, game, "Back to Menu");
+
+        title = "Settings";
     }
 
     public void draw(Graphics g) {
         // draw title
         g.setColor(Color.decode(Methods.GetCurrentTextColor(game)));
-        g.drawString("Settings", Methods.GetCentralisedTextX("Settings", g), 90);
+        g.drawString(title, Methods.GetCentralisedTextX(title, g), 90);
 
         // draw labels
         g.drawString("Sounds", OPTIONS_LABEL_X, SOUND_BUTTON_HEIGHT + OPTIONS_MENU_TEXT_OFFSET);

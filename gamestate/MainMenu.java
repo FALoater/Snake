@@ -26,6 +26,7 @@ public class MainMenu extends GameState implements InputHandlers{
         versus = new MenuButton(MENU_X, 400, MAIN_MENU_BUTTON_WIDTH, MAIN_MENU_BUTTON_HEIGHT, game, "vs AI");
         settings = new MenuButton(MENU_X, 500, MAIN_MENU_BUTTON_WIDTH, MAIN_MENU_BUTTON_HEIGHT, game, "Settings");
         exit = new ExitButton(75, 505, 64, 64, game, "");
+        title = "Snake";
     }
 
     private void resetButtons() {
@@ -38,7 +39,7 @@ public class MainMenu extends GameState implements InputHandlers{
     public void draw(Graphics g) {
         // draw title
         g.setColor(Color.decode(Methods.GetCurrentTextColor(game)));
-        g.drawString("Snake", Methods.GetCentralisedTextX("Snake", g), 200);
+        g.drawString(title, Methods.GetCentralisedTextX(title, g), 200);
         
         // draw buttons
         classic.draw(g);

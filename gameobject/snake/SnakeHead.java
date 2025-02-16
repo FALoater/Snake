@@ -45,7 +45,7 @@ public class SnakeHead extends SnakeBody{
             if(gameState.getGameManager().getGameState() == GameStateType.VERSUS_GAME) {
                 gameState.resetPlayerScore();
             } else {
-                return;
+                gameState.getGame().changeGameState(GameStateType.END_SCREEN);
             }
         }
     }

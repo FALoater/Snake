@@ -1,9 +1,7 @@
 todo:
-    Buttons
-    UI 
-        end game screen
-        pause menu
+    sound
     add delay when entering game
+    isolate hud
 
 -----------------------------------------
 problems

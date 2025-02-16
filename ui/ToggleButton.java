@@ -3,7 +3,6 @@ package ui;
 import main.GameManager;
 import main.Utilities.Methods;
 
-import static main.Utilities.Constants.ButtonConstants.CIRCLE_BUTTON_RADIUS;
 import static main.Utilities.Constants.ButtonConstants.OPTION_BUTTON_FONT;
 
 import java.awt.Color;
@@ -27,7 +26,7 @@ public class ToggleButton extends MenuButton{
 
         // fill colour
         g.setColor(bgColor);
-        g.fillOval(xPos, yPos, CIRCLE_BUTTON_RADIUS, CIRCLE_BUTTON_RADIUS);
+        g.fillOval(xPos, yPos, width, height);
 
         // change font size, draw
         g.setFont(OPTION_BUTTON_FONT);

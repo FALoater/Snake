@@ -117,8 +117,9 @@ public abstract class PlayingGameState extends GameState implements InputHandler
     public void mouseReleased(MouseEvent e) {
         if(pause.isMouseIn(e)) {
             game.changeGameState(GameStateType.PAUSE_MENU);
+        } else {
+            pause.setHighlighted(false);
         }
-        pause.setHighlighted(false);
     }
 
     
@@ -141,6 +142,9 @@ public abstract class PlayingGameState extends GameState implements InputHandler
     }
 
     // getters and setters
+    public GameManager getGame() {
+        return game;
+    }
 
 	public void resetEnemyScore() {
 		game.getGamePanel().resetEnemyScore();

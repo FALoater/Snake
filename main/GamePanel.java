@@ -15,7 +15,7 @@ import static main.Utilities.Constants.WindowConstants.*;
 
 public class GamePanel extends JPanel {
 
-	private int userScore = 0, enemyScore = 0;
+	private int playerScore = 0, enemyScore = 0;
 	private String hudColor;
 
 	private GameManager game;
@@ -61,10 +61,10 @@ public class GamePanel extends JPanel {
 			case PAUSE_MENU:
 				break;
 			case CLASSIC_GAME:
-				hud.setText("<html><nobr><font color='" + hudColor + "'>Score: " + userScore);
+				hud.setText("<html><nobr><font color='" + hudColor + "'>Score: " + playerScore);
 				break;
 			case VERSUS_GAME:
-				hud.setText("<html><nobr><font color='" + hudColor + "'>Score: </font><font color='#00ff00'>" + userScore + "</font><font color='" + hudColor + "'> - </font><font color='ff0000'>" + enemyScore + "</font>&nbsp;&nbsp;&nbsp;&nbsp;<font color='" + hudColor + "'>Time left: " + game.getTimeLeft() + "</font></nobr></html>");
+				hud.setText("<html><nobr><font color='" + hudColor + "'>Score: </font><font color='#00ff00'>" + playerScore + "</font><font color='" + hudColor + "'> - </font><font color='ff0000'>" + enemyScore + "</font>&nbsp;&nbsp;&nbsp;&nbsp;<font color='" + hudColor + "'>Time left: " + game.getTimeLeft() + "</font></nobr></html>");
 				break;
 			case END_SCREEN:
 			case MAIN_MENU:
@@ -83,7 +83,9 @@ public class GamePanel extends JPanel {
 	// getters and setters
 	
 	public void updatePlayerScore(int score) {
-		userScore += score;
+		// add score and update highscore if relevant
+		playerScore += score;
+
 		updateHUD();
 	}
 
@@ -94,7 +96,7 @@ public class GamePanel extends JPanel {
 
 	public void resetPlayerScore() {
 		// subtract user score by 20, prevent from going below 0
-		userScore = Math.max(userScore -= DEATH_POINT_DEDUCTION, 0);
+		playerScore = Math.max(playerScore -= DEATH_POINT_DEDUCTION, 0);
 		updateHUD();
 	}
 
@@ -102,9 +104,17 @@ public class GamePanel extends JPanel {
 		enemyScore = Math.max(enemyScore - DEATH_POINT_DEDUCTION, 0);
 		updateHUD();
 	}
+	
+	public int getPlayerScore() {
+		return playerScore;
+	}
+
+	public int getEnemyScore() {
+		return enemyScore;
+	}
 
 	public void clearScore() {
-		userScore = 0;
+		playerScore = 0;
 		enemyScore = 0;
 	}
 }
