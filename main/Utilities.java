@@ -106,6 +106,19 @@ public class Utilities {
             public static final Color DARK_BG_COLOR = new Color(57, 130, 137);
             public static final Color DARK_HIGHLIGHT_COLOR = new Color(54, 123, 131);
         }
+
+        public static class AudioConstants {
+            // file paths
+
+            // sfx
+            public static String EAT = "audio/eat";
+            public static String GAME_OVER = "audio/game_over";
+            public static String HIT = "audio/hit";
+
+            // music
+            public static String MAIN_MENU_MUSIC = "audio/menu_theme";
+            public static String BACKGROUND_MUSIC = "audio/playing_theme";
+        }
     }
 
     public static class Methods {

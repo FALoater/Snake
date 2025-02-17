@@ -13,6 +13,7 @@ import gamestate.PauseMenu;
 import gamestate.VersusGame;
 
 import static main.Utilities.Constants.WindowConstants.*;
+import static main.Utilities.Constants.AudioConstants.*;
 
 public class GameManager implements Runnable{
 
@@ -30,6 +31,7 @@ public class GameManager implements Runnable{
 
 	// game objects
 	private GameStateType currentGameState = GameStateType.MAIN_MENU, previousGameState;
+	private SoundPlayer music, soundEffect;
 
 	// game variables
 	private boolean soundOn = true; // sound is on by default
@@ -60,6 +62,10 @@ public class GameManager implements Runnable{
 
 		// init end game
 		endGame = new EndGame(this);
+
+		// init music player
+		music = new SoundPlayer();
+		music.playMusic(MAIN_MENU_MUSIC);
     }
 
     private void initGameLoop() {
@@ -334,6 +340,11 @@ public class GameManager implements Runnable{
 		if(lastPlayerScore > highscore) highscore = lastPlayerScore;
 
 		resetGame();
+
+		// prevent music resetting from end game or options to main menu
+		if(currentGameState != GameStateType.MAIN_MENU && previousGameState != GameStateType.OPTIONS_MENU && previousGameState != GameStateType.END_SCREEN) {
+			changeMusic();
+		}
 	}
 
 	public void changeGameState() {
@@ -343,10 +354,28 @@ public class GameManager implements Runnable{
 		currentGameState = previousGameState;
 		previousGameState = temp;
 
-		// check if pause menu back to game is pressed
-		// this means reset only if the current game state is end game
 		if(previousGameState != GameStateType.PAUSE_MENU) {
+			// prevents game resetting if going back to game from pause
 			resetGame();
+			changeMusic();
+		}
+	}
+
+	private void changeMusic() {
+		switch(currentGameState) {
+			case CLASSIC_GAME:
+			case VERSUS_GAME:
+				music.playMusic(BACKGROUND_MUSIC);
+				break;
+			case END_SCREEN:
+				music.playMusic(MAIN_MENU_MUSIC);
+				break;
+			case MAIN_MENU:
+				music.playMusic(MAIN_MENU_MUSIC);
+				break;
+			case OPTIONS_MENU:
+			case PAUSE_MENU:
+				break;
 		}
 	}
 
