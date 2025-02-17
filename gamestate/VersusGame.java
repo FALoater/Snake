@@ -12,6 +12,7 @@ import gameobject.Fruit;
 
 import static main.Utilities.Constants.SnakeConstants.*;
 import static main.Utilities.Constants.WindowConstants.*;
+import static main.Utilities.Constants.AudioConstants.HIT;
 import static main.Utilities.Methods;
 
 public class VersusGame extends PlayingGameState {
@@ -147,6 +148,7 @@ public class VersusGame extends PlayingGameState {
 		// check if snake heads are collided
 		// if this happens despawn both heads
 		if(playerHead.getX() == enemyHead.getX() && playerHead.getY() == enemyHead.getY() && !playerHead.isCollided() && !enemyHead.isCollided()) {
+			game.playSoundEffect(HIT);
 			playerHead.setCollided(true);
 			enemyHead.setCollided(true);
 		}

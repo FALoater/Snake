@@ -64,8 +64,11 @@ public class GameManager implements Runnable{
 		endGame = new EndGame(this);
 
 		// init music player
-		music = new SoundPlayer();
+		music = new SoundPlayer(0.8f);
 		music.playMusic(MAIN_MENU_MUSIC);
+
+		// init sound effect
+		soundEffect = new SoundPlayer(0.77f);
     }
 
     private void initGameLoop() {
@@ -340,9 +343,11 @@ public class GameManager implements Runnable{
 		if(lastPlayerScore > highscore) highscore = lastPlayerScore;
 
 		resetGame();
-
-		// prevent music resetting from end game or options to main menu
-		if(currentGameState != GameStateType.MAIN_MENU && previousGameState != GameStateType.OPTIONS_MENU && previousGameState != GameStateType.END_SCREEN) {
+		
+		System.out.println(currentGameState);
+		System.out.println(previousGameState);
+		// reset music from options to main menu or prevent music resetting from end game or options to main menu
+		if( (currentGameState == GameStateType.MAIN_MENU && previousGameState == GameStateType.PAUSE_MENU) || (currentGameState != GameStateType.MAIN_MENU && previousGameState != GameStateType.OPTIONS_MENU && previousGameState != GameStateType.END_SCREEN) ) {
 			changeMusic();
 		}
 	}
@@ -389,6 +394,30 @@ public class GameManager implements Runnable{
 
 	public void toggleSound() {
 		soundOn = !soundOn;
+
+		if(!soundOn) {
+			music.setVolumeLevel(0f);
+			soundEffect.setVolumeLevel(0f);
+		} else {
+			music.setVolumeLevel(0.8f);
+			soundEffect.setVolumeLevel(0.77f);
+		}
+	}
+
+	private void toggleVolume() {
+		if(soundOn) {
+			switch(mode) {
+				case 0:
+					music.setVolumeLevel(0.7f);
+					break;
+				case 1:
+					music.setVolumeLevel(0.8f);
+					break;
+				case 2:
+					music.setVolumeLevel(0.9f);
+					break;
+			}
+		}
 	}
 
 	public int getMode() {
@@ -398,6 +427,8 @@ public class GameManager implements Runnable{
 	public void increaseMode() {
 		mode++;
 		mode %= 3;
+		System.out.println(mode);
+		toggleVolume();
 	}
 
 	public int getPlayerScore() {
@@ -414,5 +445,9 @@ public class GameManager implements Runnable{
 
 	public GameStateType getLastGameState() {
 		return previousGameState;
+	}
+
+	public void playSoundEffect(String filePath) {
+		soundEffect.playSoundEffect(filePath);
 	}
 }

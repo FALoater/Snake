@@ -8,6 +8,7 @@ import gameobject.snake.SnakeHead;
 import gamestate.GameStateType;
 import gamestate.PlayingGameState;
 
+import static main.Utilities.Constants.AudioConstants.EAT;
 import static main.Utilities.Constants.FruitConstants.*;
 import static main.Utilities.Methods;
 
@@ -56,6 +57,7 @@ public class Fruit {
         int playerSnakeY = playerSnake.getY();
 
         if(!deleteFlag && playerSnakeX == xPos && playerSnakeY == yPos) {
+            gameState.getGame().playSoundEffect(EAT);
             gameState.fruitEaten(pointValue, 1); 
             deleteFlag = true;
         }

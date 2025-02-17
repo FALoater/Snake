@@ -112,7 +112,6 @@ public class Utilities {
 
             // sfx
             public static String EAT = "audio/eat";
-            public static String GAME_OVER = "audio/game_over";
             public static String HIT = "audio/hit";
 
             // music

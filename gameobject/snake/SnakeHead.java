@@ -2,6 +2,7 @@ package gameobject.snake;
 import main.GridObject;
 import main.Utilities.Methods;
 
+import static main.Utilities.Constants.AudioConstants.HIT;
 import static main.Utilities.Constants.SnakeConstants.*;
 import static main.Utilities.Constants.WindowConstants.TILE_SIZE;
 
@@ -49,6 +50,7 @@ public class SnakeHead extends SnakeBody{
             for(SnakeBody body : gameState.getPlayerBody()) {
                 if(body.getX() == xPos && body.getY() == yPos && body.isSpawned() && !collided) {
                     // collided
+                    gameState.getGame().playSoundEffect(HIT);
                     gameState.setGrid(xPos, yPos, GridObject.EMPTY);
                     collided = true;
                     gameState.resetPlayerScore();
@@ -59,6 +61,7 @@ public class SnakeHead extends SnakeBody{
             for(EnemyBody body : gameState.getEnemyBody()) {
                 if(body.getX() == xPos && body.getY() == yPos && body.isSpawned() && !collided) {
                     // collided
+                    gameState.getGame().playSoundEffect(HIT);
                     gameState.setGrid(xPos, yPos, GridObject.EMPTY);
                     collided = true;
                     gameState.resetPlayerScore();
