@@ -1,10 +1,4 @@
 package gameobject.snake;
-import main.GridObject;
-import main.Utilities.Methods;
-
-import static main.Utilities.Constants.AudioConstants.HIT;
-import static main.Utilities.Constants.SnakeConstants.*;
-import static main.Utilities.Constants.WindowConstants.TILE_SIZE;
 
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
@@ -12,11 +6,17 @@ import java.awt.image.BufferedImage;
 import gameobject.Direction;
 import gamestate.GameStateType;
 import gamestate.PlayingGameState;
+import main.GridObject;
+import main.Utilities.Methods;
+
+import static main.Utilities.Constants.AudioConstants.HIT;
+import static main.Utilities.Constants.SnakeConstants.*;
+import static main.Utilities.Constants.WindowConstants.TILE_SIZE;
 
 public class SnakeHead extends SnakeBody{
     // inherited attributes from superclass
 
-    private boolean collided = false; // check if snake hits something and therefore game over/stunned
+    private boolean collided = false; // checks if snake hits something and therefore game over/stunned
     private BufferedImage img, left, right, up, down;
     private Direction direction;
 

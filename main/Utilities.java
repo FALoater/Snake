@@ -14,6 +14,7 @@ import java.util.LinkedList;
 import java.util.Random;
 
 public class Utilities {
+    
     private static Random rand = new Random();
 
     public static final int SCALE = 2; // scale of the game window, changes proportionally

@@ -1,12 +1,12 @@
 package ui;
 
-import static main.Utilities.Constants.ButtonConstants.EXIT_BUTTON_IMG;
-
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 
 import main.GameManager;
 import main.Utilities.Methods;
+
+import static main.Utilities.Constants.ButtonConstants.EXIT_BUTTON_IMG;
 
 public class ExitButton extends MenuButton {
 

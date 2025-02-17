@@ -1,12 +1,12 @@
 package ui;
 
+import java.awt.Color;
+import java.awt.Graphics;
+
 import main.GameManager;
 import main.Utilities.Methods;
 
 import static main.Utilities.Constants.ButtonConstants.OPTION_BUTTON_FONT;
-
-import java.awt.Color;
-import java.awt.Graphics;
 
 public class ToggleButton extends MenuButton{
 

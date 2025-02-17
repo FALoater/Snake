@@ -1,16 +1,5 @@
 package gamestate;
 
-import static main.Utilities.Constants.ButtonConstants.COLOR_BUTTON_HEIGHT;
-import static main.Utilities.Constants.ButtonConstants.OPTIONS_BACK_BUTTON_WIDTH;
-import static main.Utilities.Constants.ButtonConstants.OPTIONS_BACK_BUTTON_X;
-import static main.Utilities.Constants.ButtonConstants.OPTIONS_MENU_TEXT_OFFSET;
-import static main.Utilities.Constants.ButtonConstants.SOUND_BUTTON_HEIGHT;
-import static main.Utilities.Constants.ButtonConstants.VOLUME_BUTTON_HEIGHT;
-import static main.Utilities.Constants.WindowConstants.WINDOW_HEIGHT;
-import static main.Utilities.Constants.WindowConstants.WINDOW_WIDTH;
-import static main.Utilities.Constants.ButtonConstants.OPTIONS_LABEL_X;
-import static main.Utilities.Constants.ButtonConstants.OPTIONS_MENU_BUTTON_HEIGHT;
-
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.event.MouseEvent;
@@ -18,6 +7,10 @@ import java.awt.event.MouseEvent;
 import main.GameManager;
 import main.Utilities.Methods;
 import ui.SettingsButton;
+
+import static main.Utilities.Constants.ButtonConstants.*;
+import static main.Utilities.Constants.WindowConstants.WINDOW_HEIGHT;
+import static main.Utilities.Constants.WindowConstants.WINDOW_WIDTH;
 
 public class PauseMenu extends OptionsMenu {
 

@@ -21,6 +21,7 @@ public class Fruit {
     private PlayingGameState gameState;
 
     public Fruit(int xPos, int yPos, FruitType type, PlayingGameState gameState) {
+        
         this.gameState = gameState;
         this.xPos = xPos;
         this.yPos = yPos;

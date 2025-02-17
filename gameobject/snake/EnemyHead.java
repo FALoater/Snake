@@ -1,11 +1,5 @@
 package gameobject.snake;
 
-import main.GridObject;
-
-import static main.Utilities.Constants.SnakeConstants.*;
-import static main.Utilities.Constants.WindowConstants.*;
-import static main.Utilities.Methods;
-
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.util.HashMap;
@@ -15,6 +9,11 @@ import java.util.Random;
 import gameobject.Direction;
 import gameobject.Fruit;
 import gamestate.VersusGame;
+import main.GridObject;
+
+import static main.Utilities.Constants.SnakeConstants.*;
+import static main.Utilities.Constants.WindowConstants.*;
+import static main.Utilities.Methods;
 
 public class EnemyHead extends EnemyBody {
 

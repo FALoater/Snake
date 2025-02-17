@@ -1,10 +1,5 @@
 package gamestate;
 
-import static main.Utilities.Constants.ButtonConstants.CIRCLE_BUTTON_RADIUS;
-import static main.Utilities.Constants.WindowConstants.TILE_SIZE;
-import static main.Utilities.Constants.WindowConstants.WINDOW_HEIGHT;
-import static main.Utilities.Constants.WindowConstants.WINDOW_WIDTH;
-
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.event.KeyEvent;
@@ -24,6 +19,11 @@ import main.GameManager;
 import main.GridObject;
 import main.Utilities.Methods;
 import ui.PauseButton;
+
+import static main.Utilities.Constants.ButtonConstants.CIRCLE_BUTTON_RADIUS;
+import static main.Utilities.Constants.WindowConstants.TILE_SIZE;
+import static main.Utilities.Constants.WindowConstants.WINDOW_HEIGHT;
+import static main.Utilities.Constants.WindowConstants.WINDOW_WIDTH;
 
 public abstract class PlayingGameState extends GameState implements InputHandlers{
     // superclass for classic and versus game

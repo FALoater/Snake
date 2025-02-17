@@ -102,11 +102,6 @@ public class GameManager implements Runnable{
 
 		long timeOfLastUpdate = System.nanoTime();
 
-		// count refreshes per second
-		int fps = 0;
-		int ups = 0;
-		long timeOfLastCheck = System.currentTimeMillis();
-
 		// number of refreshes required since last check
 		double numUpdateRefresh = 0;
 		double numFrameRefresh = 0;
@@ -122,23 +117,13 @@ public class GameManager implements Runnable{
 			if (numUpdateRefresh >= 1) { 
 				// update the game
 				update();
-				ups++;
 				numUpdateRefresh--;
 			}
 
 			if (numFrameRefresh >= 1) { 
 				// refresh the game after the objects have been updated
 				gamePanel.repaint();
-				fps++;
 				numFrameRefresh--;
-			}
-
-			// print refreshes per second and reset counters
-			if (System.currentTimeMillis() - timeOfLastCheck >= 1000) {
-				timeOfLastCheck = System.currentTimeMillis();
-				System.out.println("FPS: " + fps + " | UPS: " + ups);
-				fps = 0;
-				ups = 0;
 			}
 		}
 	}
@@ -344,8 +329,6 @@ public class GameManager implements Runnable{
 
 		resetGame();
 		
-		System.out.println(currentGameState);
-		System.out.println(previousGameState);
 		// reset music from options to main menu or prevent music resetting from end game or options to main menu
 		if( (currentGameState == GameStateType.MAIN_MENU && previousGameState == GameStateType.PAUSE_MENU) || (currentGameState != GameStateType.MAIN_MENU && previousGameState != GameStateType.OPTIONS_MENU && previousGameState != GameStateType.END_SCREEN) ) {
 			changeMusic();
@@ -427,7 +410,6 @@ public class GameManager implements Runnable{
 	public void increaseMode() {
 		mode++;
 		mode %= 3;
-		System.out.println(mode);
 		toggleVolume();
 	}
 

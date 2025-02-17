@@ -1,7 +1,5 @@
 package ui;
 
-import static main.Utilities.Constants.ButtonConstants.OPTIONS_MENU_TEXT_OFFSET;
-
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Rectangle;
@@ -9,6 +7,8 @@ import java.awt.event.MouseEvent;
 
 import main.GameManager;
 import main.Utilities.Methods;
+
+import static main.Utilities.Constants.ButtonConstants.OPTIONS_MENU_TEXT_OFFSET;
 
 public class MenuButton {
     // superclass for all buttons

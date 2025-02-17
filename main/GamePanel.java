@@ -16,10 +16,10 @@ import static main.Utilities.Constants.WindowConstants.*;
 public class GamePanel extends JPanel {
 
 	private int playerScore = 0, enemyScore = 0;
-	private String hudColor;
-
+	
 	private GameManager game;
 	private JLabel hud;
+	private String hudColor;
 
 	public GamePanel(GameManager game) {
 		this.game = game; // gamePanel needs access to the objects inside the game
