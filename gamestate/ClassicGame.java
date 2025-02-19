@@ -99,6 +99,9 @@ public class ClassicGame extends PlayingGameState {
 
     @Override
     public void draw(Graphics g) {
+		// draw grid first
+		drawButtonAndGrid(g);
+
         // playerBody should be above fruits so draw fruits first
 		for(int i=0;i<fruits.size();i++) {
 			fruits.get(i).draw(g);
@@ -111,8 +114,5 @@ public class ClassicGame extends PlayingGameState {
 
 		// draw the snake head
 		playerHead.draw(g);
-
-		// draw grid last
-		drawButtonAndGrid(g);
     }
 }
