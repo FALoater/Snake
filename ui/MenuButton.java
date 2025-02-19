@@ -8,6 +8,7 @@ import java.awt.event.MouseEvent;
 import main.GameManager;
 import main.Utilities.Methods;
 
+import static main.Utilities.SCALE;
 import static main.Utilities.Constants.ButtonConstants.OPTIONS_MENU_TEXT_OFFSET;
 
 public class MenuButton {
@@ -38,7 +39,7 @@ public class MenuButton {
 
         // draw border
         g.setColor(Color.black);   
-        g.drawRoundRect(xPos - 1, yPos - 1, width + 1, height + 1, 20, 20);
+        g.drawRoundRect(xPos - 1, yPos - 1, width + 1, height + 1, 10 * SCALE, 10 * SCALE);
 
         // fill button
         if(highlighted) {
@@ -47,7 +48,7 @@ public class MenuButton {
             g.setColor(bgColor);
         }
         
-        g.fillRoundRect(xPos, yPos, width, height, 20, 20);
+        g.fillRoundRect(xPos, yPos, width, height, 10 * SCALE, 10 * SCALE);
 
         // draw name
         g.setColor(fontColor);

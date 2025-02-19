@@ -123,7 +123,6 @@ public abstract class PlayingGameState extends GameState implements InputHandler
         }
     }
 
-    
     @Override
     public void mouseMoved(MouseEvent e) {
         if(pause.isMouseIn(e)) {

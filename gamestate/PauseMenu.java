@@ -53,7 +53,7 @@ public class PauseMenu extends OptionsMenu {
         } else if(backToGame.isMouseIn(e)) {
             backToGame.setHighlighted(true);
         } else {
-            resetHighlight();
+            resetButtons();
         }
     }
 
@@ -70,7 +70,7 @@ public class PauseMenu extends OptionsMenu {
         } else if(backToGame.isMouseIn(e)) {
             game.changeGameState();
         } else {
-            resetHighlight();
+            resetButtons();
         }
     }
 
@@ -81,7 +81,7 @@ public class PauseMenu extends OptionsMenu {
         } else if(backToGame.isMouseIn(e)) {
             backToGame.setHighlighted(true);
         } else {
-            resetHighlight();
+            resetButtons();
         }
     }
 
@@ -92,11 +92,11 @@ public class PauseMenu extends OptionsMenu {
         } else if(backToGame.isMouseIn(e)) {
             backToGame.setHighlighted(true);
         } else {
-            resetHighlight();
+            resetButtons();
         }
     }
 
-    private void resetHighlight() {
+    private void resetButtons() {
         backToMenu.setHighlighted(false);
         backToGame.setHighlighted(false);
     }

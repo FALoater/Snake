@@ -39,7 +39,7 @@ public class Utilities {
             public static final String TEXT_LIGHT_MODE = "#420edf";
             public static final String TEXT_DARK_MODE = "#6ccbc1";
 
-            public static final Font DEFAULT_FONT = new Font("Arial", Font.PLAIN,40);
+            public static final Font DEFAULT_FONT = new Font("Arial", Font.PLAIN,20 * SCALE);
         }
 
         public static class SnakeConstants {
@@ -79,26 +79,26 @@ public class Utilities {
 
         public static class ButtonConstants {
             // button sizes, colours and image sources
-            public static final int CIRCLE_BUTTON_RADIUS = 75;
-            public static final int MAIN_MENU_BUTTON_WIDTH = 300;
-            public static final int MAIN_MENU_BUTTON_HEIGHT = 75;
+            public static final int CIRCLE_BUTTON_RADIUS = (int)(37.5 * SCALE);
+            public static final int MAIN_MENU_BUTTON_WIDTH = 150 * SCALE;
+            public static final int MAIN_MENU_BUTTON_HEIGHT = (int)(37.5 * SCALE);
             public static final int MENU_X = (WindowConstants.WINDOW_WIDTH - MAIN_MENU_BUTTON_WIDTH) / 2;
             public static final String EXIT_BUTTON_IMG = "button/exit";
 
-            public static final int OPTIONS_MENU_BUTTON_HEIGHT = 60;
-            public static final int OPTIONS_MENU_TEXT_OFFSET = 50;
-            public static final int OPTIONS_LABEL_X = 250;
-            public static final int OPTIONS_BUTTON_X = 500;
+            public static final int OPTIONS_MENU_BUTTON_HEIGHT = 30 * SCALE;
+            public static final int OPTIONS_MENU_TEXT_OFFSET = 25 * SCALE;
+            public static final int OPTIONS_LABEL_X = 125 * SCALE;
+            public static final int OPTIONS_BUTTON_X = 250 * SCALE;
             public static final int OPTIONS_BACK_BUTTON_X = 0;
-            public static final int OPTIONS_BACK_BUTTON_WIDTH = 300;
-            public static final Font OPTION_BUTTON_FONT = new Font("Arial", Font.PLAIN,20);
+            public static final int OPTIONS_BACK_BUTTON_WIDTH = 150 * SCALE;
+            public static final Font OPTION_BUTTON_FONT = new Font("Arial", Font.PLAIN,10 * SCALE);
 
-            public static final int END_GAME_BUTTON_HEIGHT = 500;
-            public static final int END_GAME_BUTTON_RADIUS = 125;
+            public static final int END_GAME_BUTTON_HEIGHT = 250 * SCALE;
+            public static final int END_GAME_BUTTON_RADIUS = (int)(62.5 * SCALE);
 
-            public static final int COLOR_BUTTON_HEIGHT = 450;
-            public static final int SOUND_BUTTON_HEIGHT = 150;
-            public static final int VOLUME_BUTTON_HEIGHT = 300;
+            public static final int COLOR_BUTTON_HEIGHT = 225 * SCALE;
+            public static final int SOUND_BUTTON_HEIGHT = 75 * SCALE;
+            public static final int VOLUME_BUTTON_HEIGHT = 150 * SCALE;
 
             public static final Color LIGHT_TEXT_COLOR = new Color(15,158,213);
             public static final Color LIGHT_BG_COLOR = new Color(232,232,232);

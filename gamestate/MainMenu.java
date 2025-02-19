@@ -11,6 +11,7 @@ import main.Utilities.Methods;
 import ui.MenuButton;
 import ui.ExitButton;
 
+import static main.Utilities.SCALE;
 import static main.Utilities.Constants.ButtonConstants.*;
 
 public class MainMenu extends GameState implements InputHandlers{
@@ -22,10 +23,10 @@ public class MainMenu extends GameState implements InputHandlers{
         super(game);
 
         // create buttons on main menu
-        classic = new MenuButton(MENU_X, 300, MAIN_MENU_BUTTON_WIDTH, MAIN_MENU_BUTTON_HEIGHT, game, "Classic");
-        versus = new MenuButton(MENU_X, 400, MAIN_MENU_BUTTON_WIDTH, MAIN_MENU_BUTTON_HEIGHT, game, "vs AI");
-        settings = new MenuButton(MENU_X, 500, MAIN_MENU_BUTTON_WIDTH, MAIN_MENU_BUTTON_HEIGHT, game, "Settings");
-        exit = new ExitButton(75, 505, 64, 64, game, "");
+        classic = new MenuButton(MENU_X, 150 * SCALE, MAIN_MENU_BUTTON_WIDTH, MAIN_MENU_BUTTON_HEIGHT, game, "Classic");
+        versus = new MenuButton(MENU_X, 200 * SCALE, MAIN_MENU_BUTTON_WIDTH, MAIN_MENU_BUTTON_HEIGHT, game, "vs AI");
+        settings = new MenuButton(MENU_X, 250 * SCALE, MAIN_MENU_BUTTON_WIDTH, MAIN_MENU_BUTTON_HEIGHT, game, "Settings");
+        exit = new ExitButton((int)(37.5 * SCALE), (int)(252.5 * SCALE), 32 * SCALE, 32 * SCALE, game, "");
         title = "Snake";
     }
 
@@ -39,7 +40,7 @@ public class MainMenu extends GameState implements InputHandlers{
     public void draw(Graphics g) {
         // draw title
         g.setColor(Color.decode(Methods.GetCurrentTextColor(game)));
-        g.drawString(title, Methods.GetCentralisedTextX(title, g), 200);
+        g.drawString(title, Methods.GetCentralisedTextX(title, g), 100 * SCALE);
         
         // draw buttons
         classic.draw(g);

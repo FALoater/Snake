@@ -12,6 +12,7 @@ import main.Utilities.Methods;
 import ui.EndGameButton;
 
 import static main.Utilities.Constants.ButtonConstants.END_GAME_BUTTON_RADIUS;
+import static main.Utilities.SCALE;
 import static main.Utilities.Constants.ButtonConstants.END_GAME_BUTTON_HEIGHT;
 
 public class EndGame extends GameState implements InputHandlers {
@@ -24,9 +25,9 @@ public class EndGame extends GameState implements InputHandlers {
         super(game);
 
         // init buttons
-        playAgain = new EndGameButton(200, END_GAME_BUTTON_HEIGHT, END_GAME_BUTTON_RADIUS, END_GAME_BUTTON_RADIUS, game, "Play again");
-        quit = new EndGameButton(375, END_GAME_BUTTON_HEIGHT, END_GAME_BUTTON_RADIUS, END_GAME_BUTTON_RADIUS, game, "Quit");
-        backToMenu = new EndGameButton(550, END_GAME_BUTTON_HEIGHT, END_GAME_BUTTON_RADIUS, END_GAME_BUTTON_RADIUS, game, "Back to menu");
+        playAgain = new EndGameButton(100 * SCALE, END_GAME_BUTTON_HEIGHT, END_GAME_BUTTON_RADIUS, END_GAME_BUTTON_RADIUS, game, "Play again");
+        quit = new EndGameButton((int)(187.5 * SCALE), END_GAME_BUTTON_HEIGHT, END_GAME_BUTTON_RADIUS, END_GAME_BUTTON_RADIUS, game, "Quit");
+        backToMenu = new EndGameButton(275 * SCALE, END_GAME_BUTTON_HEIGHT, END_GAME_BUTTON_RADIUS, END_GAME_BUTTON_RADIUS, game, "Back to menu");
 
         title = "GAME OVER!";
     }
@@ -53,14 +54,14 @@ public class EndGame extends GameState implements InputHandlers {
 
         // draw title
         g.setColor(titleColor);
-        g.setFont(new Font("Arial", Font.BOLD, 70));
-        g.drawString(title, Methods.GetCentralisedTextX(title, g), 200);
+        g.setFont(new Font("Arial", Font.BOLD, 35 * SCALE));
+        g.drawString(title, Methods.GetCentralisedTextX(title, g), 100 * SCALE);
 
         // draw score display
         g.setColor(Color.black);
-        g.setFont(new Font("Arial", Font.PLAIN, 40));
-        g.drawString(currentScore, Methods.GetCentralisedTextX(currentScore, g), 300);
-        g.drawString(highscore, Methods.GetCentralisedTextX(highscore, g), 350);
+        g.setFont(new Font("Arial", Font.PLAIN, 20 * SCALE));
+        g.drawString(currentScore, Methods.GetCentralisedTextX(currentScore, g), 150 * SCALE);
+        g.drawString(highscore, Methods.GetCentralisedTextX(highscore, g), 175 * SCALE);
 
         // draw buttons
         playAgain.draw(g);

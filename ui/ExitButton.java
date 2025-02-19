@@ -18,6 +18,6 @@ public class ExitButton extends MenuButton {
     }
 
     public void drawExitButton(Graphics g) {
-        g.drawImage(img, xPos, yPos, null);
+        g.drawImage(img, xPos, yPos, width, height, null);
     }
 }

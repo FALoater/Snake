@@ -6,6 +6,7 @@ import java.awt.Graphics;
 import main.GameManager;
 import main.Utilities.Methods;
 
+import static main.Utilities.SCALE;
 import static main.Utilities.Constants.ButtonConstants.OPTION_BUTTON_FONT;
 
 public class ColorButton extends MenuButton {
@@ -31,7 +32,7 @@ public class ColorButton extends MenuButton {
         // change font size, draw
         g.setFont(OPTION_BUTTON_FONT);
         g.setColor(fontColor);
-        g.drawString(name, Methods.GetCentralisedButtonTextX(name, g, xPos, width), yPos + 45);
+        g.drawString(name, Methods.GetCentralisedButtonTextX(name, g, xPos, width), (int)(yPos + 22.5 * SCALE));
     }
 
     private void setColor() {

@@ -6,6 +6,7 @@ import java.awt.Graphics;
 import main.GameManager;
 import main.Utilities.Methods;
 
+import static main.Utilities.SCALE;
 import static main.Utilities.Constants.ButtonConstants.OPTION_BUTTON_FONT;
 
 public class EndGameButton extends PauseButton {
@@ -33,7 +34,7 @@ public class EndGameButton extends PauseButton {
         // change font size, draw
         g.setFont(OPTION_BUTTON_FONT);
         g.setColor(fontColor);
-        g.drawString(name, Methods.GetCentralisedButtonTextX(name, g, xPos, width), yPos + 70);
+        g.drawString(name, Methods.GetCentralisedButtonTextX(name, g, xPos, width), yPos + 35 * SCALE);
     }
     
 }
