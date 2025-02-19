@@ -66,9 +66,9 @@ public class SnakeBody {
         // only draw if snake body is spawned in and the snake head is active
         if(spawned && !playerHead.isCollided()) { 
             g.setColor(Color.black);
-            g.drawRect(xPos - 1, yPos - 1, SNAKE_WIDTH + 1, SNAKE_HEIGHT + 1); // first fill a black square
+            g.fillRect(xPos - 2, yPos - 2, SNAKE_WIDTH, SNAKE_HEIGHT); // first fill a black square
             g.setColor(snakeColor); // change colour to red
-            g.fillRect(xPos, yPos, SNAKE_WIDTH, SNAKE_HEIGHT); // fill with red a slightly smaller square to allow for black border
+            g.fillRect(xPos, yPos, SNAKE_WIDTH - 4, SNAKE_HEIGHT - 4); // fill with red a slightly smaller square to allow for black border
         }
     }
 

@@ -49,12 +49,12 @@ public abstract class PlayingGameState extends GameState implements InputHandler
         g.setColor(Color.decode(Methods.GetCurrentTextColor(game)));
         // horizontal lines
         for(int y=TILE_SIZE*2;y<WINDOW_HEIGHT;y+=TILE_SIZE) {
-            g.drawLine(0, y, WINDOW_WIDTH, y);
+            g.drawLine(0, y - 2, WINDOW_WIDTH, y - 2);
         }
 
         // vertical lines
         for(int x=0;x<WINDOW_WIDTH;x+=TILE_SIZE) {
-            g.drawLine(x, TILE_SIZE * 2, x, WINDOW_HEIGHT);
+            g.drawLine(x - 2, TILE_SIZE * 2, x - 2, WINDOW_HEIGHT);
         }
 
         // draw button

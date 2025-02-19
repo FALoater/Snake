@@ -101,7 +101,7 @@ public class SnakeHead extends SnakeBody{
     @Override
     public void draw(Graphics g) {
         // only draw if not stunned
-        if(!collided) g.drawImage(img, xPos, yPos, SNAKE_WIDTH, SNAKE_HEIGHT, null);
+        if(!collided) g.drawImage(img, xPos - 2, yPos - 2, SNAKE_WIDTH, SNAKE_HEIGHT, null);
     }
 
     @Override
