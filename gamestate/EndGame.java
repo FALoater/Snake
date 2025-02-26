@@ -39,12 +39,15 @@ public class EndGame extends GameState implements InputHandlers {
 
         if(game.getLastGameState() == GameStateType.VERSUS_GAME) {
             if(game.getPlayerScore() > game.getEnemyScore()) {
+                // player has more points
                 title = "YOU WON!";
                 titleColor = Color.green;
             } else if(game.getPlayerScore() < game.getEnemyScore()) {
+                // enemy has more points
                 title = "YOU LOST!";
                 titleColor = Color.red;
             } else {
+                // equal points for both
                 title = "TIE!";
                 titleColor = Color.orange;
             }

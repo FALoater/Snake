@@ -50,7 +50,6 @@ public class OptionsMenu extends GameState implements InputHandlers{
         volume.draw(g);
         color.draw(g);
         backToMenu.draw(g);
-
     }
 
     @Override

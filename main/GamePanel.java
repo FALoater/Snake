@@ -50,7 +50,12 @@ public class GamePanel extends JPanel {
 		setPreferredSize(size);
 	}
 
-	public void updateBg() {
+	public void update() {
+		updateBg();
+		updateHUD();
+	}
+
+	private void updateBg() {
 		setBackground(Methods.GetBgColor(game));
 	}
 

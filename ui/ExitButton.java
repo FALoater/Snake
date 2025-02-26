@@ -14,10 +14,13 @@ public class ExitButton extends MenuButton {
 
     public ExitButton(int xPos, int yPos, int width, int height, GameManager game, String name) {
         super(xPos, yPos, width, height, game, name);
+
+        // load image
         img = Methods.LoadImage(EXIT_BUTTON_IMG);
     }
 
     public void drawExitButton(Graphics g) {
+        // draw image
         g.drawImage(img, xPos, yPos, width, height, null);
     }
 }

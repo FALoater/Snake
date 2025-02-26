@@ -28,7 +28,7 @@ public class PauseButton extends MenuButton {
         } else {
             g.setColor(bgColor);
         }
-        
+
         g.fillOval(xPos, yPos, width, height);
 
         // change font size, draw

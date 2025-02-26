@@ -153,10 +153,9 @@ public class GameManager implements Runnable{
 		}
 	}
 
-    public void update() {
-		gamePanel.updateBg();
-		gamePanel.updateHUD();
-
+	public void update() {
+		gamePanel.update();
+		
 		switch(currentGameState) {
 			case CLASSIC_GAME:
 				classicGame.update();
@@ -177,7 +176,7 @@ public class GameManager implements Runnable{
 				endGame.update();
 				break;
 		}
-    }
+	}
 
 	// inputs
 	public void keyPressed(KeyEvent e) {

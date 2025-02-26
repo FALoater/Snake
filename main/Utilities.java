@@ -178,7 +178,10 @@ public class Utilities {
         }
 
         public static int GetCentralisedButtonTextX(String text, Graphics g, int xPos, int width) {
+            // get length of text in pixels
             int textLength = (int)g.getFontMetrics().getStringBounds(text, g).getWidth();
+
+            // calculate x position for text
             return (2 * xPos + width - textLength) / 2;
         }
 
@@ -197,7 +200,6 @@ public class Utilities {
         public static void GetButtonColor(GameManager game, MenuButton button) {
             // change button design if dark mode
             // order is text, bg, highlight
-
             switch(game.getColorMode()) {
                 case DARK:
                     button.setFontColor(Constants.ButtonConstants.DARK_TEXT_COLOR);

@@ -54,7 +54,7 @@ public class MenuButton {
         g.setColor(fontColor);
         g.drawString(name, Methods.GetCentralisedTextX(name, g), yPos + OPTIONS_MENU_TEXT_OFFSET);
     }
-
+    
     public boolean isMouseIn(MouseEvent e) {
         // check whether the mouse is inside the button
         return bounds.contains(e.getX(), e.getY());
